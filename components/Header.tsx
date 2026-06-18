@@ -5,21 +5,12 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { nav, site } from '@/lib/site'
 import ThemeToggle from './ThemeToggle'
+import BrandMark from './BrandMark'
 
 function Wordmark() {
   return (
     <span className="flex items-center gap-2.5 font-display text-xl font-semibold tracking-tight text-paper">
-      <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-accent-contrast">
-        <svg width="18" height="18" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <path
-            d="M9 23V9l7 5 7-5v14l-7-5-7 5Z"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </span>
+      <BrandMark className="h-9 w-9" />
       Naazware
     </span>
   )

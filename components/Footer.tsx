@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { nav, site } from '@/lib/site'
+import BrandMark from './BrandMark'
 
 const LinkedInIcon = () => (
   <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -43,7 +44,10 @@ export default function Footer() {
         <div className="grid gap-12 border-t border-ink-600 pt-12 md:grid-cols-[1.5fr_1fr_1fr]">
           {/* Brand */}
           <div>
-            <span className="font-display text-2xl font-semibold text-paper">Naazware</span>
+            <span className="flex items-center gap-2.5 font-display text-2xl font-semibold text-paper">
+              <BrandMark className="h-9 w-9" />
+              Naazware
+            </span>
             <p className="mt-4 max-w-xs text-paper-dim">
               A software studio crafting custom web, mobile, and desktop applications —
               engineered to perform and built to last.

@@ -134,6 +134,17 @@
     @apply inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-paper-dim;
   }
 
+  /* Theme-swapped brand logo (default = dark theme) */
+  .logo-on-light {
+    display: none;
+  }
+  [data-theme='light'] .logo-on-dark {
+    display: none;
+  }
+  [data-theme='light'] .logo-on-light {
+    display: block;
+  }
+
   /* Long-form article body */
   .prose-dark h2 {
     @apply mb-4 mt-12 text-2xl font-semibold text-paper;

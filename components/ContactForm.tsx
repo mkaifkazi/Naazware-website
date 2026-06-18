@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { site } from '@/lib/site'
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -17,6 +18,9 @@ const contactSchema = z.object({
 })
 
 type ContactFormData = z.infer<typeof contactSchema>
+
+const inputBase =
+  'w-full rounded-xl border bg-ink-900/60 px-4 py-3 text-paper placeholder:text-paper-faint transition-colors focus:outline-none focus:ring-2 focus:ring-accent/60'
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -56,59 +60,38 @@ export default function ContactForm() {
     }
   }
 
+  const border = (hasError: unknown) => (hasError ? 'border-red-500/70' : 'border-ink-600')
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
-      <div className="mb-4">
-        <label htmlFor="name" className="form-label fw-semibold">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+      <div>
+        <label htmlFor="name" className="mb-2 block text-sm font-medium text-paper">
           Name *
         </label>
-        <input
-          type="text"
-          id="name"
-          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-          {...register('name')}
-          style={{ borderRadius: 'var(--radius-sm)' }}
-        />
-        {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
+        <input id="name" type="text" className={`${inputBase} ${border(errors.name)}`} {...register('name')} />
+        {errors.name && <p className="mt-1.5 text-sm text-red-400">{errors.name.message}</p>}
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="email" className="form-label fw-semibold">
+      <div>
+        <label htmlFor="email" className="mb-2 block text-sm font-medium text-paper">
           Email *
         </label>
-        <input
-          type="email"
-          id="email"
-          className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-          {...register('email')}
-          style={{ borderRadius: 'var(--radius-sm)' }}
-        />
-        {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+        <input id="email" type="email" className={`${inputBase} ${border(errors.email)}`} {...register('email')} />
+        {errors.email && <p className="mt-1.5 text-sm text-red-400">{errors.email.message}</p>}
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="company" className="form-label fw-semibold">
-          Company
+      <div>
+        <label htmlFor="company" className="mb-2 block text-sm font-medium text-paper">
+          Company <span className="text-paper-faint">(optional)</span>
         </label>
-        <input
-          type="text"
-          id="company"
-          className="form-control"
-          {...register('company')}
-          style={{ borderRadius: 'var(--radius-sm)' }}
-        />
+        <input id="company" type="text" className={`${inputBase} border-ink-600`} {...register('company')} />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="budget" className="form-label fw-semibold">
-          Budget Range *
+      <div>
+        <label htmlFor="budget" className="mb-2 block text-sm font-medium text-paper">
+          Budget range *
         </label>
-        <select
-          id="budget"
-          className={`form-select ${errors.budget ? 'is-invalid' : ''}`}
-          {...register('budget')}
-          style={{ borderRadius: 'var(--radius-sm)' }}
-        >
+        <select id="budget" className={`${inputBase} ${border(errors.budget)}`} {...register('budget')}>
           <option value="">Select budget range</option>
           <option value="under-10k">Under $10,000</option>
           <option value="10k-25k">$10,000 - $25,000</option>
@@ -116,59 +99,50 @@ export default function ContactForm() {
           <option value="50k-100k">$50,000 - $100,000</option>
           <option value="over-100k">Over $100,000</option>
         </select>
-        {errors.budget && <div className="invalid-feedback">{errors.budget.message}</div>}
+        {errors.budget && <p className="mt-1.5 text-sm text-red-400">{errors.budget.message}</p>}
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="message" className="form-label fw-semibold">
+      <div>
+        <label htmlFor="message" className="mb-2 block text-sm font-medium text-paper">
           Tell us about your project *
         </label>
         <textarea
           id="message"
           rows={5}
-          className={`form-control ${errors.message ? 'is-invalid' : ''}`}
           placeholder="What are you trying to build? What problem does it solve?"
+          className={`${inputBase} ${border(errors.message)} resize-y`}
           {...register('message')}
-          style={{ borderRadius: 'var(--radius-sm)' }}
         />
-        {errors.message && <div className="invalid-feedback">{errors.message.message}</div>}
-        <div className="form-text">We'll reply within 24 hours.</div>
+        {errors.message && <p className="mt-1.5 text-sm text-red-400">{errors.message.message}</p>}
+        <p className="mt-1.5 text-sm text-paper-faint">We&apos;ll reply within 24 hours.</p>
       </div>
 
-      <div className="mb-4">
-        <div className="form-check">
-          <input
-            type="checkbox"
-            id="consent"
-            className={`form-check-input ${errors.consent ? 'is-invalid' : ''}`}
-            {...register('consent')}
-          />
-          <label htmlFor="consent" className="form-check-label">
-            I agree to be contacted about my project
-          </label>
-          {errors.consent && <div className="invalid-feedback">{errors.consent.message}</div>}
-        </div>
+      <div className="flex items-start gap-3">
+        <input
+          id="consent"
+          type="checkbox"
+          className="mt-1 h-4 w-4 rounded border-ink-600 bg-ink-900 text-accent accent-accent focus:ring-accent/60"
+          {...register('consent')}
+        />
+        <label htmlFor="consent" className="text-sm text-paper-dim">
+          I agree to be contacted about my project.
+        </label>
       </div>
+      {errors.consent && <p className="-mt-2 text-sm text-red-400">{errors.consent.message}</p>}
 
       {submitStatus === 'success' && (
-        <div className="alert alert-success" role="alert">
-          Thanks for reaching out! We'll be in touch within 24 hours.
+        <div role="alert" className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+          Thanks for reaching out! We&apos;ll be in touch within 24 hours.
         </div>
       )}
-
       {submitStatus === 'error' && (
-        <div className="alert alert-danger" role="alert">
-          Something went wrong. Please try again or email us directly at kaifkazi40@gmail.com
+        <div role="alert" className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          Something went wrong. Please try again or email us directly at {site.email}
         </div>
       )}
 
-      <button
-        type="submit"
-        className="btn btn-primary w-100"
-        disabled={isSubmitting}
-        style={{ borderRadius: 'var(--radius-full)' }}
-      >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
+      <button type="submit" disabled={isSubmitting} className="btn-accent w-full disabled:cursor-not-allowed disabled:opacity-60">
+        {isSubmitting ? 'Sending…' : 'Send message'}
       </button>
     </form>
   )

@@ -7,7 +7,7 @@ import { generateMetadata as genMeta } from '@/lib/seo'
 export const metadata: Metadata = genMeta({
   title: 'About',
   description:
-    'Naazware is a web design & development studio that believes great websites should work beautifully — without drama, delays, or technical debt.',
+    'Naazware is a software studio that believes great software should work beautifully — without drama, delays, or technical debt.',
   path: '/about',
 })
 
@@ -30,7 +30,7 @@ const values = [
   },
   {
     title: 'Long-term thinking',
-    body: 'We build for the next five years, not just launch day. Your site should be an asset, not a liability.',
+    body: 'We build for the next five years, not just launch day. Your codebase should be an asset, not a liability.',
   },
   {
     title: 'Client success',
@@ -53,11 +53,11 @@ export default function AboutPage() {
         size="lg"
         title={
           <>
-            A studio that believes the web
+            A studio that believes software
             <br className="hidden md:block" /> should <span className="text-gradient">work beautifully.</span>
           </>
         }
-        subtitle="Naazware is a small web design & development studio. We craft premium, fast, distinctive websites — without drama, delays, or technical debt."
+        subtitle="Naazware is a small software studio. We design and build custom web, mobile, and desktop applications — without drama, delays, or technical debt."
       />
 
       {/* Who we are */}
@@ -72,14 +72,14 @@ export default function AboutPage() {
               planning, unclear timelines, and over-engineered solutions.
             </p>
             <p>
-              We build websites the way they should be built: sharp design, pragmatic engineering,
-              clear communication, and work that performs from day one. No buzzwords, no hype — just
-              beautiful, fast sites and realistic timelines.
+              We build software the way it should be built: sharp design, pragmatic engineering,
+              clear communication, and products that work from day one. No buzzwords, no hype — just
+              fast, reliable software and realistic timelines.
             </p>
             <p>
-              Our clients range from new ventures launching their first product to established brands
-              that want to look the part. What they share: they want a partner who delivers what they
-              promise, when they promise it.
+              Our clients range from new ventures launching their first product to established
+              companies modernising legacy systems. What they share: they want a partner who
+              delivers what they promise, when they promise it.
             </p>
           </Reveal>
         </div>
@@ -131,7 +131,7 @@ export default function AboutPage() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
         />
         <div className="container-px relative text-center">
           <Reveal as="div" className="mx-auto max-w-2xl">

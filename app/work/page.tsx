@@ -50,7 +50,7 @@ export default function WorkPage() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
         />
         <div className="container-px relative text-center">
           <Reveal as="div" className="mx-auto max-w-2xl">

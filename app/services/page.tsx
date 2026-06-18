@@ -22,10 +22,10 @@ export default function ServicesPage() {
         size="lg"
         title={
           <>
-            Everything your website needs, <span className="text-gradient">under one roof.</span>
+            Everything you need to ship, <span className="text-gradient">under one roof.</span>
           </>
         }
-        subtitle="End-to-end design & development — from planning through deployment and support."
+        subtitle="End-to-end software development — web, mobile, and desktop — from planning through deployment and support."
       />
 
       <section className="pb-12">
@@ -38,7 +38,7 @@ export default function ServicesPage() {
               >
                 <div>
                   <div className="mb-6 flex items-center gap-4">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent">
+                    <span className="grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent-soft">
                       <ServiceIcon name={service.icon} className="h-6 w-6" />
                     </span>
                     <span className="text-sm font-medium uppercase tracking-wider text-paper-dim">
@@ -49,7 +49,7 @@ export default function ServicesPage() {
                   <ul className="mt-6 space-y-3">
                     {service.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-3 text-paper-dim">
-                        <svg className="mt-1.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+                        <svg className="mt-1.5 h-4 w-4 shrink-0 text-accent-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                         {b}
@@ -89,7 +89,7 @@ export default function ServicesPage() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
         />
         <div className="container-px relative text-center">
           <Reveal as="div" className="mx-auto max-w-2xl">

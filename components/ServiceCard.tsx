@@ -19,7 +19,7 @@ export default function ServiceCard({ title, description, bullets = [], href, ic
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/20 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
       />
-      <div className="relative mb-6 grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent transition-colors duration-300 group-hover:border-accent/40">
+      <div className="relative mb-6 grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent-soft transition-colors duration-300 group-hover:border-accent/40">
         <ServiceIcon name={icon} className="h-6 w-6" />
       </div>
 
@@ -30,7 +30,7 @@ export default function ServiceCard({ title, description, bullets = [], href, ic
         <ul className="mt-5 space-y-2">
           {bullets.map((b) => (
             <li key={b} className="flex items-start gap-2.5 text-sm text-paper-dim">
-              <svg className="mt-1 h-3.5 w-3.5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+              <svg className="mt-1 h-3.5 w-3.5 shrink-0 text-accent-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               {b}

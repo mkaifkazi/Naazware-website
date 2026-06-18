@@ -8,15 +8,24 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "seed:covers": "tsx --env-file=.env.local scripts/seed-covers.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@portabletext/react": "^3.2.4",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^3.99.0",
     "locomotive-scroll": "^5.0.0-beta.13",
     "next": "14.2.35",
+    "next-sanity": "^9.12.3",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-hook-form": "^7.51.0",
+    "resend": "^4.8.0",
+    "sanity": "^3.99.0",
+    "styled-components": "^6.4.2",
     "zod": "^3.23.0"
   },
   "devDependencies": {
@@ -27,7 +36,9 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
     "postcss": "^8.5.15",
+    "puppeteer-core": "^23.11.1",
     "tailwindcss": "^3.4.19",
+    "tsx": "^4.22.4",
     "typescript": "^5.4.0"
   },
   "engines": {

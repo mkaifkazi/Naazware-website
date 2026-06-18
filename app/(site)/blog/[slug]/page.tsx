@@ -1,26 +1,40 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import { getBlogPost, getAllBlogSlugs } from '@/lib/blog-posts-data'
+import { getPost, getPostSlugs } from '@/lib/content'
+import { urlForImage } from '@/sanity/lib/image'
 import { generateMetadata as genMeta, generateBreadcrumbSchema } from '@/lib/seo'
 
 export async function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }))
+  return (await getPostSlugs()).map((slug) => ({ slug }))
 }
 
-export const revalidate = 3600 // ISR: revalidate every hour
+export const revalidate = 60 // ISR
+export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = getBlogPost(params.slug)
+  const post = await getPost(params.slug)
   if (!post) return genMeta({ title: 'Post Not Found' })
   return genMeta({ title: post.title, description: post.excerpt, path: `/blog/${post.slug}` })
 }
 
-// Minimal markdown → HTML for the post body (headings, lists, paragraphs, inline code).
+// Renderers for Sanity rich text (styled by .prose-dark wrapper).
+const ptComponents: PortableTextComponents = {
+  types: {
+    image: ({ value }) => {
+      const url = urlForImage(value, 1400)
+      if (!url) return null
+      // eslint-disable-next-line @next/next/no-img-element
+      return <img src={url} alt={value?.alt || ''} className="my-8 w-full rounded-2xl border border-ink-600" />
+    },
+  },
+}
+
+// Minimal markdown → HTML for local fallback posts (headings, lists, paragraphs, inline code).
 function renderMarkdown(md: string): string {
-  // Drop a leading top-level heading — the page header already shows the title.
   const body = md.replace(/^\s*#\s+.*$/m, '')
   const lines = body.split('\n')
   const out: string[] = []
@@ -70,9 +84,9 @@ function renderMarkdown(md: string): string {
   return out.join('')
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getBlogPost(params.slug)
-  if (!post || !post.published) notFound()
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const post = await getPost(params.slug)
+  if (!post) notFound()
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
@@ -99,10 +113,23 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
       </PageHeader>
 
+      {post.coverUrl && (
+        <section className="pb-12">
+          <div className="container-px">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={post.coverUrl} alt={post.title} className="mx-auto aspect-[16/9] w-full max-w-3xl rounded-4xl border border-ink-600 object-cover" />
+          </div>
+        </section>
+      )}
+
       <section className="pb-24">
         <div className="container-px">
           <Reveal as="article" className="prose-dark mx-auto max-w-3xl">
-            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
+            {post.body ? (
+              <PortableText value={post.body} components={ptComponents} />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content ?? '') }} />
+            )}
           </Reveal>
 
           <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-2 border-t border-ink-600 pt-8">
@@ -120,7 +147,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <Reveal as="div" className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Need help with your project?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
-              We can help you build a website that performs like the examples in this post.
+              We can help you build software that performs like the examples in this post.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               <Link href="/contact" className="btn-accent">Get in touch</Link>

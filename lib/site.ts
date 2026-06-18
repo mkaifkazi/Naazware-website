@@ -6,7 +6,7 @@ export const site = {
   description:
     'Naazware is a software studio. We design and build custom web, mobile, and desktop applications — engineered to perform and built to last.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://naazware.com',
-  email: 'naazware@gmail.com',
+  email: 'hello@naazware.com',
   phone: '+91 9327356760',
   phoneHref: 'tel:+919327356760',
   location: 'Tandalja, Vadodara, Gujarat',

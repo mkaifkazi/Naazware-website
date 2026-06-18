@@ -3,18 +3,21 @@ import Link from 'next/link'
 import CaseStudyCard from '@/components/CaseStudyCard'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import { caseStudies } from '@/lib/case-studies-data'
+import { getProjects } from '@/lib/content'
 import { generateMetadata as genMeta } from '@/lib/seo'
+
+export const revalidate = 60
 
 export const metadata: Metadata = genMeta({
   title: 'Work',
   description:
-    'Selected projects from Naazware — premium websites and web apps designed and built for brands across industries.',
-  keywords: ['portfolio', 'case studies', 'client projects', 'web design portfolio'],
+    'Selected projects from Naazware — custom web, mobile, and desktop applications built for brands across industries.',
+  keywords: ['portfolio', 'case studies', 'client projects', 'software development'],
   path: '/work',
 })
 
-export default function WorkPage() {
+export default async function WorkPage() {
+  const caseStudies = await getProjects()
   return (
     <>
       <PageHeader
@@ -40,6 +43,7 @@ export default function WorkPage() {
                 href={`/work/${study.slug}`}
                 metrics={study.metrics}
                 index={i}
+                coverUrl={study.coverUrl}
               />
             </Reveal>
           ))}

@@ -2,18 +2,20 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import { getPublishedPosts } from '@/lib/blog-posts-data'
+import { getPosts } from '@/lib/content'
 import { generateMetadata as genMeta } from '@/lib/seo'
+
+export const revalidate = 60
 
 export const metadata: Metadata = genMeta({
   title: 'Journal',
   description:
-    'Notes on design, performance, and building better websites — no fluff, just useful insight.',
+    'Notes on design, performance, and building better software — no fluff, just useful insight.',
   path: '/blog',
 })
 
-export default function BlogPage() {
-  const posts = getPublishedPosts()
+export default async function BlogPage() {
+  const posts = await getPosts()
 
   return (
     <>
@@ -32,7 +34,16 @@ export default function BlogPage() {
         <div className="container-px grid gap-6 md:grid-cols-2">
           {posts.map((post, i) => (
             <Reveal key={post.slug} delay={(i % 2) * 100}>
-              <article className="group relative flex h-full flex-col rounded-4xl border border-ink-600 bg-ink-800/50 p-8 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40">
+              <article className="group relative flex h-full flex-col overflow-hidden rounded-4xl border border-ink-600 bg-ink-800/50 p-8 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40">
+                {post.coverUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={post.coverUrl}
+                    alt=""
+                    aria-hidden="true"
+                    className="-mx-8 -mt-8 mb-6 h-44 w-[calc(100%+4rem)] max-w-none object-cover"
+                  />
+                )}
                 <div className="flex items-center gap-3 text-sm text-paper-faint">
                   <time dateTime={post.date}>
                     {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

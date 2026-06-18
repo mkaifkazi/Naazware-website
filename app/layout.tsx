@@ -1,9 +1,5 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import FloatingCTA from '@/components/FloatingCTA'
-import SmoothScroll from '@/components/SmoothScroll'
 import { generateMetadata as genMeta, generateOrganizationSchema } from '@/lib/seo'
 import { site } from '@/lib/site'
 import '@/styles/globals.css'
@@ -63,21 +59,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="flex min-h-screen flex-col bg-ink-900 text-paper">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-accent focus:px-5 focus:py-2 focus:text-accent-contrast"
-        >
-          Skip to main content
-        </a>
-        <SmoothScroll />
-        <Header />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <FloatingCTA />
-      </body>
+      <body className="bg-ink-900 text-paper">{children}</body>
     </html>
   )
 }

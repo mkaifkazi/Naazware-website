@@ -15,6 +15,7 @@ const contactSchema = z.object({
   consent: z.boolean().refine((val) => val === true, {
     message: 'You must agree to continue',
   }),
+  website: z.string().optional(), // honeypot — must stay empty
 })
 
 type ContactFormData = z.infer<typeof contactSchema>
@@ -64,6 +65,12 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+      {/* Honeypot: hidden from users; bots that fill it are silently dropped. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="website">Leave this field empty</label>
+        <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
+      </div>
+
       <div>
         <label htmlFor="name" className="mb-2 block text-sm font-medium text-paper">
           Name *

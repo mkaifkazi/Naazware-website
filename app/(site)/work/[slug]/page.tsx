@@ -3,17 +3,18 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import { getCaseStudy, getAllCaseStudySlugs } from '@/lib/case-studies-data'
+import { getProject, getProjectSlugs } from '@/lib/content'
 import { generateMetadata as genMeta, generateBreadcrumbSchema } from '@/lib/seo'
 
 export async function generateStaticParams() {
-  return getAllCaseStudySlugs().map((slug) => ({ slug }))
+  return (await getProjectSlugs()).map((slug) => ({ slug }))
 }
 
-export const revalidate = 3600 // ISR: revalidate every hour
+export const revalidate = 60 // ISR
+export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const caseStudy = getCaseStudy(params.slug)
+  const caseStudy = await getProject(params.slug)
   if (!caseStudy) return genMeta({ title: 'Case Study Not Found' })
   return genMeta({
     title: `${caseStudy.title} — ${caseStudy.client}`,
@@ -22,8 +23,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   })
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const caseStudy = getCaseStudy(params.slug)
+export default async function CaseStudyPage({ params }: { params: { slug: string } }) {
+  const caseStudy = await getProject(params.slug)
   if (!caseStudy) notFound()
 
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -48,6 +49,19 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
         title={caseStudy.title}
         subtitle={`${caseStudy.client} · ${caseStudy.excerpt}`}
       />
+
+      {caseStudy.coverUrl && (
+        <section className="pb-12">
+          <div className="container-px">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={caseStudy.coverUrl}
+              alt={`${caseStudy.title} — ${caseStudy.client}`}
+              className="aspect-[16/9] w-full rounded-4xl border border-ink-600 object-cover"
+            />
+          </div>
+        </section>
+      )}
 
       <section className="pb-8">
         <div className="container-px">

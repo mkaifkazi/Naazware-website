@@ -8,6 +8,7 @@ interface CaseStudyCardProps {
   href: string
   metrics?: { label: string; value: string }[]
   index?: number
+  coverUrl?: string | null
 }
 
 // Deterministic cover gradients so each card feels distinct without real imagery yet.
@@ -27,6 +28,7 @@ export default function CaseStudyCard({
   href,
   metrics,
   index = 0,
+  coverUrl,
 }: CaseStudyCardProps) {
   return (
     <Link
@@ -35,11 +37,26 @@ export default function CaseStudyCard({
     >
       {/* Cover */}
       <div className="relative aspect-[16/10] overflow-hidden">
-        <div
-          className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-105"
-          style={{ background: covers[index % covers.length] }}
-        />
-        <div className="grid-bg absolute inset-0 opacity-40" aria-hidden="true" />
+        {coverUrl ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={coverUrl}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" aria-hidden="true" />
+          </>
+        ) : (
+          <>
+            <div
+              className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-105"
+              style={{ background: covers[index % covers.length] }}
+            />
+            <div className="grid-bg absolute inset-0 opacity-40" aria-hidden="true" />
+          </>
+        )}
         <span className="absolute left-6 top-6 rounded-full border border-white/20 bg-black/20 px-3 py-1 text-xs font-medium uppercase tracking-wider text-white/90 backdrop-blur-sm">
           {industry}
         </span>

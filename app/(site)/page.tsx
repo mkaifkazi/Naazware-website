@@ -3,7 +3,9 @@ import ServiceCard from '@/components/ServiceCard'
 import CaseStudyCard from '@/components/CaseStudyCard'
 import Reveal from '@/components/Reveal'
 import { services } from '@/lib/services-data'
-import { getFeaturedCaseStudies } from '@/lib/case-studies-data'
+import { getFeaturedProjects, getTestimonials } from '@/lib/content'
+
+export const revalidate = 60
 
 const process = [
   {
@@ -28,28 +30,8 @@ const process = [
   },
 ]
 
-const testimonials = [
-  {
-    quote:
-      'The new checkout flow paid for itself in the first month. Our customers love how fast and simple it is.',
-    author: 'Sarah Chen',
-    role: 'Director of E-commerce, RetailCo',
-  },
-  {
-    quote:
-      'Security and accessibility were both critical. The team delivered on both without compromise.',
-    author: 'Dr. Michael Torres',
-    role: 'CTO, MediHealth',
-  },
-  {
-    quote: "Our drivers actually love using this app. That's never happened before.",
-    author: 'James Park',
-    role: 'Operations Manager, QuickShip',
-  },
-]
-
-export default function HomePage() {
-  const featured = getFeaturedCaseStudies()
+export default async function HomePage() {
+  const [featured, testimonials] = await Promise.all([getFeaturedProjects(), getTestimonials()])
 
   return (
     <>
@@ -180,6 +162,7 @@ export default function HomePage() {
                   href={`/work/${study.slug}`}
                   metrics={study.metrics}
                   index={i}
+                  coverUrl={study.coverUrl}
                 />
               </Reveal>
             ))}

@@ -44,8 +44,8 @@ export default function Footer() {
         <div className="grid gap-12 border-t border-ink-600 pt-12 md:grid-cols-[1.5fr_1fr_1fr]">
           {/* Brand */}
           <div>
-            <span className="flex items-center gap-2.5 font-display text-2xl font-semibold text-paper">
-              <BrandMark className="h-9 w-9" />
+            <span className="flex items-center gap-4 font-display text-4xl font-semibold text-paper">
+              <BrandMark className="h-16 w-16" />
               Naazware
             </span>
             <p className="mt-4 max-w-xs text-paper-dim">

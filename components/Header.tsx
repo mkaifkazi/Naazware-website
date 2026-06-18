@@ -9,8 +9,8 @@ import BrandMark from './BrandMark'
 
 function Wordmark() {
   return (
-    <span className="flex items-center gap-2.5 font-display text-xl font-semibold tracking-tight text-paper">
-      <BrandMark className="h-9 w-9" />
+    <span className="flex items-center gap-3 font-display text-2xl font-semibold tracking-tight text-paper">
+      <BrandMark className="h-11 w-11" />
       Naazware
     </span>
   )

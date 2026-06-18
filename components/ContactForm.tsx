@@ -121,7 +121,7 @@ export default function ContactForm() {
         <input
           id="consent"
           type="checkbox"
-          className="mt-1 h-4 w-4 rounded border-ink-600 bg-ink-900 text-accent accent-accent focus:ring-accent/60"
+          className="mt-1 h-4 w-4 rounded border-ink-600 bg-ink-900 text-accent-soft accent-accent focus:ring-accent/60"
           {...register('consent')}
         />
         <label htmlFor="consent" className="text-sm text-paper-dim">

@@ -19,7 +19,7 @@ export default function PageHeader({ eyebrow, title, subtitle, crumbs, children,
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/4 top-[-30%] h-[420px] w-[420px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
-        style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+        style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
       />
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-ink-900" aria-hidden="true" />
 

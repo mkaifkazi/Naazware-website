@@ -128,7 +128,7 @@ export default function Header() {
               href={link.href}
               onClick={() => setOpen(false)}
               className={`border-b border-ink-600 py-4 font-display text-2xl ${
-                isActive(link.href) ? 'text-accent' : 'text-paper'
+                isActive(link.href) ? 'text-accent-soft' : 'text-paper'
               }`}
             >
               {link.label}

@@ -68,7 +68,7 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
               <ul className="grid gap-4 md:grid-cols-2">
                 {service.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-start gap-3 text-paper-dim">
-                    <svg className="mt-1.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+                    <svg className="mt-1.5 h-4 w-4 shrink-0 text-accent-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                     {bullet}
@@ -91,7 +91,7 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
         />
         <div className="container-px relative text-center">
           <Reveal as="div" className="mx-auto max-w-2xl">

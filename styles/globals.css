@@ -3,56 +3,53 @@
 @tailwind utilities;
 
 @layer base {
-  /* Dark theme (default) */
+  /* Dark theme (default) — Obsidian + acid */
   :root,
   [data-theme='dark'] {
-    --font-display: 'Clash Display', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
+    --ink-950: 8 8 9; /* deepest / footer */
+    --ink-900: 11 11 12; /* primary background (#0B0B0C) */
+    --ink-800: 20 20 22; /* elevated surface */
+    --ink-700: 28 28 31; /* cards */
+    --ink-600: 42 42 46; /* borders / hairlines */
 
-    --ink-950: 8 8 10;
-    --ink-900: 10 10 11;
-    --ink-800: 17 17 20;
-    --ink-700: 23 23 28;
-    --ink-600: 33 33 41;
+    --paper: 250 250 250; /* primary text */
+    --paper-dim: 161 161 165; /* secondary text */
+    --paper-faint: 110 110 115; /* muted text */
 
-    --paper: 244 244 245;
-    --paper-dim: 161 161 170;
-    --paper-faint: 113 113 122;
-
-    --accent: 109 93 246;
-    --accent-hover: 130 115 248;
-    --accent-soft: 169 159 251;
-    --accent-contrast: 255 255 255;
+    --accent: 45 212 191; /* electric teal (#2DD4BF) */
+    --accent-hover: 94 234 212;
+    --accent-soft: 94 234 212; /* brighter teal for text/icons on dark */
+    --accent-contrast: 8 12 12; /* near-black text on teal */
 
     /* Decorative */
     --grid: 255 255 255; /* grid line color (low alpha) */
-    --tg-from: #ffffff; /* display gradient text stops */
-    --tg-mid: #c8c4e8;
-    --tg-to: #8273f8;
+    --tg-from: #ffffff; /* monochrome metallic display-text */
+    --tg-mid: #cfcfcf;
+    --tg-to: #7d7d80;
     color-scheme: dark;
   }
 
-  /* Light theme */
+  /* Light theme — clean off-white counterpart */
   [data-theme='light'] {
-    --ink-950: 242 242 245; /* alt sections / footer */
-    --ink-900: 255 255 255; /* primary background */
-    --ink-800: 247 247 249; /* card surface */
-    --ink-700: 238 238 241; /* card hover */
-    --ink-600: 226 226 232; /* borders / hairlines */
+    --ink-950: 240 240 237; /* alt sections / footer */
+    --ink-900: 250 250 247; /* primary background (#FAFAF7) */
+    --ink-800: 255 255 255; /* card surface */
+    --ink-700: 244 244 241; /* card hover */
+    --ink-600: 223 223 218; /* borders / hairlines */
 
-    --paper: 24 24 27;
-    --paper-dim: 82 82 91;
-    --paper-faint: 138 138 147;
+    --paper: 11 11 12;
+    --paper-dim: 90 90 88;
+    --paper-faint: 140 140 137;
 
-    --accent: 109 93 246;
-    --accent-hover: 91 75 224;
-    --accent-soft: 79 63 208;
-    --accent-contrast: 255 255 255;
+    --accent: 45 212 191; /* teal fills (dark text) */
+    --accent-hover: 20 184 166;
+    --accent-soft: 15 118 110; /* deep teal so "accent text" stays legible on light */
+    --accent-contrast: 8 12 12; /* near-black text on teal */
 
-    --grid: 24 24 27;
-    --tg-from: #1b1b20;
-    --tg-mid: #4a3fd0;
-    --tg-to: #6d5df6;
+    --grid: 11 11 12;
+    --tg-from: #0b0b0c;
+    --tg-mid: #3a3a3c;
+    --tg-to: #6c6c6e;
     color-scheme: light;
   }
 
@@ -118,7 +115,7 @@
            font-medium text-accent-contrast transition-all duration-300 ease-out-expo
            hover:bg-accent-hover hover:-translate-y-0.5
            focus-visible:outline-offset-4;
-    box-shadow: 0 8px 30px -8px rgba(109, 93, 246, 0.6);
+    box-shadow: 0 8px 30px -10px rgb(var(--accent) / 0.5);
   }
 
   .btn-ghost {
@@ -132,8 +129,9 @@
     @apply rounded-3xl border border-ink-600 bg-ink-800/60 backdrop-blur-sm;
   }
 
-  .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-paper-dim;
+  .eyebrow,
+  .mono-label {
+    @apply inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-paper-dim;
   }
 
   /* Long-form article body */

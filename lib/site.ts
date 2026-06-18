@@ -2,9 +2,9 @@
 export const site = {
   name: 'Naazware',
   legalName: 'Naazware',
-  tagline: 'Design & build studio',
+  tagline: 'Custom software studio',
   description:
-    'Naazware is a web design & development studio crafting premium, fast, and distinctive websites for brands that mean it.',
+    'Naazware is a software studio. We design and build custom web, mobile, and desktop applications — engineered to perform and built to last.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://naazware.com',
   email: 'naazware@gmail.com',
   phone: '+91 9327356760',

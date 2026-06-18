@@ -5,12 +5,6 @@ import Reveal from '@/components/Reveal'
 import { services } from '@/lib/services-data'
 import { getFeaturedCaseStudies } from '@/lib/case-studies-data'
 
-const stats = [
-  { value: '90+', label: 'Avg. Lighthouse score' },
-  { value: '8–12 wk', label: 'Typical delivery' },
-  { value: '100%', label: 'Built to spec, on time' },
-]
-
 const process = [
   {
     no: '01',
@@ -60,54 +54,71 @@ export default function HomePage() {
   return (
     <>
       {/* ───────────── Hero ───────────── */}
-      <section className="relative overflow-hidden">
-        {/* Background: grid + animated accent glow */}
+      <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
+        {/* restrained acid glow */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-[-10%] h-[520px] w-[520px] -translate-x-1/2 animate-glow-drift rounded-full opacity-50 blur-[120px]"
-          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+          className="pointer-events-none absolute -top-1/4 left-1/2 h-[55vh] w-[55vh] -translate-x-1/2 rounded-full opacity-[0.12] blur-[150px]"
+          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 right-[-5%] h-[360px] w-[360px] rounded-full opacity-30 blur-[120px]"
-          style={{ background: 'radial-gradient(closest-side, #b5589a, transparent)' }}
-        />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink-900" aria-hidden="true" />
 
-        <div className="container-px relative flex min-h-[88vh] flex-col justify-center pb-20 pt-40">
-          <Reveal as="div" className="max-w-5xl">
-            <p className="eyebrow mb-8">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-              Web design &amp; development studio
-            </p>
-            <h1 className="text-display-lg">
-              <span className="text-gradient">Design &amp; build</span> for
-              <br className="hidden sm:block" /> brands that mean it.
-            </h1>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-paper-dim">
-              Naazware crafts premium, lightning-fast websites with sharp design and clean
-              engineering — work that earns trust the moment it loads.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link href="/contact" className="btn-accent">
-                Start a project
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <Link href="/work" className="btn-ghost">
-                View our work
-              </Link>
-            </div>
+        <div className="container-px relative flex flex-1 flex-col pt-28">
+          {/* top mono row */}
+          <Reveal as="div" className="flex items-center justify-between border-b border-ink-600 pb-5">
+            <span className="mono-label normal-case">
+              <span className="relative mr-1 flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              Available for new projects
+            </span>
+            <span className="mono-label hidden sm:inline-flex">Vadodara, IN — Est. 2024</span>
           </Reveal>
 
-          {/* Stat strip */}
-          <Reveal as="div" delay={150} className="mt-20 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-3xl border border-ink-600 bg-ink-600 sm:grid-cols-3">
-            {stats.map((s) => (
-              <div key={s.label} className="bg-ink-900 px-7 py-6">
-                <div className="font-display text-3xl font-semibold text-paper">{s.value}</div>
-                <div className="mt-1 text-sm text-paper-dim">{s.label}</div>
+          {/* headline */}
+          <div className="flex flex-1 flex-col justify-center py-14">
+            <Reveal as="h1" className="text-display-xl max-w-[16ch] font-medium">
+              Custom software that sets you apart.
+            </Reveal>
+            <Reveal
+              as="div"
+              delay={120}
+              className="mt-12 flex flex-col gap-10 md:flex-row md:items-end md:justify-between"
+            >
+              <p className="max-w-md text-lg leading-relaxed text-paper-dim">
+                Naazware is a software studio. We design and build web, mobile, and desktop
+                applications — engineered to perform and built to last.
+              </p>
+              <div className="flex shrink-0 flex-wrap items-center gap-5">
+                <Link href="/contact" className="btn-accent">
+                  Start a project
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+                <Link
+                  href="/work"
+                  className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-paper underline-offset-8 hover:underline"
+                >
+                  View work
+                  <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    ↗
+                  </span>
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* capabilities strip */}
+          <Reveal as="div" delay={200} className="grid grid-cols-2 border-t border-ink-600 md:grid-cols-4">
+            {['Web apps', 'Mobile apps', 'Desktop apps', 'QA & hosting'].map((c, i) => (
+              <div
+                key={c}
+                className={`flex items-baseline gap-3 py-6 ${i > 0 ? 'md:border-l md:border-ink-600 md:pl-6' : ''}`}
+              >
+                <span className="font-mono text-xs text-accent-soft">{`0${i + 1}`}</span>
+                <span className="text-sm text-paper">{c}</span>
               </div>
             ))}
           </Reveal>
@@ -121,7 +132,7 @@ export default function HomePage() {
             <div>
               <p className="eyebrow mb-4">What we do</p>
               <h2 className="text-display-md max-w-2xl">
-                Everything your website needs, under one roof.
+                From idea to shipped product, under one roof.
               </h2>
             </div>
             <Link href="/services" className="btn-ghost shrink-0">
@@ -234,7 +245,7 @@ export default function HomePage() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
         />
         <div className="container-px relative text-center">
           <Reveal as="div" className="mx-auto max-w-3xl">

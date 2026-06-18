@@ -12,11 +12,11 @@ interface CaseStudyCardProps {
 
 // Deterministic cover gradients so each card feels distinct without real imagery yet.
 const covers = [
-  'linear-gradient(135deg, #2a2150 0%, #6d5df6 100%)',
-  'linear-gradient(135deg, #102a3c 0%, #2f80a8 100%)',
-  'linear-gradient(135deg, #311d3f 0%, #b5589a 100%)',
-  'linear-gradient(135deg, #14302a 0%, #2f9e74 100%)',
-  'linear-gradient(135deg, #3a2410 0%, #d08a3e 100%)',
+  'linear-gradient(135deg, #0c1f1c 0%, #2dd4bf 130%)', // teal
+  'linear-gradient(135deg, #0c1a22 0%, #38bdf8 130%)', // sky
+  'linear-gradient(135deg, #15151a 0%, #5b5b66 120%)', // graphite
+  'linear-gradient(135deg, #0a201d 0%, #14b8a6 130%)', // deep teal
+  'linear-gradient(135deg, #101a2e 0%, #6366f1 130%)', // indigo pop
 ]
 
 export default function CaseStudyCard({

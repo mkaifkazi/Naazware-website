@@ -26,7 +26,7 @@ export default function Footer() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[120%] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
-        style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+        style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
       />
       <div className="container-px relative py-16 md:py-24">
         {/* Big CTA line */}
@@ -45,8 +45,8 @@ export default function Footer() {
           <div>
             <span className="font-display text-2xl font-semibold text-paper">Naazware</span>
             <p className="mt-4 max-w-xs text-paper-dim">
-              A web design &amp; development studio crafting premium, fast, and distinctive
-              websites for brands that mean it.
+              A software studio crafting custom web, mobile, and desktop applications —
+              engineered to perform and built to last.
             </p>
             <div className="mt-6 flex gap-3">
               {[
@@ -60,7 +60,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="grid h-10 w-10 place-items-center rounded-full border border-ink-600 text-paper-dim transition-colors hover:border-accent hover:text-accent"
+                  className="grid h-10 w-10 place-items-center rounded-full border border-ink-600 text-paper-dim transition-colors hover:border-accent hover:text-accent-soft"
                 >
                   {s.icon}
                 </a>

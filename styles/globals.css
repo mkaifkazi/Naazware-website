@@ -3,9 +3,57 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  /* Dark theme (default) */
+  :root,
+  [data-theme='dark'] {
     --font-display: 'Clash Display', system-ui, sans-serif;
     --font-body: 'Inter', system-ui, sans-serif;
+
+    --ink-950: 8 8 10;
+    --ink-900: 10 10 11;
+    --ink-800: 17 17 20;
+    --ink-700: 23 23 28;
+    --ink-600: 33 33 41;
+
+    --paper: 244 244 245;
+    --paper-dim: 161 161 170;
+    --paper-faint: 113 113 122;
+
+    --accent: 109 93 246;
+    --accent-hover: 130 115 248;
+    --accent-soft: 169 159 251;
+    --accent-contrast: 255 255 255;
+
+    /* Decorative */
+    --grid: 255 255 255; /* grid line color (low alpha) */
+    --tg-from: #ffffff; /* display gradient text stops */
+    --tg-mid: #c8c4e8;
+    --tg-to: #8273f8;
+    color-scheme: dark;
+  }
+
+  /* Light theme */
+  [data-theme='light'] {
+    --ink-950: 242 242 245; /* alt sections / footer */
+    --ink-900: 255 255 255; /* primary background */
+    --ink-800: 247 247 249; /* card surface */
+    --ink-700: 238 238 241; /* card hover */
+    --ink-600: 226 226 232; /* borders / hairlines */
+
+    --paper: 24 24 27;
+    --paper-dim: 82 82 91;
+    --paper-faint: 138 138 147;
+
+    --accent: 109 93 246;
+    --accent-hover: 91 75 224;
+    --accent-soft: 79 63 208;
+    --accent-contrast: 255 255 255;
+
+    --grid: 24 24 27;
+    --tg-from: #1b1b20;
+    --tg-mid: #4a3fd0;
+    --tg-to: #6d5df6;
+    color-scheme: light;
   }
 
   html {
@@ -16,6 +64,7 @@
   body {
     @apply bg-ink-900 text-paper font-sans antialiased;
     font-feature-settings: 'ss01', 'cv01';
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -60,7 +109,7 @@
   /* Gradient display text */
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(180deg, #ffffff 0%, #c8c4e8 60%, #8273f8 130%);
+    background-image: linear-gradient(180deg, var(--tg-from) 0%, var(--tg-mid) 60%, var(--tg-to) 130%);
   }
 
   /* Accent button */
@@ -131,8 +180,8 @@
 
   .grid-bg {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      linear-gradient(to right, rgb(var(--grid) / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--grid) / 0.04) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 }

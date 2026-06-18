@@ -9,24 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand canvas
+        // Theme-driven tokens (values set per theme in globals.css).
+        // "ink" = background scale (darkest→lightest in dark mode; inverted in light).
+        // "paper" = foreground/text scale.
         ink: {
-          950: '#08080a', // deepest background
-          900: '#0a0a0b', // primary background
-          800: '#111114', // elevated surface
-          700: '#17171c', // cards
-          600: '#212129', // borders / hairlines
+          950: 'rgb(var(--ink-950) / <alpha-value>)', // deepest background
+          900: 'rgb(var(--ink-900) / <alpha-value>)', // primary background
+          800: 'rgb(var(--ink-800) / <alpha-value>)', // elevated surface
+          700: 'rgb(var(--ink-700) / <alpha-value>)', // cards
+          600: 'rgb(var(--ink-600) / <alpha-value>)', // borders / hairlines
         },
         paper: {
-          DEFAULT: '#f4f4f5', // primary text
-          dim: '#a1a1aa', // secondary text
-          faint: '#71717a', // muted text
+          DEFAULT: 'rgb(var(--paper) / <alpha-value>)', // primary text
+          dim: 'rgb(var(--paper-dim) / <alpha-value>)', // secondary text
+          faint: 'rgb(var(--paper-faint) / <alpha-value>)', // muted text
         },
         accent: {
-          DEFAULT: '#6d5df6', // electric indigo
-          hover: '#8273f8',
-          soft: '#a99ffb',
-          contrast: '#0a0a0b',
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)', // electric indigo
+          hover: 'rgb(var(--accent-hover) / <alpha-value>)',
+          soft: 'rgb(var(--accent-soft) / <alpha-value>)',
+          contrast: 'rgb(var(--accent-contrast) / <alpha-value>)',
         },
       },
       fontFamily: {

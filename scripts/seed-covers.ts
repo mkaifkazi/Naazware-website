@@ -52,7 +52,7 @@ async function run() {
   const projects = await client.fetch<{ _id: string; title: string; client: string; industry: string }[]>(
     `*[_type=="project"]{_id, title, client, industry}`
   )
-  const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--no-sandbox'] })
+  const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ['--no-sandbox'] })
   for (const p of projects) {
     const page = await browser.newPage()
     await page.setViewport({ width: 1600, height: 1000, deviceScaleFactor: 1 })

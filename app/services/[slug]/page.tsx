@@ -1,28 +1,18 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import PageHeader from '@/components/PageHeader'
+import Reveal from '@/components/Reveal'
 import { getService, getAllServiceSlugs } from '@/lib/services-data'
 import { generateMetadata as genMeta, generateBreadcrumbSchema } from '@/lib/seo'
-import WhiteAnimatedShapes from '@/components/WhiteAnimatedShapes'
-import DecorativeShapes from '@/components/DecorativeShapes'
-import '@/styles/white-section-animated.css'
 
 export async function generateStaticParams() {
-  const slugs = getAllServiceSlugs()
-  return slugs.map((slug) => ({ slug }))
+  return getAllServiceSlugs().map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string }
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const service = getService(params.slug)
-
-  if (!service) {
-    return genMeta({ title: 'Service Not Found' })
-  }
-
+  if (!service) return genMeta({ title: 'Service Not Found' })
   return genMeta({
     title: service.title,
     description: service.fullDescription,
@@ -33,10 +23,7 @@ export async function generateMetadata({
 
 export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
   const service = getService(params.slug)
-
-  if (!service) {
-    notFound()
-  }
+  if (!service) notFound()
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
@@ -44,120 +31,79 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
     { name: service.title, url: `/services/${service.slug}` },
   ])
 
+  const blocks = [
+    { label: 'The challenge', body: service.challenge },
+    { label: 'Our approach', body: service.approach },
+    { label: 'Expected results', body: service.result },
+  ]
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      {/* Hero */}
-      <section className="section-padding white-section-animated" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <WhiteAnimatedShapes />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                <Link href="/">Home</Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link href="/services">Services</Link>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                {service.title}
-              </li>
-            </ol>
-          </nav>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <h1 className="display-4 fw-bold mb-4">{service.title}</h1>
-              <p className="lead text-secondary mb-4">{service.fullDescription}</p>
-              <Link href="/contact" className="btn btn-primary btn-lg">
-                Start Your Project
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services' }, { label: service.title }]}
+        title={service.title}
+        subtitle={service.fullDescription}
+      >
+        <Link href="/contact" className="btn-accent">
+          Start your project
+        </Link>
+      </PageHeader>
 
-      {/* Challenge */}
-      <section className="section-padding position-relative" style={{ backgroundColor: 'var(--bg-surface)' }}>
-        <DecorativeShapes variant="1" />
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <h2 className="h3 fw-bold mb-4">The Challenge</h2>
-              <p className="lead text-secondary">{service.challenge}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="pb-8">
+        <div className="container-px space-y-6">
+          {blocks.map((b) => (
+            <Reveal key={b.label}>
+              <div className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
+                <h2 className="text-display-sm">{b.label}</h2>
+                <p className="text-lg leading-relaxed text-paper-dim">{b.body}</p>
+              </div>
+            </Reveal>
+          ))}
 
-      {/* Approach */}
-      <section className="section-padding white-section-animated" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <WhiteAnimatedShapes />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <h2 className="h3 fw-bold mb-4">Our Approach</h2>
-              <p className="lead text-secondary mb-4">{service.approach}</p>
-              <h4 className="fw-bold mb-3">Key Features</h4>
-              <ul className="list-unstyled">
-                {service.bullets.map((bullet, index) => (
-                  <li key={index} className="mb-3 d-flex align-items-start">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="var(--accent)"
-                      strokeWidth="2"
-                      className="me-3 flex-shrink-0"
-                    >
+          <Reveal>
+            <div className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
+              <h2 className="text-display-sm mb-6">Key features</h2>
+              <ul className="grid gap-4 md:grid-cols-2">
+                {service.bullets.map((bullet) => (
+                  <li key={bullet} className="flex items-start gap-3 text-paper-dim">
+                    <svg className="mt-1.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    <span className="text-secondary">{bullet}</span>
+                    {bullet}
                   </li>
                 ))}
               </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Results */}
-      <section className="section-padding position-relative" style={{ backgroundColor: 'var(--bg-surface)' }}>
-        <DecorativeShapes variant="2" />
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <h2 className="h3 fw-bold mb-4">Expected Results</h2>
-              <p className="lead text-secondary">{service.result}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="section-padding white-section-animated" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <WhiteAnimatedShapes />
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="row justify-content-center text-center">
-            <div className="col-lg-8">
-              <h2 className="display-5 fw-bold mb-4">Ready to get started?</h2>
-              <p className="lead text-secondary mb-4">
-                Tell us about your project and we'll send you a detailed estimate within 24 hours.
-              </p>
-              <div className="d-flex flex-wrap gap-3 justify-content-center">
-                <Link href="/contact" className="btn btn-primary btn-lg">
-                  Get a free estimate
-                </Link>
-                <Link href="/work" className="btn btn-outline-primary btn-lg">
-                  See similar projects
-                </Link>
+              <div className="mt-8 flex flex-wrap gap-2.5 border-t border-ink-600 pt-8">
+                {service.technologies.map((tech) => (
+                  <span key={tech} className="rounded-full border border-ink-600 bg-ink-900 px-3.5 py-1.5 text-sm text-paper-dim">
+                    {tech}
+                  </span>
+                ))}
               </div>
             </div>
-          </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden py-24 md:py-32">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
+          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+        />
+        <div className="container-px relative text-center">
+          <Reveal as="div" className="mx-auto max-w-2xl">
+            <h2 className="text-display-md text-gradient">Ready to get started?</h2>
+            <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
+              Tell us about your project and we&apos;ll send you a detailed estimate within 24 hours.
+            </p>
+            <div className="mt-9 flex flex-wrap justify-center gap-4">
+              <Link href="/contact" className="btn-accent">Get a free estimate</Link>
+              <Link href="/work" className="btn-ghost">See similar projects</Link>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>

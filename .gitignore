@@ -39,3 +39,6 @@ next-env.d.ts
 
 # Claude folder
 .claude/
+
+# Local scratch (screenshots/tooling)
+.screens/

@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
+import { site } from './site'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://naazwarelabs.com'
-const SITE_NAME = 'Naazware Labs'
-const SITE_DESCRIPTION =
-  'Web, mobile, and desktop app development with pragmatic engineering and clear timelines — launch faster and scale safely.'
+const SITE_URL = site.url
+const SITE_NAME = site.name
+const SITE_DESCRIPTION = site.description
 
 export function generateMetadata({
   title,
@@ -26,12 +26,12 @@ export function generateMetadata({
     title: metaTitle,
     description: metaDescription,
     keywords: keywords || [
-      'web application development',
-      'mobile app development',
-      'desktop app development',
-      'IT consulting',
-      'QA testing',
-      'software development',
+      'web design studio',
+      'web development agency',
+      'website design',
+      'Next.js development',
+      'premium website design',
+      'creative studio',
     ],
     authors: [{ name: SITE_NAME }],
     creator: SITE_NAME,
@@ -86,13 +86,9 @@ export function generateOrganizationSchema() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      email: 'info@naazwarelabs.com',
+      email: site.email,
     },
-    sameAs: [
-      'https://linkedin.com/company/naazware-labs',
-      'https://twitter.com/naazwarelabs',
-      'https://github.com/naazware-labs',
-    ],
+    sameAs: [site.socials.linkedin, site.socials.twitter, site.socials.github],
   }
 }
 

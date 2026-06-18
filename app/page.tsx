@@ -1,143 +1,166 @@
 import Link from 'next/link'
 import ServiceCard from '@/components/ServiceCard'
 import CaseStudyCard from '@/components/CaseStudyCard'
-import DecorativeShapes from '@/components/DecorativeShapes'
-import WhiteAnimatedShapes from '@/components/WhiteAnimatedShapes'
+import Reveal from '@/components/Reveal'
 import { services } from '@/lib/services-data'
 import { getFeaturedCaseStudies } from '@/lib/case-studies-data'
-import '@/styles/hero-animated.css'
-import '@/styles/white-section-animated.css'
 
-// Service Icons
-const WebIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
-    <rect x="2" y="3" width="20" height="14" rx="2" />
-    <line x1="8" y1="21" x2="16" y2="21" />
-    <line x1="12" y1="17" x2="12" y2="21" />
-  </svg>
-)
+const stats = [
+  { value: '90+', label: 'Avg. Lighthouse score' },
+  { value: '8–12 wk', label: 'Typical delivery' },
+  { value: '100%', label: 'Built to spec, on time' },
+]
 
-const MobileIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
-    <rect x="5" y="2" width="14" height="20" rx="2" />
-    <line x1="12" y1="18" x2="12" y2="18" />
-  </svg>
-)
+const process = [
+  {
+    no: '01',
+    title: 'Discovery',
+    body: 'We start with your goals, audience, and constraints — and define exactly what success looks like before a single pixel moves.',
+  },
+  {
+    no: '02',
+    title: 'Design',
+    body: 'A distinctive, on-brand interface designed in the open. You review real screens, not vague mockups, and shape the direction with us.',
+  },
+  {
+    no: '03',
+    title: 'Build',
+    body: 'Fast, accessible, and meticulously engineered. Clean code, optimised assets, and continuous demos so there are no surprises.',
+  },
+  {
+    no: '04',
+    title: 'Launch',
+    body: 'We handle deployment, performance tuning, and handover — so you go live with confidence, not crossed fingers.',
+  },
+]
 
-const DesktopIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
-    <rect x="2" y="3" width="20" height="14" rx="2" />
-    <path d="M8 21h8" />
-    <path d="M12 17v4" />
-  </svg>
-)
-
-const ServerIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
-    <rect x="2" y="2" width="20" height="8" rx="2" />
-    <rect x="2" y="14" width="20" height="8" rx="2" />
-    <line x1="6" y1="6" x2="6" y2="6" />
-    <line x1="6" y1="18" x2="6" y2="18" />
-  </svg>
-)
-
-const TestIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
-    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-  </svg>
-)
-
-const iconMap: Record<string, React.ReactNode> = {
-  web: <WebIcon />,
-  mobile: <MobileIcon />,
-  desktop: <DesktopIcon />,
-  server: <ServerIcon />,
-  test: <TestIcon />,
-}
+const testimonials = [
+  {
+    quote:
+      'The new checkout flow paid for itself in the first month. Our customers love how fast and simple it is.',
+    author: 'Sarah Chen',
+    role: 'Director of E-commerce, RetailCo',
+  },
+  {
+    quote:
+      'Security and accessibility were both critical. The team delivered on both without compromise.',
+    author: 'Dr. Michael Torres',
+    role: 'CTO, MediHealth',
+  },
+  {
+    quote: "Our drivers actually love using this app. That's never happened before.",
+    author: 'James Park',
+    role: 'Operations Manager, QuickShip',
+  },
+]
 
 export default function HomePage() {
-  const featuredCaseStudies = getFeaturedCaseStudies()
+  const featured = getFeaturedCaseStudies()
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="hero-animated">
-        {/* Animated Background Shapes */}
-        <div className="animated-shapes">
-          <div className="shape shape-1"></div>
-          <div className="shape shape-2"></div>
-          <div className="shape shape-3"></div>
-          <div className="shape shape-4"></div>
-          <div className="shape shape-5"></div>
-        </div>
+      {/* ───────────── Hero ───────────── */}
+      <section className="relative overflow-hidden">
+        {/* Background: grid + animated accent glow */}
+        <div className="grid-bg absolute inset-0" aria-hidden="true" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-[-10%] h-[520px] w-[520px] -translate-x-1/2 animate-glow-drift rounded-full opacity-50 blur-[120px]"
+          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 right-[-5%] h-[360px] w-[360px] rounded-full opacity-30 blur-[120px]"
+          style={{ background: 'radial-gradient(closest-side, #b5589a, transparent)' }}
+        />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink-900" aria-hidden="true" />
 
-        {/* Glass Content */}
-        <div className="hero-glass-content section-padding-lg">
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-lg-9">
-                <div className="glass-container text-center">
-                  <h1 className="display-4 fw-bold mb-4">
-                  Launch faster, Scale smarter Build with <span style={{ fontWeight: '300' }}>NaazWare</span>
-                  </h1>
-                  <p className="lead mb-4" style={{ color: '#4b5563' }}>
-                  From concept to deployment, we craft software that works beautifully.
-                  Web, mobile, hosting, and QA, handled with precision, not promises.
-                  </p>
-                  <div className="d-flex flex-wrap gap-3 justify-content-center">
-                    <Link href="/contact" className="btn btn-primary btn-lg">
-                      Get a free project estimate
-                    </Link>
-                    <Link href="/work" className="btn btn-outline-primary btn-lg">
-                      View our work
-                    </Link>
-                  </div>
-                </div>
-              </div>
+        <div className="container-px relative flex min-h-[88vh] flex-col justify-center pb-20 pt-40">
+          <Reveal as="div" className="max-w-5xl">
+            <p className="eyebrow mb-8">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+              Web design &amp; development studio
+            </p>
+            <h1 className="text-display-lg">
+              <span className="text-gradient">Design &amp; build</span> for
+              <br className="hidden sm:block" /> brands that mean it.
+            </h1>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-paper-dim">
+              Naazware crafts premium, lightning-fast websites with sharp design and clean
+              engineering — work that earns trust the moment it loads.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link href="/contact" className="btn-accent">
+                Start a project
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link href="/work" className="btn-ghost">
+                View our work
+              </Link>
             </div>
-          </div>
+          </Reveal>
+
+          {/* Stat strip */}
+          <Reveal as="div" delay={150} className="mt-20 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-3xl border border-ink-600 bg-ink-600 sm:grid-cols-3">
+            {stats.map((s) => (
+              <div key={s.label} className="bg-ink-900 px-7 py-6">
+                <div className="font-display text-3xl font-semibold text-paper">{s.value}</div>
+                <div className="mt-1 text-sm text-paper-dim">{s.label}</div>
+              </div>
+            ))}
+          </Reveal>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="section-padding position-relative" style={{ backgroundColor: 'var(--bg-surface)' }}>
-        <DecorativeShapes variant="1" />
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="text-center mb-5">
-            <h2 className="display-5 fw-bold mb-3">What we build</h2>
-            <p className="lead text-secondary">
-              Full-stack development services, from concept to deployment
-            </p>
-          </div>
-          <div className="row g-4">
-            {services.map((service) => (
-              <div key={service.slug} className="col-lg-4 col-md-6">
+      {/* ───────────── Services ───────────── */}
+      <section className="relative py-24 md:py-32">
+        <div className="container-px">
+          <Reveal as="div" className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="eyebrow mb-4">What we do</p>
+              <h2 className="text-display-md max-w-2xl">
+                Everything your website needs, under one roof.
+              </h2>
+            </div>
+            <Link href="/services" className="btn-ghost shrink-0">
+              All services
+            </Link>
+          </Reveal>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((service, i) => (
+              <Reveal key={service.slug} delay={(i % 3) * 80}>
                 <ServiceCard
                   title={service.title}
                   description={service.shortDescription}
                   bullets={service.bullets}
                   href={`/services/${service.slug}`}
-                  icon={iconMap[service.icon]}
+                  icon={service.icon}
                 />
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Case Studies Section */}
-      <section className="section-padding white-section-animated" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <WhiteAnimatedShapes />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="text-center mb-5">
-            <h2 className="display-5 fw-bold mb-3">Recent work</h2>
-            <p className="lead text-secondary">
-              Real projects with measurable outcomes
-            </p>
-          </div>
-          <div className="row g-4 mb-4">
-            {featuredCaseStudies.map((study) => (
-              <div key={study.slug} className="col-lg-4 col-md-6">
+      {/* ───────────── Selected work ───────────── */}
+      <section className="relative border-y border-ink-600 bg-ink-950 py-24 md:py-32">
+        <div className="container-px">
+          <Reveal as="div" className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="eyebrow mb-4">Selected work</p>
+              <h2 className="text-display-md max-w-2xl">Recent projects, real outcomes.</h2>
+            </div>
+            <Link href="/work" className="btn-ghost shrink-0">
+              All projects
+            </Link>
+          </Reveal>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {featured.map((study, i) => (
+              <Reveal key={study.slug} delay={(i % 2) * 100}>
                 <CaseStudyCard
                   title={study.title}
                   client={study.client}
@@ -145,111 +168,90 @@ export default function HomePage() {
                   excerpt={study.excerpt}
                   href={`/work/${study.slug}`}
                   metrics={study.metrics}
+                  index={i}
                 />
-              </div>
+              </Reveal>
             ))}
           </div>
-          <div className="text-center">
-            <Link
-              href="/work"
-              className="text-decoration-none d-inline-flex align-items-center"
-              style={{
-                color: 'var(--accent)',
-                fontWeight: '600',
-                fontSize: '1rem'
-              }}
-            >
-              View all case studies
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="ms-2"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
+        </div>
+      </section>
+
+      {/* ───────────── Process ───────────── */}
+      <section className="relative py-24 md:py-32">
+        <div className="container-px">
+          <Reveal as="div" className="mb-14">
+            <p className="eyebrow mb-4">How we work</p>
+            <h2 className="text-display-md max-w-2xl">
+              A calm, transparent process from brief to launch.
+            </h2>
+          </Reveal>
+
+          <div className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 md:grid-cols-2 lg:grid-cols-4">
+            {process.map((step, i) => (
+              <Reveal key={step.no} delay={i * 80} className="bg-ink-900">
+                <div className="flex h-full flex-col p-8">
+                  <span className="font-display text-5xl font-semibold text-accent/30">{step.no}</span>
+                  <h3 className="mt-6 text-lg font-semibold text-paper">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-paper-dim">{step.body}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="section-padding position-relative" style={{ backgroundColor: 'var(--bg-surface)' }}>
-        <DecorativeShapes variant="2" />
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="text-center mb-5">
-            <h2 className="display-5 fw-bold mb-3">What clients say</h2>
-          </div>
-          <div className="row g-4">
-            <div className="col-lg-4">
-              <div className="card h-100 border-0">
-                <div className="card-body p-4">
-                  <p className="mb-4" style={{ fontSize: '1.1rem', lineHeight: 1.7 }}>
-                    "The new checkout flow paid for itself in the first month. Our customers love
-                    how fast and simple it is."
-                  </p>
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <div className="fw-bold">Sarah Chen</div>
-                      <div className="text-muted small">Director of E-commerce, RetailCo</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="card h-100 border-0">
-                <div className="card-body p-4">
-                  <p className="mb-4" style={{ fontSize: '1.1rem', lineHeight: 1.7 }}>
-                    "Security and accessibility were both critical. The team delivered on both
-                    without compromise."
-                  </p>
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <div className="fw-bold">Dr. Michael Torres</div>
-                      <div className="text-muted small">CTO, MediHealth</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="card h-100 border-0">
-                <div className="card-body p-4">
-                  <p className="mb-4" style={{ fontSize: '1.1rem', lineHeight: 1.7 }}>
-                    "Our drivers actually love using this app. That's never happened before."
-                  </p>
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <div className="fw-bold">James Park</div>
-                      <div className="text-muted small">Operations Manager, QuickShip</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* ───────────── Testimonials ───────────── */}
+      <section className="relative border-t border-ink-600 bg-ink-950 py-24 md:py-32">
+        <div className="container-px">
+          <Reveal as="div" className="mb-14">
+            <p className="eyebrow mb-4">Kind words</p>
+            <h2 className="text-display-md max-w-2xl">Clients who&apos;d work with us again.</h2>
+          </Reveal>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.author} delay={(i % 3) * 80}>
+                <figure className="flex h-full flex-col rounded-3xl border border-ink-600 bg-ink-800/60 p-8">
+                  <svg className="h-8 w-8 text-accent/50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M9.5 5C6.5 6.5 5 9 5 12.5V19h6v-6H8c0-2 1-3.5 3-4.5L9.5 5Zm10 0C16.5 6.5 15 9 15 12.5V19h6v-6h-3c0-2 1-3.5 3-4.5L19.5 5Z" />
+                  </svg>
+                  <blockquote className="mt-6 flex-1 text-lg leading-relaxed text-paper">
+                    &ldquo;{t.quote}&rdquo;
+                  </blockquote>
+                  <figcaption className="mt-8">
+                    <div className="font-medium text-paper">{t.author}</div>
+                    <div className="text-sm text-paper-dim">{t.role}</div>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-padding" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-8 text-center">
-              <h2 className="display-5 fw-bold mb-4">Ready to start your project?</h2>
-              <p className="lead text-secondary mb-4">
-                Tell us what you&apos;re building. We&apos;ll reply within 24 hours with an estimate and
-                timeline.
-              </p>
-              <Link href="/contact" className="btn btn-primary btn-lg">
-                Get a free estimate
+      {/* ───────────── Final CTA ───────────── */}
+      <section className="relative overflow-hidden py-28 md:py-36">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
+          style={{ background: 'radial-gradient(closest-side, #6d5df6, transparent)' }}
+        />
+        <div className="container-px relative text-center">
+          <Reveal as="div" className="mx-auto max-w-3xl">
+            <h2 className="text-display-lg text-gradient">Ready to build something great?</h2>
+            <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
+              Tell us what you&apos;re building. We&apos;ll reply within 24 hours with honest
+              thoughts, a timeline, and an estimate.
+            </p>
+            <div className="mt-10 flex justify-center">
+              <Link href="/contact" className="btn-accent">
+                Start a project
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

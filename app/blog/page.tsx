@@ -1,15 +1,14 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import PageHeader from '@/components/PageHeader'
+import Reveal from '@/components/Reveal'
 import { getPublishedPosts } from '@/lib/blog-posts-data'
 import { generateMetadata as genMeta } from '@/lib/seo'
-import DecorativeShapes from '@/components/DecorativeShapes'
-import WhiteAnimatedShapes from '@/components/WhiteAnimatedShapes'
-import '@/styles/white-section-animated.css'
 
 export const metadata: Metadata = genMeta({
-  title: 'Blog',
+  title: 'Journal',
   description:
-    'Engineering insights, performance optimizations, and practical guides for building better software.',
+    'Notes on design, performance, and building better websites — no fluff, just useful insight.',
   path: '/blog',
 })
 
@@ -18,73 +17,45 @@ export default function BlogPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="section-padding white-section-animated" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        <WhiteAnimatedShapes />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="row justify-content-center text-center">
-            <div className="col-lg-8">
-              <h1 className="display-4 fw-bold mb-4">Blog</h1>
-              <p className="lead text-secondary">
-                Engineering insights and practical guides , no fluff, just useful information
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Journal"
+        size="lg"
+        title={
+          <>
+            Notes from <span className="text-gradient">the studio.</span>
+          </>
+        }
+        subtitle="Insights and practical guides on design, performance, and building better websites."
+      />
 
-      {/* Posts */}
-      <section className="section-padding position-relative" style={{ backgroundColor: 'var(--bg-surface)' }}>
-        <DecorativeShapes variant="1" />
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="row g-4">
-            {posts.map((post) => (
-              <div key={post.slug} className="col-lg-6">
-                <article className="card h-100">
-                  <div className="card-body p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <time className="text-muted small" dateTime={post.date}>
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </time>
-                      <span className="text-muted small">{post.readTime} read</span>
-                    </div>
-                    <h2 className="h4 fw-bold mb-3">
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        className="text-decoration-none"
-                        style={{ color: 'var(--text-primary)' }}
-                      >
-                        {post.title}
-                      </Link>
-                    </h2>
-                    <p className="text-secondary mb-3">{post.excerpt}</p>
-                    <div className="d-flex flex-wrap gap-2 mb-3">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="badge bg-secondary"
-                          style={{ borderRadius: 'var(--radius-full)' }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="text-decoration-none fw-semibold"
-                      style={{ color: 'var(--accent)' }}
-                    >
-                      Read more →
-                    </Link>
-                  </div>
-                </article>
-              </div>
-            ))}
-          </div>
+      <section className="pb-24 md:pb-32">
+        <div className="container-px grid gap-6 md:grid-cols-2">
+          {posts.map((post, i) => (
+            <Reveal key={post.slug} delay={(i % 2) * 100}>
+              <article className="group relative flex h-full flex-col rounded-4xl border border-ink-600 bg-ink-800/50 p-8 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40">
+                <div className="flex items-center gap-3 text-sm text-paper-faint">
+                  <time dateTime={post.date}>
+                    {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </time>
+                  <span aria-hidden="true">·</span>
+                  <span>{post.readTime} read</span>
+                </div>
+                <h2 className="mt-4 text-2xl font-semibold text-paper transition-colors group-hover:text-accent-soft">
+                  <Link href={`/blog/${post.slug}`} className="after:absolute after:inset-0">
+                    {post.title}
+                  </Link>
+                </h2>
+                <p className="mt-3 flex-1 leading-relaxed text-paper-dim">{post.excerpt}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span key={tag} className="rounded-full border border-ink-600 bg-ink-900 px-3 py-1 text-xs text-paper-dim">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </section>
     </>

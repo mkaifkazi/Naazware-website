@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+
+# Official Next.js runtime — handles App Router, ISR, Route Handlers,
+# and next/image. Netlify auto-installs it; declaring it is explicit.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

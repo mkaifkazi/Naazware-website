@@ -1,8 +1,10 @@
 /**
- * Seeds 11 illustrative case studies + curated testimonials into Sanity.
- * All names, clients, and metrics are fictional/representative.
- * Re-runnable (deterministic _id + createOrReplace).
- * Run: npx tsx --env-file=.env.local scripts/seed-work.ts
+ * Resets Work + Testimonials in Sanity to a small, believable portfolio.
+ * Deletes ALL existing project/testimonial docs, then creates the curated set.
+ * Re-runnable. Run: npx tsx --env-file=.env.local scripts/seed-work.ts
+ *
+ * Note: Ripple / Shritica Joshi is a real client used with consent; the rest
+ * are illustrative/fictional small-business projects.
  */
 import { createClient } from '@sanity/client'
 
@@ -36,331 +38,178 @@ type Project = {
 
 const projects: Project[] = [
   {
-    slug: 'dhaanya-crop-health-ai',
-    title: 'AI crop-health diagnosis in nine languages',
-    client: 'Dhaanya AgriTech',
-    industry: 'AgriTech',
+    slug: 'ripple-preschool-app',
+    title: 'Ripple — a pre-school app for parents and teachers',
+    client: 'Shritica Joshi',
+    industry: 'Education',
     excerpt:
-      'An offline-first mobile app that diagnoses crop disease from a single photo and delivers vernacular advisory to 120,000 smallholder farmers.',
+      'A simple mobile app where pre-school teachers share daily activities, photos, and attendance — so parents always know how their child’s day went.',
     challenge:
-      'Smallholder farmers across India lose a fifth of their yield to crop disease that goes undiagnosed — agronomists are scarce, advice arrives too late, and rural connectivity is unreliable. Dhaanya needed something that would work in a field with no signal and in a language the farmer actually speaks.',
+      'Updates to parents were scattered across WhatsApp groups and paper diaries, and fee reminders went out by hand. Shritica wanted one calm, friendly place where parents could follow their child’s day and the team could stop juggling messages.',
     solution:
-      'We built an offline-first Android app with an on-device vision model that identifies 60+ crop diseases from a single leaf photo in under two seconds, paired with a vernacular advisory engine in nine languages. Diagnoses and treatment plans sync to a web dashboard when connectivity returns, giving Dhaanya’s agronomists oversight and a feedback loop to improve the model.',
+      'We built a clean mobile app with a daily activity feed (photos, meals, nap and mood notes), one-tap attendance for teachers, announcements, and gentle automated fee reminders. The whole experience was designed to feel warm and effortless for non-technical parents and busy staff.',
     outcome:
-      'Within fourteen months the app reached 120,000 farmers, who saw an average 38% reduction in crop loss. The vernacular, offline-first approach drove adoption far beyond projections in regions earlier ag-tech tools never reached.',
+      'Parents now get a daily update they genuinely look forward to, and the team saves hours a week on admin and follow-ups. Onboarding new families takes minutes instead of a folder of forms.',
     metrics: [
-      { value: '120K+', label: 'Farmers onboarded' },
-      { value: '38%', label: 'Crop-loss reduction' },
-      { value: '9', label: 'Languages supported' },
-      { value: '<2s', label: 'Offline diagnosis' },
+      { value: '120+', label: 'Families connected' },
+      { value: '4.8★', label: 'Parent rating' },
+      { value: '6 hrs/wk', label: 'Admin time saved' },
     ],
-    technologies: ['React Native', 'TensorFlow Lite', 'Node.js', 'PostgreSQL', 'AWS'],
+    technologies: ['React Native', 'Firebase', 'Node.js'],
     testimonial: {
       quote:
-        'They built something our farmers actually trust. Diagnoses work offline, in their own language, in seconds — adoption went further than we ever projected.',
-      author: 'Ravi Deshmukh',
-      role: 'Founder & CEO, Dhaanya AgriTech',
+        'Had a really great experience working with Naazware and the team. They understood exactly what our parents needed and built it without any fuss — and the parents absolutely love it.',
+      author: 'Shritica Joshi',
+      role: 'Founder, Ripple Pre-School',
     },
     featured: true,
   },
   {
-    slug: 'veramont-wealth-cockpit',
-    title: 'A real-time portfolio cockpit for private wealth',
-    client: 'Veramont Capital Partners',
-    industry: 'FinTech',
+    slug: 'bloom-dental-booking',
+    title: 'A booking website that ended the phone-tag',
+    client: 'Bloom Dental Studio',
+    industry: 'Healthcare',
     excerpt:
-      'A web platform giving relationship managers a real-time, compliant view across $2.4B in private client portfolios.',
+      'A clean website with online appointment booking and automatic reminders for a busy neighbourhood dental clinic.',
     challenge:
-      'Veramont’s relationship managers were stitching together custodian statements in spreadsheets, so clients saw their positions days late and compliance reporting was a manual scramble. Scaling the book under that model was impossible.',
+      'The clinic ran entirely on phone calls — missed calls meant missed patients, and no-shows were a daily frustration. They needed patients to be able to book and reschedule themselves, around the clock.',
     solution:
-      'We delivered a real-time analytics platform that aggregates live custodian and market feeds across asset classes, with scenario modelling, automated compliance and audit trails, and granular role-based access. Every figure a manager quotes is current and traceable.',
+      'We built a fast, modern website with real-time slot booking, automatic SMS and email reminders, and a simple admin view the front desk actually enjoys using. No app to install — it just works in the browser.',
     outcome:
-      'The platform now tracks $2.4B in assets under management, cut reporting time by 90%, and let each relationship manager handle a materially larger book without adding risk.',
+      'Patients now book at any hour, the front desk spends far less time on the phone, and missed appointments dropped noticeably within the first month.',
     metrics: [
-      { value: '$2.4B', label: 'Assets tracked' },
-      { value: '-90%', label: 'Reporting time' },
-      { value: '3.2×', label: 'RM productivity' },
-      { value: '99.98%', label: 'Uptime' },
+      { value: '+60%', label: 'Online bookings' },
+      { value: '-40%', label: 'No-shows' },
+      { value: '2 weeks', label: 'To launch' },
     ],
-    technologies: ['Next.js', 'TypeScript', 'Python', 'PostgreSQL', 'Redis', 'Azure'],
+    technologies: ['Next.js', 'Node.js', 'PostgreSQL'],
     testimonial: {
       quote:
-        'Our managers went from chasing spreadsheets to advising clients in real time. The platform paid for itself within two quarters.',
-      author: 'Charlotte Tan',
-      role: 'Chief Product Officer, Veramont Capital Partners',
+        'Smooth process from start to finish. Our booking site just works, and the team was super responsive whenever I needed a change.',
+      author: 'Dr. Aarav Mehta',
+      role: 'Owner, Bloom Dental Studio',
+    },
+    featured: false,
+  },
+  {
+    slug: 'saffron-sage-cafe',
+    title: 'A cafe website with menu and online orders',
+    client: 'Saffron & Sage',
+    industry: 'Food & Beverage',
+    excerpt:
+      'A warm, fast website with a live menu and online ordering for a popular neighbourhood cafe.',
+    challenge:
+      'The cafe relied on third-party delivery apps that ate into margins, and had no website of its own to show off the space, menu, or take direct orders.',
+    solution:
+      'We designed and built a beautiful, quick-loading website with an easy-to-update menu, photo gallery, and direct online ordering for pickup — giving the cafe a home of its own that the owner can update herself.',
+    outcome:
+      'Direct orders climbed steadily as regulars switched away from the delivery apps, and the cafe finally has an online presence that matches the room.',
+    metrics: [
+      { value: '3×', label: 'Direct orders' },
+      { value: '+35%', label: 'Repeat customers' },
+      { value: '<1.5s', label: 'Page load' },
+    ],
+    technologies: ['Next.js', 'Tailwind CSS', 'Sanity', 'Stripe'],
+    testimonial: {
+      quote:
+        'Naazware built exactly what we imagined for the cafe. Friendly team, no jargon, and they delivered on time. We finally have a site we’re proud of.',
+      author: 'Meera Kulkarni',
+      role: 'Owner, Saffron & Sage',
     },
     featured: true,
   },
   {
-    slug: 'arogya-tele-icu',
-    title: 'Tele-ICU that brings specialists to tier-3 hospitals',
-    client: 'Arogya Health Networks',
-    industry: 'HealthTech',
+    slug: 'fitnest-gym-app',
+    title: 'A member app for a boutique gym',
+    client: 'FitNest Studio',
+    industry: 'Fitness',
     excerpt:
-      'A remote patient-monitoring app connecting 40 small-town ICUs to city-based intensivists in real time.',
+      'A simple mobile app for class booking, attendance, and workout plans at a boutique fitness studio.',
     challenge:
-      'Small-town hospitals rarely have intensivists on staff, so critical patients are transferred hours away — time many of them don’t have. Arogya wanted to put a specialist at every bedside without physically moving the doctor.',
+      'Class spots were booked over phone and DMs, leading to double-bookings and no-shows, and members had nowhere to see their schedule or plans.',
     solution:
-      'We built a mobile and tablet app that streams live vitals from bedside monitors, supports secure low-bandwidth video consults, pushes deterioration alerts, and handles e-prescriptions — all resilient on the patchy bandwidth of a district hospital.',
+      'We built an easy mobile app where members book and cancel classes, check in with a tap, and follow their assigned workout plans — plus a lightweight dashboard for trainers to manage the timetable.',
     outcome:
-      'Forty ICUs are now connected, with specialists responding in an average of four minutes. Across 60,000+ monitored patients, partner hospitals reported a 22% reduction in ICU mortality.',
+      'Class management runs itself now, members show up more reliably, and the studio looks a step more professional to anyone who walks in.',
     metrics: [
-      { value: '40', label: 'ICUs connected' },
-      { value: '4 min', label: 'Avg. specialist response' },
-      { value: '60K+', label: 'Patients monitored' },
-      { value: '22%', label: 'Mortality reduction' },
-    ],
-    technologies: ['Flutter', 'WebRTC', 'Go', 'FHIR', 'Google Cloud'],
-    testimonial: {
-      quote:
-        'For the first time, a patient in a small-town ICU gets a specialist in minutes, not hours. The engineering here is genuinely life-saving.',
-      author: 'Dr. Neha Iyer',
-      role: 'Chief Medical Officer, Arogya Health Networks',
-    },
-    featured: true,
-  },
-  {
-    slug: 'voltway-charging-platform',
-    title: 'Charge-network operations and a driver app, unified',
-    client: 'Voltway Mobility GmbH',
-    industry: 'Mobility',
-    excerpt:
-      'An operations platform and consumer app for a 5,000-point EV charging network across Europe.',
-    challenge:
-      'Voltway’s chargers reported telemetry in fragmented formats, so the ops team learned about downtime from angry drivers — who in turn couldn’t tell which chargers actually worked before driving to them.',
-    solution:
-      'We built a real-time operations dashboard ingesting OCPP telemetry from every charger, plus a driver app with live availability, route planning around charging stops, and tap-to-charge payments. One source of truth for the team and the driver.',
-    outcome:
-      'Across 5,000 charge points, unplanned downtime fell 46% and the network now handles 380,000 sessions a month, with the driver app holding a 4.7-star rating.',
-    metrics: [
-      { value: '5,000', label: 'Charge points' },
-      { value: '-46%', label: 'Charger downtime' },
-      { value: '380K', label: 'Monthly sessions' },
+      { value: '800+', label: 'Active members' },
       { value: '4.7★', label: 'App rating' },
+      { value: '+25%', label: 'Class attendance' },
     ],
-    technologies: ['Next.js', 'React Native', 'OCPP', 'Kafka', 'Stripe', 'AWS'],
+    technologies: ['Flutter', 'Firebase'],
     testimonial: {
       quote:
-        'They understood OCPP and the messy reality of hardware in the field. Charger downtime dropped almost in half after launch.',
-      author: 'Lukas Brandt',
-      role: 'VP Engineering, Voltway Mobility',
+        'Genuinely good to work with. The app is clean, our members find it easy, and support has been great even after launch.',
+      author: 'Rohan Patel',
+      role: 'Founder, FitNest Studio',
     },
     featured: true,
   },
   {
-    slug: 'bharat-freight-routing',
-    title: 'Mid-mile freight routing that fills empty trucks',
-    client: 'Bharat Freight Solutions',
-    industry: 'Logistics',
+    slug: 'threadhouse-boutique-store',
+    title: 'An online store for a clothing boutique',
+    client: 'Threadhouse',
+    industry: 'Retail',
     excerpt:
-      'A load-matching and route-optimization platform that cut empty-miles across a 2,200-truck network.',
+      'A clean, mobile-friendly online store with simple inventory and checkout for an independent fashion boutique.',
     challenge:
-      'A third of Bharat Freight’s trucks were running empty on return legs, burning fuel and margin. Dispatchers matched loads by phone and memory, leaving capacity and money on the table every day.',
+      'The boutique sold only in-store and over Instagram DMs, which didn’t scale and made checkout clumsy for customers who wanted to buy from home.',
     solution:
-      'We built a routing and load-matching platform that optimizes multi-stop routes and back-hauls in real time using a constraint solver, surfacing the best load for every truck and lane to dispatchers in seconds.',
+      'We built a tidy, fast online store with easy product management, secure checkout, and a look that matches the brand — so the owner can add products and run the shop without any technical help.',
     outcome:
-      'Empty-miles dropped 31% across the 2,200-truck network, saving an estimated ₹14 crore in fuel a year while matching 3,400 loads a day.',
+      'Online sales now run alongside the store, customers can buy in a couple of taps, and the boutique reaches shoppers well beyond its neighbourhood.',
     metrics: [
-      { value: '2,200', label: 'Trucks in network' },
-      { value: '-31%', label: 'Empty-miles' },
-      { value: '₹14 Cr', label: 'Annual fuel saved' },
-      { value: '3,400', label: 'Loads matched/day' },
+      { value: '+48%', label: 'Online sales' },
+      { value: '320', label: 'Products listed' },
+      { value: '2 taps', label: 'To checkout' },
     ],
-    technologies: ['React', 'Node.js', 'Python (OR-Tools)', 'PostgreSQL', 'Mapbox'],
+    technologies: ['Next.js', 'Sanity', 'Stripe'],
     testimonial: {
       quote:
-        'Our dispatchers used to match loads from memory. Now the system fills trucks we’d have sent back empty — it changed our unit economics.',
-      author: 'Arjun Malhotra',
-      role: 'COO, Bharat Freight Solutions',
+        'Loved working with the team. They were patient with all my ideas and the store looks beautiful. Sales have picked up since we launched.',
+      author: 'Ananya Sharma',
+      role: 'Founder, Threadhouse',
     },
     featured: false,
   },
   {
-    slug: 'lumen-royalty-splits',
-    title: 'Royalty splits and fan subscriptions for indie artists',
-    client: 'Lumen Sound Inc.',
-    industry: 'Media & Entertainment',
+    slug: 'vidya-tuitions-app',
+    title: 'An app to run a local tuition centre',
+    client: 'Vidya Tuitions',
+    industry: 'Education',
     excerpt:
-      'A mobile app that automates royalty splits and powers fan subscriptions for 18,000 independent musicians.',
+      'A simple app for attendance, test scores, and parent updates at a growing local coaching centre.',
     challenge:
-      'Independent artists fought constantly over who gets paid what, and manual royalty splits created disputes and support tickets that didn’t scale. Lumen wanted payments to simply disappear into the background.',
+      'Attendance, fees, and test results were tracked in registers, and keeping parents informed meant endless individual messages. It didn’t scale as the centre grew.',
     solution:
-      'We built a mobile app on a payments backbone that encodes each track’s collaborators and split percentages, then routes earnings automatically — including fan-subscription revenue — with transparent statements every artist can audit.',
+      'We built a straightforward app where teachers mark attendance and enter test scores, fees are tracked automatically, and parents get regular progress updates — all in one place.',
     outcome:
-      'The app now serves 18,000 artists, has paid out $9.6M with an average payout time of 48 hours, and drives $310K in recurring subscriber revenue every month.',
+      'The centre runs on far less paperwork, parents feel more involved, and the director can see how every batch is doing at a glance.',
     metrics: [
-      { value: '18K', label: 'Artists' },
-      { value: '$9.6M', label: 'Paid out' },
-      { value: '48h', label: 'Avg. payout time' },
-      { value: '$310K', label: 'Subscriber MRR' },
+      { value: '500+', label: 'Students' },
+      { value: '15', label: 'Batches managed' },
+      { value: '4 hrs/wk', label: 'Admin saved' },
     ],
-    technologies: ['React Native', 'TypeScript', 'Node.js', 'Stripe Connect', 'PostgreSQL'],
+    technologies: ['React Native', 'Firebase'],
     testimonial: {
       quote:
-        'Payments and splits used to be our biggest support nightmare. Now it’s invisible — artists just get paid. That’s the whole game.',
-      author: 'Maya Robinson',
-      role: 'Head of Product, Lumen Sound',
+        'Very happy with the work. They simplified everything for us and the parents really appreciate the regular updates.',
+      author: 'Sandeep Verma',
+      role: 'Director, Vidya Tuitions',
     },
     featured: false,
   },
-  {
-    slug: 'nordic-marine-emissions',
-    title: 'Fuel and emissions intelligence for a shipping fleet',
-    client: 'Nordic Marine Systems AS',
-    industry: 'Maritime',
-    excerpt:
-      'An IoT dashboard tracking fuel burn and CO₂ across 64 vessels to meet new EU emissions rules.',
-    challenge:
-      'Nordic Marine faced a hard EU emissions-reporting deadline with vessel data scattered across onboard systems and no fleet-wide view of fuel efficiency. Non-compliance meant fines; inefficiency meant losses.',
-    solution:
-      'We built an IoT platform that ingests engine and sensor telemetry from every vessel over satellite, models fuel efficiency per route and captain, and produces audit-ready EU MRV emissions reports from a single dashboard.',
-    outcome:
-      'Across 64 vessels processing 11 million data points a day, fuel costs fell 12% and the fleet sailed into the new regulation fully MRV-compliant.',
-    metrics: [
-      { value: '64', label: 'Vessels' },
-      { value: '-12%', label: 'Fuel cost' },
-      { value: 'EU MRV', label: 'Compliance-ready' },
-      { value: '11M', label: 'Data points/day' },
-    ],
-    technologies: ['Next.js', 'TimescaleDB', 'Python', 'MQTT', 'Azure IoT'],
-    testimonial: {
-      quote:
-        'We had a hard compliance deadline and complex vessel data. They delivered a dashboard our captains and our auditors both rely on.',
-      author: 'Henrik Solberg',
-      role: 'CTO, Nordic Marine Systems',
-    },
-    featured: true,
-  },
-  {
-    slug: 'sukoon-mental-wellness',
-    title: 'Vernacular mental wellness, judged by no one',
-    client: 'Sukoon Wellness',
-    industry: 'HealthTech',
-    excerpt:
-      'A stigma-free mental wellness app offering vernacular self-help and anonymous therapist sessions.',
-    challenge:
-      'Stigma and language kept millions from seeking mental-health support in India. Sukoon needed an experience that felt private, non-clinical, and available in the languages people think and feel in.',
-    solution:
-      'We built a mobile app with anonymous, encrypted therapist sessions, vernacular self-help journeys in six languages, mood tracking, and crisis safeguards — designed end to end to feel calm, private, and free of judgement.',
-    outcome:
-      'Sukoon reached 450,000 active users with 600+ therapists on the platform and an 89% session-completion rate — evidence that the right experience overcomes the stigma barrier.',
-    metrics: [
-      { value: '450K', label: 'Active users' },
-      { value: '600+', label: 'Therapists' },
-      { value: '6', label: 'Languages' },
-      { value: '89%', label: 'Session completion' },
-    ],
-    technologies: ['Flutter', 'Node.js', 'WebRTC', 'MongoDB', 'Google Cloud'],
-    testimonial: {
-      quote:
-        'They designed for trust first. People open up in the app because it feels private and speaks their language — that’s why it works.',
-      author: 'Priya Nair',
-      role: 'Co-founder, Sukoon Wellness',
-    },
-    featured: false,
-  },
-  {
-    slug: 'forgeline-predictive-maintenance',
-    title: 'Predictive maintenance for a smart factory floor',
-    client: 'Forgeline Manufacturing Co.',
-    industry: 'Manufacturing',
-    excerpt:
-      'An OEE and predictive-maintenance dashboard that cut unplanned downtime across nine production lines.',
-    challenge:
-      'Forgeline’s lines stopped without warning, and the team only learned why after the fact. Without a live view of equipment health, every breakdown was a costly surprise.',
-    solution:
-      'We instrumented nine lines with 2,800 sensors feeding a real-time OEE dashboard and a predictive model that flags machines drifting toward failure days in advance, so maintenance happens on a schedule instead of in a panic.',
-    outcome:
-      'Unplanned downtime dropped 37% and overall equipment effectiveness rose 14 points — turning the maintenance team from firefighters into planners.',
-    metrics: [
-      { value: '9', label: 'Production lines' },
-      { value: '-37%', label: 'Unplanned downtime' },
-      { value: '+14 pts', label: 'OEE gain' },
-      { value: '2,800', label: 'Sensors' },
-    ],
-    technologies: ['React', 'Python', 'TensorFlow', 'TimescaleDB', 'Azure IoT'],
-    testimonial: {
-      quote:
-        'We used to find out why a line stopped after it stopped. Now we see it coming days ahead. The downtime numbers speak for themselves.',
-      author: 'David Whitaker',
-      role: 'Director of Operations, Forgeline Manufacturing',
-    },
-    featured: false,
-  },
-  {
-    slug: 'reserva-hospitality-suite',
-    title: 'Revenue management and a guest app for boutique hotels',
-    client: 'Reserva Hospitality Group',
-    industry: 'Hospitality',
-    excerpt:
-      'A dynamic pricing engine and white-label guest app rolled out across 28 boutique properties.',
-    challenge:
-      'Reserva’s boutique hotels priced rooms on gut feel and depended on OTAs that ate their margins, while guests had no direct digital relationship with the brand.',
-    solution:
-      'We built a dynamic pricing engine that sets rates from demand, events, and competitor signals, plus a white-label guest app for direct booking, mobile check-in, and on-property services — shifting bookings away from the OTAs.',
-    outcome:
-      'Across 28 properties, revenue per available room rose 19%, direct bookings jumped 44%, and 72% of guests adopted the app.',
-    metrics: [
-      { value: '28', label: 'Properties' },
-      { value: '+19%', label: 'RevPAR uplift' },
-      { value: '+44%', label: 'Direct bookings' },
-      { value: '72%', label: 'Guest app adoption' },
-    ],
-    technologies: ['Next.js', 'React Native', 'Python', 'PostgreSQL', 'Stripe'],
-    testimonial: {
-      quote:
-        'We finally own our guest relationship instead of renting it from the OTAs. Direct bookings are up and our margins came back.',
-      author: 'Sofia Marchetti',
-      role: 'Chief Commercial Officer, Reserva Hospitality Group',
-    },
-    featured: false,
-  },
-  {
-    slug: 'gyaan-adaptive-tutor',
-    title: 'An adaptive AI tutor for JEE and NEET aspirants',
-    client: 'Gyaan Labs',
-    industry: 'EdTech',
-    excerpt:
-      'A mobile learning app whose AI tutor adapts practice to each student preparing for India’s toughest exams.',
-    challenge:
-      'Exam prep apps drowned students in identical question banks, ignoring what each learner actually struggled with. Gyaan wanted genuinely personalised practice at the scale of hundreds of thousands of aspirants.',
-    solution:
-      'We built a mobile app with an AI tutor that models each student’s weak concepts and adapts the next question accordingly, plus instant doubt-resolution grounded in the syllabus using retrieval-augmented generation so answers stay accurate.',
-    outcome:
-      'Across 260,000 students, average mock-test scores rose 23%, the tutor resolved 1.2 million doubts, and 78,000 students use it daily.',
-    metrics: [
-      { value: '260K', label: 'Students' },
-      { value: '+23%', label: 'Avg. score lift' },
-      { value: '1.2M', label: 'Doubts resolved' },
-      { value: '78K', label: 'Daily active users' },
-    ],
-    technologies: ['React Native', 'Python', 'LLM (RAG)', 'PostgreSQL', 'AWS'],
-    testimonial: {
-      quote:
-        'The AI tutor doesn’t feel bolted on — it adapts to each student. The score improvements convinced even our most skeptical parents.',
-      author: 'Karthik Reddy',
-      role: 'CEO, Gyaan Labs',
-    },
-    featured: true,
-  },
-]
-
-// Curated testimonials for the homepage section (subset of the above).
-const testimonialAuthors = [
-  'Ravi Deshmukh',
-  'Charlotte Tan',
-  'Dr. Neha Iyer',
-  'Lukas Brandt',
-  'Maya Robinson',
-  'Henrik Solberg',
-  'Karthik Reddy',
 ]
 
 async function run() {
+  // Clean slate: remove any previously-seeded work + testimonials.
+  await client.delete({ query: '*[_type == "project"]' })
+  await client.delete({ query: '*[_type == "testimonial"]' })
+
   const tx = client.transaction()
 
   projects.forEach((p, i) =>
-    tx.createOrReplace({
+    tx.create({
       _id: `project-${p.slug}`,
       _type: 'project',
       title: p.title,
@@ -379,22 +228,19 @@ async function run() {
     } as never)
   )
 
-  // Replace homepage testimonials with ones drawn from the new case studies.
-  const byAuthor = new Map(projects.map((p) => [p.testimonial.author, p.testimonial]))
-  testimonialAuthors.forEach((author, i) => {
-    const t = byAuthor.get(author)!
-    tx.createOrReplace({
+  projects.forEach((p, i) =>
+    tx.create({
       _id: `testimonial-${i}`,
       _type: 'testimonial',
-      quote: t.quote,
-      author: t.author,
-      role: t.role,
+      quote: p.testimonial.quote,
+      author: p.testimonial.author,
+      role: p.testimonial.role,
       order: i,
     } as never)
-  })
+  )
 
   await tx.commit()
-  console.log(`Seeded ${projects.length} case studies + ${testimonialAuthors.length} testimonials.`)
+  console.log(`Reset Work: ${projects.length} case studies + ${projects.length} testimonials.`)
 }
 
 run().catch((e) => {

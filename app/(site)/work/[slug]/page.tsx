@@ -15,11 +15,12 @@ export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const caseStudy = await getProject(params.slug)
-  if (!caseStudy) return genMeta({ title: 'Case Study Not Found' })
+  if (!caseStudy) return genMeta({ title: 'Case Study Not Found', noindex: true })
   return genMeta({
     title: `${caseStudy.title} — ${caseStudy.client}`,
     description: caseStudy.excerpt,
     path: `/work/${caseStudy.slug}`,
+    image: caseStudy.coverUrl || undefined,
   })
 }
 

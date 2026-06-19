@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import { getService, getAllServiceSlugs } from '@/lib/services-data'
-import { generateMetadata as genMeta, generateBreadcrumbSchema } from '@/lib/seo'
+import { generateMetadata as genMeta, generateBreadcrumbSchema, generateServiceSchema } from '@/lib/seo'
 
 export async function generateStaticParams() {
   return getAllServiceSlugs().map((slug) => ({ slug }))
@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const service = getService(params.slug)
-  if (!service) return genMeta({ title: 'Service Not Found' })
+  if (!service) return genMeta({ title: 'Service Not Found', noindex: true })
   return genMeta({
     title: service.title,
     description: service.fullDescription,
@@ -31,6 +31,12 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
     { name: service.title, url: `/services/${service.slug}` },
   ])
 
+  const serviceSchema = generateServiceSchema({
+    name: service.title,
+    description: service.fullDescription,
+    path: `/services/${service.slug}`,
+  })
+
   const blocks = [
     { label: 'The challenge', body: service.challenge },
     { label: 'Our approach', body: service.approach },
@@ -40,6 +46,7 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
 
       <PageHeader
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services' }, { label: service.title }]}

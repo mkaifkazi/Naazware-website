@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
-import { generateMetadata as genMeta, generateOrganizationSchema } from '@/lib/seo'
+import {
+  generateMetadata as genMeta,
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+} from '@/lib/seo'
 import { site } from '@/lib/site'
 import '@/styles/globals.css'
 
@@ -25,8 +29,20 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = genMeta({
-  title: site.name,
-  description: site.description,
+  title: `${site.name} — Custom Software Development Studio`,
+  description:
+    'Naazware is a custom software studio building high-performance web, mobile, and desktop applications. From idea to launch — engineered to perform and built to last.',
+  keywords: [
+    'custom software development',
+    'software development company',
+    'web application development',
+    'mobile app development company',
+    'desktop application development',
+    'software studio',
+    'product engineering',
+    'software development Vadodara',
+    'software development India',
+  ],
 })
 
 export default function RootLayout({
@@ -35,6 +51,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const organizationSchema = generateOrganizationSchema()
+  const webSiteSchema = generateWebSiteSchema()
 
   return (
     <html
@@ -57,6 +74,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
         />
       </head>
       <body className="bg-ink-900 text-paper">{children}</body>

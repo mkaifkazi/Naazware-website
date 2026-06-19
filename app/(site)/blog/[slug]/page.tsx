@@ -6,7 +6,7 @@ import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import { getPost, getPostSlugs } from '@/lib/content'
 import { urlForImage } from '@/sanity/lib/image'
-import { generateMetadata as genMeta, generateBreadcrumbSchema } from '@/lib/seo'
+import { generateMetadata as genMeta, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 
 export async function generateStaticParams() {
   return (await getPostSlugs()).map((slug) => ({ slug }))
@@ -17,8 +17,15 @@ export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getPost(params.slug)
-  if (!post) return genMeta({ title: 'Post Not Found' })
-  return genMeta({ title: post.title, description: post.excerpt, path: `/blog/${post.slug}` })
+  if (!post) return genMeta({ title: 'Post Not Found', noindex: true })
+  return genMeta({
+    title: post.title,
+    description: post.excerpt,
+    path: `/blog/${post.slug}`,
+    type: 'article',
+    publishedTime: post.date,
+    image: post.coverUrl || undefined,
+  })
 }
 
 // Renderers for Sanity rich text (styled by .prose-dark wrapper).
@@ -94,9 +101,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     { name: post.title, url: `/blog/${post.slug}` },
   ])
 
+  const articleSchema = generateArticleSchema({
+    title: post.title,
+    description: post.excerpt,
+    path: `/blog/${post.slug}`,
+    image: post.coverUrl,
+    datePublished: post.date,
+    author: post.author,
+  })
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
 
       <PageHeader
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Journal', href: '/blog' }, { label: post.title }]}

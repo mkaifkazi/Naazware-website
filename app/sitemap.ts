@@ -1,86 +1,51 @@
 import { MetadataRoute } from 'next'
+import { site } from '@/lib/site'
 import { getAllServiceSlugs } from '@/lib/services-data'
-import { getAllCaseStudySlugs } from '@/lib/case-studies-data'
-import { getAllBlogSlugs } from '@/lib/blog-posts-data'
+import { getProjects } from '@/lib/content'
+import { getPosts } from '@/lib/content'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://naazwarelabs.com'
+const SITE_URL = site.url
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600 // refresh the sitemap hourly so new CMS content shows up
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Work + Journal come from the content layer (Sanity when configured, local otherwise)
+  // so anything published in the admin appears here automatically.
+  const [projects, posts] = await Promise.all([getProjects(), getPosts()])
   const serviceSlugs = getAllServiceSlugs()
-  const caseStudySlugs = getAllCaseStudySlugs()
-  const blogSlugs = getAllBlogSlugs()
+  const now = new Date()
 
-  const staticRoutes = [
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-    },
-    {
-      url: `${SITE_URL}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/work`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    },
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { url: SITE_URL, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+    { url: `${SITE_URL}/services`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE_URL}/work`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE_URL}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  const serviceRoutes = serviceSlugs.map((slug) => ({
+  const serviceRoutes: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({
     url: `${SITE_URL}/services/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
+    lastModified: now,
+    changeFrequency: 'monthly',
     priority: 0.8,
   }))
 
-  const caseStudyRoutes = caseStudySlugs.map((slug) => ({
-    url: `${SITE_URL}/work/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
+  const workRoutes: MetadataRoute.Sitemap = projects.map((p) => ({
+    url: `${SITE_URL}/work/${p.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
     priority: 0.7,
   }))
 
-  const blogRoutes = blogSlugs.map((slug) => ({
-    url: `${SITE_URL}/blog/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
+  const blogRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
+    url: `${SITE_URL}/blog/${p.slug}`,
+    lastModified: p.date ? new Date(p.date) : now,
+    changeFrequency: 'monthly',
     priority: 0.6,
   }))
 
-  return [...staticRoutes, ...serviceRoutes, ...caseStudyRoutes, ...blogRoutes]
+  return [...staticRoutes, ...serviceRoutes, ...workRoutes, ...blogRoutes]
 }

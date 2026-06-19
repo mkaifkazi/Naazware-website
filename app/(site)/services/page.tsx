@@ -4,7 +4,7 @@ import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import ServiceIcon from '@/components/ServiceIcon'
 import { services } from '@/lib/services-data'
-import { generateMetadata as genMeta } from '@/lib/seo'
+import { generateMetadata as genMeta, generateFaqSchema } from '@/lib/seo'
 
 export const metadata: Metadata = genMeta({
   title: 'Services',
@@ -14,9 +14,40 @@ export const metadata: Metadata = genMeta({
   path: '/services',
 })
 
+const faqs = [
+  {
+    q: 'What kind of software does Naazware build?',
+    a: 'We build custom web applications, mobile apps (iOS and Android), and desktop applications. From early-stage MVPs to production platforms — we handle design, engineering, deployment, and ongoing support.',
+  },
+  {
+    q: 'How much does a custom software project cost?',
+    a: 'It depends on scope. A simple app or internal tool typically starts around 5–15 lakh INR (roughly 6,000–18,000 USD), while a full product platform runs higher. We give a grounded estimate after understanding your goals — no surprises.',
+  },
+  {
+    q: 'How long does it take to build an app?',
+    a: 'A focused MVP usually takes 4–10 weeks; larger platforms run 3–6 months or more. We work in short cycles with regular demos so you see progress continuously rather than waiting for one big reveal.',
+  },
+  {
+    q: 'Do you work with clients outside India?',
+    a: 'Yes. We are based in Vadodara, India and work with clients worldwide. Most collaboration happens over async updates and scheduled calls, so time zones are rarely an issue.',
+  },
+  {
+    q: 'What technologies do you use?',
+    a: 'We choose the right tool per project, but our core stack includes Next.js and React for web, React Native and Flutter for mobile, and modern, secure cloud hosting. We prioritise performance, security, and maintainability.',
+  },
+  {
+    q: 'Do you provide support and maintenance after launch?',
+    a: 'Yes. We offer ongoing maintenance, hosting, monitoring, and iterative improvements so your software stays fast, secure, and up to date long after launch.',
+  },
+]
+
 export default function ServicesPage() {
+  const faqSchema = generateFaqSchema(faqs)
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
       <PageHeader
         eyebrow="Services"
         size="lg"
@@ -82,6 +113,30 @@ export default function ServicesPage() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      <section className="border-t border-ink-600 py-20 md:py-28">
+        <div className="container-px">
+          <Reveal>
+            <h2 className="text-display-sm text-paper">Frequently asked questions</h2>
+          </Reveal>
+          <div className="mt-10 grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600">
+            {faqs.map((faq) => (
+              <details key={faq.q} className="group bg-ink-900/60 p-6 md:p-8">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-medium text-paper marker:content-['']">
+                  {faq.q}
+                  <svg
+                    className="h-5 w-5 shrink-0 text-accent-soft transition-transform duration-300 group-open:rotate-45"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"
+                  >
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                </summary>
+                <p className="mt-4 leading-relaxed text-paper-dim">{faq.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

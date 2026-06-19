@@ -153,3 +153,13 @@ export async function getPost(slug: string): Promise<Post | null> {
 export async function getPostSlugs(): Promise<string[]> {
   return (await getPosts()).map((p) => p.slug)
 }
+
+/** Posts most related to `slug`, ranked by shared tags then recency. */
+export async function getRelatedPosts(slug: string, tags: string[], limit = 3): Promise<Post[]> {
+  const others = (await getPosts()).filter((p) => p.slug !== slug)
+  return others
+    .map((p) => ({ p, score: p.tags.filter((t) => tags.includes(t)).length }))
+    .sort((a, b) => b.score - a.score || +new Date(b.p.date) - +new Date(a.p.date))
+    .slice(0, limit)
+    .map((s) => s.p)
+}

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import { getPost, getPostSlugs } from '@/lib/content'
+import { getPost, getPostSlugs, getRelatedPosts } from '@/lib/content'
 import { urlForImage } from '@/sanity/lib/image'
 import { generateMetadata as genMeta, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 
@@ -95,6 +95,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const post = await getPost(params.slug)
   if (!post) notFound()
 
+  const related = await getRelatedPosts(post.slug, post.tags)
+
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
     { name: 'Journal', url: '/blog' },
@@ -158,6 +160,37 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </div>
         </div>
       </section>
+
+      {related.length > 0 && (
+        <section className="border-t border-ink-600 py-20">
+          <div className="container-px">
+            <h2 className="text-sm font-medium uppercase tracking-wider text-paper-dim">Related reading</h2>
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              {related.map((r) => (
+                <article
+                  key={r.slug}
+                  className="group relative flex h-full flex-col rounded-3xl border border-ink-600 bg-ink-800/50 p-6 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40"
+                >
+                  <div className="flex flex-wrap gap-2">
+                    {r.tags.slice(0, 2).map((tag) => (
+                      <span key={tag} className="rounded-full border border-ink-600 bg-ink-900 px-2.5 py-0.5 text-xs text-paper-dim">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold leading-snug text-paper transition-colors group-hover:text-accent-soft">
+                    <Link href={`/blog/${r.slug}`} className="after:absolute after:inset-0">
+                      {r.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-paper-dim">{r.excerpt}</p>
+                  <span className="mt-4 text-sm text-paper-faint">{r.readTime} read</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="relative overflow-hidden border-t border-ink-600 py-24">
         <div className="container-px text-center">

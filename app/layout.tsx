@@ -6,6 +6,7 @@ import {
   generateWebSiteSchema,
 } from '@/lib/seo'
 import { site } from '@/lib/site'
+import Analytics from '@/components/Analytics'
 import '@/styles/globals.css'
 
 const inter = Inter({
@@ -80,7 +81,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
         />
       </head>
-      <body className="bg-ink-900 text-paper">{children}</body>
+      <body className="bg-ink-900 text-paper">
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }

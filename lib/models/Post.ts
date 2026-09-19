@@ -8,6 +8,7 @@ const postSchema = new Schema(
     coverMedia: { type: Types.ObjectId, ref: 'Media' },
     content: { type: Schema.Types.Mixed }, // Tiptap JSON (from P6)
     contentMarkdown: { type: String, default: '' }, // interim body for reseed/public render
+    contentHtml: { type: String, default: '' }, // derived from Tiptap JSON at save (P6)
     author: { type: String, default: 'Naazware' },
     category: { type: String, default: '' },
     tags: { type: [String], default: [] },

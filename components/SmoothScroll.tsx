@@ -1,33 +1,33 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import Lenis from 'lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { LENIS_DEFAULTS, shouldEnableMotion } from '@/lib/motion'
 
+/**
+ * Site-wide smooth scroll (Lenis) synced to GSAP ScrollTrigger.
+ * Skipped entirely when the user prefers reduced motion.
+ */
 export default function SmoothScroll() {
-  const scrollRef = useRef<{ destroy: () => void } | null>(null)
-
   useEffect(() => {
     if (typeof window === 'undefined') return
-
-    // Honour user's reduced-motion preference: skip Lenis/locomotive smoothing entirely.
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
+    if (!shouldEnableMotion(prefersReduced)) return
 
-    let active = true
-    // @ts-expect-error - locomotive-scroll ships without bundled types
-    import('locomotive-scroll').then((LocomotiveScroll) => {
-      if (!active) return
-      scrollRef.current = new LocomotiveScroll.default({
-        lenisOptions: {
-          duration: 1.1,
-          smoothWheel: true,
-          smoothTouch: false,
-        },
-      })
-    })
+    gsap.registerPlugin(ScrollTrigger)
+
+    const lenis = new Lenis(LENIS_DEFAULTS)
+    lenis.on('scroll', ScrollTrigger.update)
+
+    const raf = (time: number) => lenis.raf(time * 1000)
+    gsap.ticker.add(raf)
+    gsap.ticker.lagSmoothing(0)
 
     return () => {
-      active = false
-      scrollRef.current?.destroy()
+      gsap.ticker.remove(raf)
+      lenis.destroy()
     }
   }, [])
 

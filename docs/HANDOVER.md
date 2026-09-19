@@ -5,16 +5,17 @@
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (60) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P10 live deploy (operator runbook).** Repo prep is DONE (render.yaml + .node-version).
-   Follow `docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5: push master to GitHub,
-   create the Render Blueprint from render.yaml, set the sync:false secrets (mongodb+srv URI, R2_*, AUTH_SECRET,
-   RESEND_*, NEXT_PUBLIC_SITE_URL), open Atlas network access, create the prod admin, smoke test.
-   ⚠ ROTATE all shared creds (Atlas/R2/Resend/AUTH_SECRET/admin pw) before go-live.
+5. **Next task = resume Spec 2 (public redesign) brainstorm.** Read
+   `docs/superpowers/specs/2026-09-19-spec2-public-redesign-BRAINSTORM.md` — all decisions are LOCKED there;
+   resume the `superpowers:brainstorming` skill at "Present design sections" (design NOT yet approved — no code
+   until approved). Offer the visual companion (user deferred it). Then final spec → writing-plans.
+   Spec 1 CMS is DONE + pushed to origin/master. Independent leftover = P10 live deploy operator runbook
+   (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate all shared creds).
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P10 repo prep ◐ (render.yaml + .node-version committed, Netlify removed, build green) → live deploy is an operator runbook
+**Current phase:** Spec 1 CMS DONE (P0–P10 repo prep, pushed to origin/master). Now in **Spec 2 (public redesign) brainstorm — PAUSED** mid-flow; decisions locked, design not yet presented. See the Spec 2 BRAINSTORM doc.
 **Gate:** GREEN — 60 tests · type-check · lint · build.
 
 ## Done + verified

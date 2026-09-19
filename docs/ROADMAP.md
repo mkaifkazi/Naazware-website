@@ -8,9 +8,9 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
 - ☑ P1 Mongoose models + `lib/content.ts` swap + reseed — verified against live Atlas (build prerenders all pages from Mongo)
 - ☑ P2 R2 storage interface + Media helpers — live round-trip verified (HTTP upload route deferred to P3, auth-gated)
 - ☑ P3 Auth.js + admin shell + create-admin — admin account created; credential path verified (argon2 hash stored, verify pass/fail correct); build guards /admin. (Browser click-through not yet run — optional manual confirm.)
-- ◐ P4 Projects management
-  - ☑ P4a backend: projects service + CRUD/duplicate/reorder API + media API (signed upload/register/list/delete). Auth-gated, zod-validated, rate-limited. 33 tests, build green.
-  - ☐ P4b admin UI: projects list + editor + media picker + upload widget
+- ☑ P4 Projects management — VERIFIED LIVE (login → create → public /work → duplicate → delete)
+  - ☑ P4a backend: projects service + CRUD/duplicate/reorder API + media API. Auth-gated, zod-validated, rate-limited.
+  - ☑ P4b admin UI: projects list (search/filter/duplicate/delete) + full editor + media picker + upload widget
 - ☐ P5 Testimonials management
 - ☐ P6 Journal management (Tiptap)
 - ☐ P7 Inbox + contact route rewired to Mongo

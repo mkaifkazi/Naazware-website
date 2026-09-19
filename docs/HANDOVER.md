@@ -2,37 +2,41 @@
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P4a complete ☑ (projects backend + media API) → next is P4b (projects admin UI)
+**Current phase:** P4 complete ☑ (projects management, verified live) → next is P5 (testimonials)
 
 ## Done + verified
-- P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip).
-- P3 code: Admin model + argon2 helpers; Auth.js v5 credentials with edge-safe split
-  (`auth.config.ts` for middleware, `auth.ts` for Node route); `middleware.ts` guards /admin;
-  create-admin script; admin shell (`app/(admin)/admin`): guarded layout + sidebar + login + dashboard.
-  Native deps (@node-rs/argon2, mongoose) externalized in next.config.js so the bundle builds.
-- Gate GREEN: `test` 24/24 · `type-check` · `lint` · `build` (admin routes dynamic, middleware active).
+- P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);
+  P3 auth + admin shell (argon2, login verified live).
+- P4 Projects management:
+  - Backend: `lib/projects-service.ts` (CRUD/slug/duplicate/reorder), `lib/schemas/project.ts`,
+    admin API routes (`/api/admin/projects*`, `/api/admin/media*`), `lib/admin-api.ts` (auth guard),
+    `lib/rate-limit.ts`. All auth-gated + zod-validated + rate-limited.
+  - UI: `app/(admin)/admin/projects` (list, new, [id] editor) + `components/admin`
+    (ProjectsTable, ProjectEditor, MediaPicker, UploadButton, ImageField, ui primitives).
+  - Upload flow: sign → PUT to R2 → register (createMedia).
+- **Verified LIVE via HTTP** (dev server): admin login (session role=admin); create project →
+  appears in admin list AND on public /work; duplicate; delete; unauth → 401; /admin → 307 login.
+- Gate GREEN: 33 tests · type-check · lint · build.
 
 ## Tested
-- 24 unit/integration tests (in-memory Mongo, mocked R2).
-- Build compiles admin routes + middleware.
-- NOT yet: real login flow (needs an admin account).
+- 33 unit/integration tests. Live: auth + full projects CRUD + public reflection + R2 round-trip.
+- Not clicked in a real browser, but every API path exercised over HTTP with a real session cookie.
 
 ## Broken / blockers
-- None. Admin account exists (kaifkazi40@gmail.com, DUMMY password `Naazware@2026` — change via
-  `npm run create-admin` after editing ADMIN_PASSWORD). Browser login click-through not yet run.
+- None. Admin: kaifkazi40@gmail.com / DUMMY `Naazware@2026` (change via `npm run create-admin`).
+
+## IMPORTANT env note (local vs prod)
+- LOCAL `.env.local` MONGODB_URI is a DIRECT (non-SRV) string — this machine's c-ares resolver
+  can't do the mongodb+srv SRV lookup (IPv6 link-local gateway refuses). Plain mongodb:// uses the
+  OS resolver and works. **On Render (prod) use the mongodb+srv URI** (commented in .env.local).
+- DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P4b: Projects admin UI — list page (search/filter/status/featured, reorder, duplicate, delete),
-  editor form (all fields), media picker + upload widget wiring these routes:
-  GET/POST /api/admin/projects, GET/PUT/DELETE /api/admin/projects/[id],
-  POST /api/admin/projects/[id]/duplicate, PUT /api/admin/projects/reorder,
-  POST /api/admin/media/sign (→ PUT to R2 → POST /api/admin/media to register),
-  GET /api/admin/media, DELETE /api/admin/media/[id].
-- Upload flow: sign → client PUTs file to returned uploadUrl → register metadata.
+- P5 Testimonials management: model already exists; build service + API (CRUD, publish, featured,
+  drag-order) + admin UI (list with drag-and-drop order, image via MediaPicker). Small phase.
 
 ## Notes
 - Sanity still present as fallback; remove at P9.
-- `.env.local` has MONGODB_URI, DNS_SERVERS, R2_*, AUTH_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD.
-  ⚠ Atlas + R2 creds shared in chat — rotate before/after go-live.
-- Auth: JWT sessions, no DB adapter (see ADR 0002). Admin UI dark-themed, brand tokens.
-- HTTP upload route still deferred (built in P4 with auth).
+- ⚠ Atlas + R2 creds shared in chat — rotate before/after go-live.
+- next.config.js externalizes @node-rs/argon2 + mongoose (native/server libs) so the bundle builds.
+- Two stale dev servers were cleaned up this session; if port 3000 misbehaves, check for orphaned node.

@@ -4,8 +4,13 @@ import dns from 'node:dns'
 // Opt-in DNS override for environments whose default resolver can't answer the
 // mongodb+srv SRV lookup (e.g. a local box pointing at an IPv6 link-local
 // gateway). Set DNS_SERVERS="8.8.8.8,1.1.1.1" in .env.local. Unset in prod.
-if (process.env.DNS_SERVERS) {
+// Applied right before connecting so it takes effect in every runtime that
+// calls connectDb (route handlers, scripts), not just at first module import.
+let dnsApplied = false
+function applyDnsOverride() {
+  if (dnsApplied || !process.env.DNS_SERVERS) return
   dns.setServers(process.env.DNS_SERVERS.split(',').map((s) => s.trim()).filter(Boolean))
+  dnsApplied = true
 }
 
 // Cache across hot reloads (dev) and serverless invocations (prod) to avoid
@@ -24,6 +29,7 @@ export async function connectDb(): Promise<typeof mongoose> {
   }
   const uri = process.env.MONGODB_URI
   if (!uri) throw new Error('MONGODB_URI is not set')
+  applyDnsOverride()
   if (!cache.promise) {
     cache.promise = mongoose.connect(uri, { bufferCommands: false })
   }

@@ -37,6 +37,17 @@ export async function listMedia(search?: string) {
   }))
 }
 
+export async function getMediaByIds(ids: string[]): Promise<{ id: string; url: string }[]> {
+  await connectDb()
+  if (!ids.length) return []
+  const rows = await Media.find({ _id: { $in: ids } }).lean()
+  const byId = new Map(rows.map((m) => [String(m._id), m.url]))
+  // Preserve the requested order, drop any missing.
+  return ids
+    .map((id) => (byId.has(id) ? { id, url: byId.get(id) as string } : null))
+    .filter((x): x is { id: string; url: string } => x !== null)
+}
+
 export async function deleteMedia(id: string): Promise<boolean> {
   await connectDb()
   const doc = await Media.findById(id)

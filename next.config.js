@@ -14,6 +14,11 @@ const nextConfig = {
   },
   // Performance optimizations
   swcMinify: true,
+  // Keep native/server-only packages out of the bundle (native .node binaries
+  // and heavy server libs are required at runtime instead of webpack-bundled).
+  experimental: {
+    serverComponentsExternalPackages: ['@node-rs/argon2', 'mongoose'],
+  },
 }
 
 

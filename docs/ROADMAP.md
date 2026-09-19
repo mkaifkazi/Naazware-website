@@ -4,8 +4,8 @@ Spec: docs/superpowers/specs/2026-09-19-naazware-cms-data-layer-design.md
 Status legend: ☐ pending · ◐ partial · ☑ done+verified
 
 ## Phases
-- ◐ P0 Docs/handover scaffold + ADRs
-- ☐ P1 Mongoose models + `lib/content.ts` swap + reseed (public site on Mongo)
+- ☑ P0 Docs/handover scaffold + ADRs
+- ◐ P1 Mongoose models + `lib/content.ts` swap + reseed — code done + tested offline; live-Atlas verify pending MONGODB_URI
 - ☐ P2 R2 storage interface + Media uploads
 - ☐ P3 Auth.js + admin shell + create-admin script
 - ☐ P4 Projects management

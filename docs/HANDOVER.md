@@ -15,7 +15,11 @@
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** Spec 1 CMS DONE (pushed to origin/master). **Spec 2 (public redesign): design APPROVED** (all 7 sections) → `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. **P1 (design system + light default) DONE + committed** (light default, Fraunces serif, tracking polish; gate green 65 tests). Plan: `docs/superpowers/plans/2026-09-19-spec2-p1-design-system-light-default.md`. ⚠ P1 live light-mode visual audit still owed (browser click). **NEXT = write + execute P2 (motion foundation: Lenis/cursor/GSAP/Framer, drop styled-components + stale .netlify).** Plan-per-phase (user chose).
+**Current phase:** Spec 1 CMS DONE (pushed to origin/master). **Spec 2 (public redesign): design APPROVED** (all 7 sections) → `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. Plan-per-phase (user chose).
+- **P1 DONE** (light default, Fraunces serif, tracking polish). Plan: `.../plans/2026-09-19-spec2-p1-design-system-light-default.md`.
+- **P2 DONE** (Lenis smooth-scroll replacing locomotive, gsap+ScrollTrigger, framer-motion, magnetic cursor, `lib/motion.ts` pure helpers; dropped styled-components + stale .netlify). Plan: `.../plans/2026-09-19-spec2-p2-motion-foundation.md`. Gate green 76 tests.
+- **NEXT = P3 (home rebuild: 6-section narrative + copy, GSAP scroll-story, reveals; static poster hero, no WebGL yet).** Write plan then execute.
+⚠ **Owed manual BROWSER checks** (I can't click; do a real pass): P1 light-mode audit all pages; P2 cursor follows/magnetic + Lenis smooth-scroll + reduced-motion/touch fallbacks.
 **Gate:** GREEN — 60 tests · type-check · lint · build.
 
 ## Done + verified

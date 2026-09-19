@@ -6,6 +6,9 @@
 - RESEND_API_KEY — Resend email API key (server only).
 - CONTACT_NOTIFICATION_TO — inbox for contact notifications.
 - RESEND_FROM — verified Resend sender.
+- DNS_SERVERS — OPTIONAL, local-only. Comma-separated DNS servers (e.g. `8.8.8.8,1.1.1.1`)
+  used only if the machine's default resolver can't answer the mongodb+srv SRV lookup.
+  Leave unset in production (Render).
 
 ## Added later
 - P2: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_URL.

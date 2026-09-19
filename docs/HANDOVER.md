@@ -5,14 +5,15 @@
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (33) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P5 Testimonials.** Plan it (writing-plans), following the P4a/P4b pattern:
+5. **Next task = P6 Journal management (Tiptap).** Plan it (writing-plans), following the P4a/P4b pattern:
    service + zod + auth-gated API routes, then admin UI. Then execute (executing-plans).
+   Note: `scripts/seed-journal.ts` is untracked in the tree — check it before building P6.
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P4 complete ☑ (projects management, verified live) → next is P5 (testimonials)
-**Gate:** GREEN — 33 tests · type-check · lint (re-verified after db.ts DNS refactor).
+**Current phase:** P5 complete ☑ (testimonials management, verified live) → next is P6 (journal/Tiptap)
+**Gate:** GREEN — 39 tests · type-check · lint.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);
@@ -24,7 +25,16 @@
   - UI: `app/(admin)/admin/projects` (list, new, [id] editor) + `components/admin`
     (ProjectsTable, ProjectEditor, MediaPicker, UploadButton, ImageField, ui primitives).
   - Upload flow: sign → PUT to R2 → register (createMedia).
-- **Verified LIVE via HTTP** (dev server): admin login (session role=admin); create project →
+- P5 Testimonials management:
+  - Backend: `lib/testimonials-service.ts` (CRUD/list/reorder), `lib/schemas/testimonial.ts`,
+    API routes (`/api/admin/testimonials`, `/[id]`, `/reorder`). Auth-gated + zod + rate-limited.
+  - UI: `app/(admin)/admin/testimonials` (list, new, [id]) + `components/admin`
+    (TestimonialsTable with move up/down reorder, TestimonialEditor, portrait + companyLogo via MediaPicker).
+  - Reorder is move-up/down buttons (no new dep); API takes full ordered id list, so drag-and-drop can drop in later.
+  - Public reflection unchanged: `lib/content.ts` `getTestimonials()` already reads published, ordered.
+  - **Verified LIVE via HTTP** (real session cookie): unauth 401; list 200 (3 seeded from Mongo);
+    create ×2 → 201; empty-name validation → 400; reorder → order flips; delete ×2 → 200, list back to 3.
+- **P4 verified LIVE via HTTP** (dev server): admin login (session role=admin); create project →
   appears in admin list AND on public /work; duplicate; delete; unauth → 401; /admin → 307 login.
 - Gate GREEN: 33 tests · type-check · lint · build.
 
@@ -42,8 +52,8 @@
 - DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P5 Testimonials management: model already exists; build service + API (CRUD, publish, featured,
-  drag-order) + admin UI (list with drag-and-drop order, image via MediaPicker). Small phase.
+- P6 Journal management (Tiptap): Post model + `getPosts` already exist. Build service + zod + auth-gated
+  API + admin UI with a Tiptap rich-text editor for the body. Check untracked `scripts/seed-journal.ts` first.
 
 ## Notes
 - Sanity still present as fallback; remove at P9.

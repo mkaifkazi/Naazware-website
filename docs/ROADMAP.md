@@ -11,7 +11,8 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
 - ☑ P4 Projects management — VERIFIED LIVE (login → create → public /work → duplicate → delete)
   - ☑ P4a backend: projects service + CRUD/duplicate/reorder API + media API. Auth-gated, zod-validated, rate-limited.
   - ☑ P4b admin UI: projects list (search/filter/duplicate/delete) + full editor + media picker + upload widget
-- ☐ P5 Testimonials management
+- ☑ P5 Testimonials management — VERIFIED LIVE (login → list → create → reorder → delete; unauth 401; validation 400)
+  - service + zod + auth-gated API (CRUD + reorder) + admin UI (list/editor, move up-down reorder, MediaPicker portrait+logo)
 - ☐ P6 Journal management (Tiptap)
 - ☐ P7 Inbox + contact route rewired to Mongo
 - ☐ P8 Settings
@@ -29,7 +30,8 @@ P1→(all). P2→P4,P5,P6 (media). P3→P4..P8 (auth). P9 needs P1+P7 verified. 
 - 2026-09-19-phase-3-auth-admin-shell.md — DONE
 - 2026-09-19-phase-4a-projects-backend.md — DONE
 - 2026-09-19-phase-4b-projects-ui.md — DONE
-- P5+ not yet planned. Write next plan following the P4a (service+API) + P4b (UI) split pattern.
+- 2026-09-19-phase-5-testimonials.md — DONE
+- P6+ not yet planned. Write next plan following the P4a (service+API) + P4b (UI) split pattern.
 
 ## Reusable patterns for remaining phases (P5–P8)
 - Model exists in lib/models/. Add: `lib/<x>-service.ts` (CRUD) + `lib/schemas/<x>.ts` (zod).

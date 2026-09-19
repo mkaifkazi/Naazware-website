@@ -18,8 +18,10 @@
 **Current phase:** Spec 1 CMS DONE (pushed to origin/master). **Spec 2 (public redesign): design APPROVED** (all 7 sections) → `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. Plan-per-phase (user chose).
 - **P1 DONE** (light default, Fraunces serif, tracking polish). Plan: `.../plans/2026-09-19-spec2-p1-design-system-light-default.md`.
 - **P2 DONE** (Lenis smooth-scroll replacing locomotive, gsap+ScrollTrigger, framer-motion, magnetic cursor, `lib/motion.ts` pure helpers; dropped styled-components + stale .netlify). Plan: `.../plans/2026-09-19-spec2-p2-motion-foundation.md`. Gate green 76 tests.
-- **NEXT = P3 (home rebuild: 6-section narrative + copy, GSAP scroll-story, reveals; static poster hero, no WebGL yet).** Write plan then execute.
-⚠ **Owed manual BROWSER checks** (I can't click; do a real pass): P1 light-mode audit all pages; P2 cursor follows/magnetic + Lenis smooth-scroll + reduced-motion/touch fallbacks.
+- **P3 DONE** (home rebuilt to 6-section SMB narrative: Hero → Problem → Services → Proof[work+testimonials] → Process → CTA; `lib/home-content.ts` SMB copy; `ProblemSection`; GSAP hero parallax + scroll count-up metrics; static poster hero w/ `HERO-POSTER-SEAM` marker for P4; `data-magnetic` on CTAs). Plan: `.../plans/2026-09-19-spec2-p3-home-rebuild.md`. Gate green 82 tests.
+- **NEXT = P4 (WebGL hero: R3F fluid/ribbon, lazy ssr:false, poster fallback, mobile/reduced-motion off). Swap in at HERO-POSTER-SEAM in `app/(site)/page.tsx`.**
+⚠ **Owed manual BROWSER checks** (I can't click; do a real pass): P1 light-mode audit all pages; P2 cursor/Lenis/fallbacks; P3 home narrative + copy + parallax + count-up + reduced-motion.
+📝 Copy is Claude-drafted SMB voice in `lib/home-content.ts` — user to edit/approve wording.
 **Gate:** GREEN — 60 tests · type-check · lint · build.
 
 ## Done + verified

@@ -15,7 +15,7 @@
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** Spec 1 CMS DONE (P0–P10 repo prep, pushed to origin/master). Now in **Spec 2 (public redesign) brainstorm — PAUSED** mid-flow; decisions locked, design not yet presented. See the Spec 2 BRAINSTORM doc.
+**Current phase:** Spec 1 CMS DONE (pushed to origin/master). **Spec 2 (public redesign): design APPROVED** (all 7 sections) → `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. **P1 (design system + light default) DONE + committed** (light default, Fraunces serif, tracking polish; gate green 65 tests). Plan: `docs/superpowers/plans/2026-09-19-spec2-p1-design-system-light-default.md`. ⚠ P1 live light-mode visual audit still owed (browser click). **NEXT = write + execute P2 (motion foundation: Lenis/cursor/GSAP/Framer, drop styled-components + stale .netlify).** Plan-per-phase (user chose).
 **Gate:** GREEN — 60 tests · type-check · lint · build.
 
 ## Done + verified

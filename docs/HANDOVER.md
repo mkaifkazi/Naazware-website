@@ -3,16 +3,16 @@
 ## ▶ RESUME HERE (new session)
 1. `git checkout feat/custom-cms` (all work is on this branch, not master).
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
-3. Verify gate still green: `npm run test` (48) · `npm run type-check` · `npm run lint`.
+3. Verify gate still green: `npm run test` (56) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P7 Inbox + contact route rewired to Mongo.** Plan it (writing-plans), following the P4a/P4b pattern:
+5. **Next task = P8 Settings.** Plan it (writing-plans), following the P4a/P4b pattern:
    service + zod + auth-gated API routes, then admin UI. Then execute (executing-plans).
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P6 complete ☑ (journal/Tiptap, verified live) → next is P7 (inbox + contact→Mongo)
-**Gate:** GREEN — 48 tests · type-check · lint.
+**Current phase:** P7 complete ☑ (inbox + contact→Mongo, verified live) → next is P8 (settings)
+**Gate:** GREEN — 56 tests · type-check · lint.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);
@@ -44,12 +44,22 @@
     `renderMarkdown` fallback for seeded/local posts. Stale Sanity `scripts/seed-journal.ts` deleted.
   - **Verified LIVE via HTTP** (real session cookie): unauth 401; create rich post → 201;
     stored contentHtml = `<p>Bold body here.</p>`; public /blog/hello-tiptap renders it; validation 400; delete 200.
+- P7 Inbox + contact→Mongo:
+  - Backend: `lib/models/Enquiry.ts`, `lib/enquiries-service.ts` (create/list/get/setStatus/delete),
+    `lib/schemas/enquiry.ts`, admin API (`/api/admin/enquiries`, `/[id]` GET/PATCH/DELETE).
+  - Public `/api/contact` rewired: Mongo `createEnquiry` + Resend email; Sanity write removed;
+    IP-keyed rate limit; returns 500 only if BOTH DB save and email fail (no silent lead loss).
+  - UI: `app/(admin)/admin/inbox` (list + [id] detail) + `components/admin`
+    (EnquiriesTable, EnquiryDetail — mark read/unread/archived, delete). Detail auto-marks new→read on open.
+    `apiSend` widened to allow PATCH.
+  - **Verified LIVE via HTTP**: contact valid → 200 (stored); honeypot → 200 not stored; invalid → 400;
+    unauth admin list → 401; auth list shows enquiry (status new); PATCH archived; DELETE 200.
 - **P4 verified LIVE via HTTP** (dev server): admin login (session role=admin); create project →
   appears in admin list AND on public /work; duplicate; delete; unauth → 401; /admin → 307 login.
 - Gate GREEN: 33 tests · type-check · lint · build.
 
 ## Tested
-- 48 unit/integration tests. Live: auth + projects/testimonials/journal CRUD + public reflection + R2 round-trip.
+- 56 unit/integration tests. Live: auth + projects/testimonials/journal/enquiries CRUD + contact→Mongo + public reflection + R2 round-trip.
 - Not clicked in a real browser, but every API path exercised over HTTP with a real session cookie.
 
 ## Broken / blockers
@@ -62,8 +72,8 @@
 - DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P7 Inbox + contact route rewired to Mongo: enquiry model + admin inbox UI (list/read/mark/delete),
-  and repoint the public contact form submit at a Mongo-backed route. Sidebar already links /admin/inbox.
+- P8 Settings: site-wide settings (contact email, social links, SEO defaults, etc.) as a single Mongo
+  settings doc — service + zod + auth-gated API + admin form. Sidebar already links /admin/settings.
 
 ## Notes
 - Sanity still present as fallback; remove at P9.

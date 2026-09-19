@@ -15,15 +15,20 @@ export default function MagneticCursor() {
     const dot = dotRef.current
     if (!dot) return
 
-    document.documentElement.classList.add('has-custom-cursor')
-
+    // Start off-screen; reveal the cursor only once the pointer actually moves
+    // (avoids the dot parking over the hero on load).
     let raf = 0
-    let targetX = window.innerWidth / 2
-    let targetY = window.innerHeight / 2
+    let targetX = -100
+    let targetY = -100
     let x = targetX
     let y = targetY
+    let revealed = false
 
     const onMove = (e: PointerEvent) => {
+      if (!revealed) {
+        revealed = true
+        document.documentElement.classList.add('has-custom-cursor')
+      }
       const el = (e.target as HTMLElement)?.closest('[data-magnetic]') as HTMLElement | null
       if (el) {
         const rect = el.getBoundingClientRect()

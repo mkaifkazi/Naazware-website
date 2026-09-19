@@ -19,6 +19,7 @@ export default async function HomePage() {
       {/* ───────────── Hero (static poster — WebGL swaps in at P4) ───────────── */}
       <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
         {/* Static poster (always painted first); WebGL enhances over it when capable. */}
+        <div className="hero-aura absolute inset-0" aria-hidden="true" />
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
         <HeroWebGL />
         <HeroParallax />
@@ -149,7 +150,7 @@ export default async function HomePage() {
               <div className="grid gap-6 lg:grid-cols-3">
                 {testimonials.map((t, i) => (
                   <Reveal key={t.author} delay={(i % 3) * 80}>
-                    <figure className="flex h-full flex-col rounded-3xl border border-ink-600 bg-ink-800/60 p-8">
+                    <figure className="card-surface flex h-full flex-col p-8">
                       <svg className="h-8 w-8 text-accent/50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M9.5 5C6.5 6.5 5 9 5 12.5V19h6v-6H8c0-2 1-3.5 3-4.5L9.5 5Zm10 0C16.5 6.5 15 9 15 12.5V19h6v-6h-3c0-2 1-3.5 3-4.5L19.5 5Z" />
                       </svg>

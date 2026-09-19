@@ -21,32 +21,49 @@
     --accent-soft: 94 234 212; /* brighter teal for text/icons on dark */
     --accent-contrast: 8 12 12; /* near-black text on teal */
 
+    /* Elevation (dark relies on surface lightness, not shadow) */
+    --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 20px 40px -24px rgb(0 0 0 / 0.7);
+    --shadow-card-hover: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 28px 56px -24px rgb(0 0 0 / 0.85);
+
     /* Decorative */
     --grid: 255 255 255; /* grid line color (low alpha) */
+    --grid-alpha: 0.04;
+    --aura-1: 45 212 191; /* teal */
+    --aura-2: 45 212 191;
+    --aura-strength: 0.14;
     --tg-from: #ffffff; /* monochrome metallic display-text */
     --tg-mid: #cfcfcf;
     --tg-to: #7d7d80;
     color-scheme: dark;
   }
 
-  /* Light theme — clean off-white counterpart */
+  /* Light theme — designed light system (not an inversion): warm paper,
+     elevated white cards, deep-teal accent, real shadows for depth. */
   [data-theme='light'] {
-    --ink-950: 240 240 237; /* alt sections / footer */
-    --ink-900: 250 250 247; /* primary background (#FAFAF7) */
+    --ink-950: 242 241 236; /* alt sections / footer — warm sand band */
+    --ink-900: 249 248 244; /* primary background (#F9F8F4) */
     --ink-800: 255 255 255; /* card surface */
-    --ink-700: 244 244 241; /* card hover */
-    --ink-600: 223 223 218; /* borders / hairlines */
+    --ink-700: 247 246 242; /* card hover */
+    --ink-600: 226 224 216; /* borders / hairlines */
 
-    --paper: 11 11 12;
-    --paper-dim: 90 90 88;
-    --paper-faint: 140 140 137;
+    --paper: 15 17 17; /* near-black, warm */
+    --paper-dim: 74 76 74; /* AA secondary text on warm paper */
+    --paper-faint: 112 114 110; /* muted, still legible */
 
-    --accent: 45 212 191; /* teal fills (dark text) */
-    --accent-hover: 20 184 166;
+    --accent: 20 184 166; /* teal fill, slightly deeper for light */
+    --accent-hover: 13 148 136;
     --accent-soft: 15 118 110; /* deep teal so "accent text" stays legible on light */
-    --accent-contrast: 8 12 12; /* near-black text on teal */
+    --accent-contrast: 255 255 255; /* white text on teal fill */
 
-    --grid: 11 11 12;
+    /* Elevation — soft, warm-tinted shadows give white cards real lift */
+    --shadow-card: 0 1px 2px rgb(24 22 16 / 0.04), 0 14px 34px -14px rgb(24 22 16 / 0.14);
+    --shadow-card-hover: 0 2px 6px rgb(24 22 16 / 0.07), 0 24px 50px -16px rgb(24 22 16 / 0.22);
+
+    --grid: 20 40 40;
+    --grid-alpha: 0.05;
+    --aura-1: 45 212 191; /* teal */
+    --aura-2: 250 204 21; /* warm amber whisper for depth */
+    --aura-strength: 0.5;
     --tg-from: #0b0b0c;
     --tg-mid: #3a3a3c;
     --tg-to: #6c6c6e;
@@ -120,13 +137,30 @@
 
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-600
-           bg-white/[0.02] px-7 py-3.5 font-medium text-paper transition-all duration-300 ease-out-expo
-           hover:border-paper/40 hover:bg-white/[0.05] hover:-translate-y-0.5;
+           bg-ink-800 px-7 py-3.5 font-medium text-paper transition-all duration-300 ease-out-expo
+           hover:border-paper/40 hover:-translate-y-0.5;
+    box-shadow: var(--shadow-card);
+  }
+  .btn-ghost:hover {
+    box-shadow: var(--shadow-card-hover);
   }
 
-  /* Hairline card surface */
-  .surface-card {
-    @apply rounded-3xl border border-ink-600 bg-ink-800/60 backdrop-blur-sm;
+  /* Elevated card surface — solid + real shadow for depth (both themes) */
+  .surface-card,
+  .card-surface {
+    @apply rounded-3xl border border-ink-600 bg-ink-800;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  }
+  .card-surface:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Hero depth wash — layered radial auras instead of a flat void */
+  .hero-aura {
+    background:
+      radial-gradient(60% 50% at 78% 8%, rgb(var(--aura-1) / var(--aura-strength)), transparent 70%),
+      radial-gradient(50% 45% at 12% 92%, rgb(var(--aura-2) / calc(var(--aura-strength) * 0.5)), transparent 70%);
   }
 
   .eyebrow,
@@ -189,9 +223,11 @@
 
   .grid-bg {
     background-image:
-      linear-gradient(to right, rgb(var(--grid) / 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(var(--grid) / 0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgb(var(--grid) / var(--grid-alpha)) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--grid) / var(--grid-alpha)) 1px, transparent 1px);
     background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
   }
 }
 

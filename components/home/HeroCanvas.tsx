@@ -18,9 +18,10 @@ function Blob() {
 
   return (
     <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.6}>
-      <mesh ref={mesh} scale={2.4}>
+      {/* Tucked into the top-right corner so it clears the headline. */}
+      <mesh ref={mesh} scale={1.35} position={[3.1, 1.5, 0]}>
         <icosahedronGeometry args={[1, 12]} />
-        <MeshDistortMaterial color="#2DD4BF" roughness={0.35} metalness={0.1} distort={0.35} speed={1.4} />
+        <MeshDistortMaterial color="#2DD4BF" roughness={0.3} metalness={0.15} distort={0.32} speed={1.3} />
       </mesh>
     </Float>
   )

@@ -13,7 +13,7 @@ export default function ServiceCard({ title, description, bullets = [], href, ic
   return (
     <Link
       href={href}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ink-600 bg-ink-800/60 p-7 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/50 hover:bg-ink-700/60"
+      className="card-surface group relative flex h-full flex-col overflow-hidden p-7 hover:-translate-y-1 hover:border-accent/50"
     >
       <div
         aria-hidden="true"

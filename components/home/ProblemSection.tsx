@@ -14,7 +14,7 @@ export default function ProblemSection() {
         <div className="grid gap-6 md:grid-cols-3">
           {problem.points.map((point, i) => (
             <Reveal key={point.title} delay={(i % 3) * 80}>
-              <div className="flex h-full flex-col rounded-3xl border border-ink-600 bg-ink-800/60 p-8">
+              <div className="card-surface flex h-full flex-col p-8">
                 <span className="font-mono text-xs text-accent-soft">{`0${i + 1}`}</span>
                 <h3 className="mt-4 text-lg font-semibold text-paper">{point.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-paper-dim">{point.body}</p>

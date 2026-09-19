@@ -34,7 +34,7 @@ export default function CaseStudyCard({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col overflow-hidden rounded-4xl border border-ink-600 bg-ink-800/50 transition-all duration-500 ease-out-expo hover:-translate-y-1.5 hover:border-accent/40"
+      className="card-surface group flex h-full flex-col overflow-hidden !rounded-4xl hover:-translate-y-1.5 hover:border-accent/40"
     >
       {/* Cover */}
       <div className="relative aspect-[16/10] overflow-hidden">

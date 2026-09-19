@@ -1,15 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-type Theme = 'light' | 'dark'
+import { THEME_COLORS, type Theme } from '@/lib/theme'
 
 export default function ThemeToggle({ className = '' }: { className?: string }) {
   const [theme, setTheme] = useState<Theme | null>(null)
 
   // Read the theme the no-flash inline script already applied to <html>.
   useEffect(() => {
-    const current = (document.documentElement.getAttribute('data-theme') as Theme) || 'dark'
+    const current = (document.documentElement.getAttribute('data-theme') as Theme) || 'light'
     setTheme(current)
   }, [])
 
@@ -21,7 +20,7 @@ export default function ThemeToggle({ className = '' }: { className?: string }) 
       localStorage.setItem('theme', next)
     } catch {}
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', next === 'dark' ? '#0a0a0b' : '#ffffff')
+    if (meta) meta.setAttribute('content', THEME_COLORS[next])
   }
 
   const isDark = theme === 'dark'

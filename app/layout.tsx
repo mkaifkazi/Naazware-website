@@ -6,6 +6,7 @@ import {
   generateWebSiteSchema,
 } from '@/lib/seo'
 import { site } from '@/lib/site'
+import { getSettings } from '@/lib/settings-service'
 import Analytics from '@/components/Analytics'
 import '@/styles/globals.css'
 
@@ -46,13 +47,14 @@ export const metadata: Metadata = genMeta({
   ],
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const organizationSchema = generateOrganizationSchema()
-  const webSiteSchema = generateWebSiteSchema()
+  const settings = await getSettings()
+  const organizationSchema = generateOrganizationSchema(settings)
+  const webSiteSchema = generateWebSiteSchema(settings)
 
   return (
     <html

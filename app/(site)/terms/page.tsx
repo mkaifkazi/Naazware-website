@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
 import { generateMetadata as genMeta } from '@/lib/seo'
-import { site } from '@/lib/site'
+import { getSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = genMeta({
   title: 'Terms of Service',
@@ -9,7 +9,8 @@ export const metadata: Metadata = genMeta({
   path: '/terms',
 })
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const settings = await getSettings()
   return (
     <>
       <PageHeader eyebrow="Legal" title="Terms of Service" />
@@ -59,7 +60,7 @@ export default function TermsPage() {
             <h2>Contact</h2>
             <p>
               Questions about these terms? Email us at{' '}
-              <a href={`mailto:${site.email}`}>{site.email}</a>.
+              <a href={`mailto:${settings.email}`}>{settings.email}</a>.
             </p>
           </article>
         </div>

@@ -3,7 +3,7 @@ import ContactForm from '@/components/ContactForm'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import { generateMetadata as genMeta } from '@/lib/seo'
-import { site } from '@/lib/site'
+import { getSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = genMeta({
   title: 'Contact',
@@ -38,7 +38,8 @@ const faqs = [
   },
 ]
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSettings()
   return (
     <>
       <PageHeader
@@ -66,8 +67,8 @@ export default function ContactPage() {
           <Reveal delay={120} className="space-y-10">
             <div>
               <p className="eyebrow mb-4">Email us</p>
-              <a href={`mailto:${site.email}`} className="text-lg text-accent-soft transition-colors hover:text-accent-soft">
-                {site.email}
+              <a href={`mailto:${settings.email}`} className="text-lg text-accent-soft transition-colors hover:text-accent-soft">
+                {settings.email}
               </a>
               <p className="mt-2 text-sm text-paper-faint">We reply within 24 hours.</p>
             </div>
@@ -90,12 +91,12 @@ export default function ContactPage() {
               <h3 className="font-medium text-paper">Prefer to talk first?</h3>
               <p className="mt-2 text-sm text-paper-dim">
                 Email{' '}
-                <a href={`mailto:${site.email}`} className="text-accent-soft hover:text-accent-soft">
-                  {site.email}
+                <a href={`mailto:${settings.email}`} className="text-accent-soft hover:text-accent-soft">
+                  {settings.email}
                 </a>{' '}
                 or call{' '}
-                <a href={site.phoneHref} className="text-accent-soft hover:text-accent-soft">
-                  {site.phone}
+                <a href={settings.phoneHref} className="text-accent-soft hover:text-accent-soft">
+                  {settings.phone}
                 </a>{' '}
                 and we&apos;ll schedule a call. We work with clients worldwide across all time zones.
               </p>

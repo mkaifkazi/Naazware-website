@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { nav, site } from '@/lib/site'
+import { nav } from '@/lib/site'
+import { getSettings } from '@/lib/settings-service'
 import BrandMark from './BrandMark'
 
 const LinkedInIcon = () => (
@@ -18,8 +19,9 @@ const GitHubIcon = () => (
   </svg>
 )
 
-export default function Footer() {
+export default async function Footer() {
   const year = new Date().getFullYear()
+  const settings = await getSettings()
 
   return (
     <footer className="no-print relative overflow-hidden border-t border-ink-600 bg-ink-950">
@@ -54,9 +56,9 @@ export default function Footer() {
             </p>
             <div className="mt-6 flex gap-3">
               {[
-                { href: site.socials.linkedin, label: 'LinkedIn', icon: <LinkedInIcon /> },
-                { href: site.socials.twitter, label: 'X (Twitter)', icon: <XIcon /> },
-                { href: site.socials.github, label: 'GitHub', icon: <GitHubIcon /> },
+                { href: settings.socials.linkedin, label: 'LinkedIn', icon: <LinkedInIcon /> },
+                { href: settings.socials.twitter, label: 'X (Twitter)', icon: <XIcon /> },
+                { href: settings.socials.github, label: 'GitHub', icon: <GitHubIcon /> },
               ].map((s) => (
                 <a
                   key={s.label}
@@ -91,16 +93,16 @@ export default function Footer() {
             <p className="eyebrow mb-5">Get in touch</p>
             <ul className="space-y-3 text-paper-dim">
               <li>
-                <a href={`mailto:${site.email}`} className="transition-colors hover:text-paper">
-                  {site.email}
+                <a href={`mailto:${settings.email}`} className="transition-colors hover:text-paper">
+                  {settings.email}
                 </a>
               </li>
               <li>
-                <a href={site.phoneHref} className="transition-colors hover:text-paper">
-                  {site.phone}
+                <a href={settings.phoneHref} className="transition-colors hover:text-paper">
+                  {settings.phone}
                 </a>
               </li>
-              <li>{site.location}</li>
+              <li>{settings.location}</li>
             </ul>
           </div>
         </div>

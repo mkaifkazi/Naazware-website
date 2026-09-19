@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
 import { generateMetadata as genMeta } from '@/lib/seo'
-import { site } from '@/lib/site'
+import { getSettings } from '@/lib/settings-service'
 
 export const metadata: Metadata = genMeta({
   title: 'Privacy Policy',
@@ -9,7 +9,8 @@ export const metadata: Metadata = genMeta({
   path: '/privacy',
 })
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const settings = await getSettings()
   return (
     <>
       <PageHeader eyebrow="Legal" title="Privacy Policy" />
@@ -49,13 +50,13 @@ export default function PrivacyPage() {
             <h2>Your rights</h2>
             <p>
               You can request to view, update, or delete your information at any time by emailing{' '}
-              <a href={`mailto:${site.email}`}>{site.email}</a>.
+              <a href={`mailto:${settings.email}`}>{settings.email}</a>.
             </p>
 
             <h2>Contact</h2>
             <p>
               Questions about this privacy policy? Email us at{' '}
-              <a href={`mailto:${site.email}`}>{site.email}</a>.
+              <a href={`mailto:${settings.email}`}>{settings.email}</a>.
             </p>
           </article>
         </div>

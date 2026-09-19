@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { site } from './site'
+import type { SiteSettings } from './settings-service'
 
 const SITE_URL = site.url
 const SITE_NAME = site.name
@@ -91,7 +92,7 @@ export function generateMetadata({
   }
 }
 
-export function generateOrganizationSchema() {
+export function generateOrganizationSchema(settings: Pick<SiteSettings, 'legalName' | 'tagline' | 'description' | 'email' | 'phone' | 'socials'> = site) {
   return {
     '@context': 'https://schema.org',
     // ProfessionalService is a LocalBusiness subtype — gives us local-search signals
@@ -99,14 +100,14 @@ export function generateOrganizationSchema() {
     '@type': ['Organization', 'ProfessionalService'],
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
-    legalName: site.legalName,
+    legalName: settings.legalName,
     url: SITE_URL,
     logo: `${SITE_URL}/icon-512.png`,
     image: `${SITE_URL}/og-image.png`,
-    description: SITE_DESCRIPTION,
-    slogan: site.tagline,
-    email: site.email,
-    telephone: site.phone,
+    description: settings.description,
+    slogan: settings.tagline,
+    email: settings.email,
+    telephone: settings.phone,
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Tandalja',
@@ -126,23 +127,23 @@ export function generateOrganizationSchema() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      email: site.email,
-      telephone: site.phone,
+      email: settings.email,
+      telephone: settings.phone,
       areaServed: 'Worldwide',
       availableLanguage: ['English', 'Hindi', 'Gujarati'],
     },
-    sameAs: [site.socials.linkedin, site.socials.twitter, site.socials.github],
+    sameAs: [settings.socials.linkedin, settings.socials.twitter, settings.socials.github],
   }
 }
 
-export function generateWebSiteSchema() {
+export function generateWebSiteSchema(settings: Pick<SiteSettings, 'description'> = site) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     name: SITE_NAME,
     url: SITE_URL,
-    description: SITE_DESCRIPTION,
+    description: settings.description,
     publisher: { '@id': `${SITE_URL}/#organization` },
     inLanguage: 'en',
   }

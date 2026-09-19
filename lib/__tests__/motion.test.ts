@@ -6,6 +6,7 @@ import {
   shouldEnableCursor,
   magneticOffset,
   fadeUpVariants,
+  shouldRenderWebGL,
 } from '@/lib/motion'
 
 describe('EASE_OUT_EXPO', () => {
@@ -60,5 +61,24 @@ describe('fadeUpVariants', () => {
     expect(fadeUpVariants.hidden).toMatchObject({ opacity: 0, y: 24 })
     expect(fadeUpVariants.visible).toMatchObject({ opacity: 1, y: 0 })
     expect(fadeUpVariants.visible.transition.ease).toEqual(EASE_OUT_EXPO)
+  })
+})
+
+describe('shouldRenderWebGL', () => {
+  const ok = { prefersReduced: false, isCoarseOrSmall: false, saveData: false, webglSupported: true }
+  it('renders on a capable desktop with motion allowed', () => {
+    expect(shouldRenderWebGL(ok)).toBe(true)
+  })
+  it('off under reduced motion', () => {
+    expect(shouldRenderWebGL({ ...ok, prefersReduced: true })).toBe(false)
+  })
+  it('off on coarse/small (mobile)', () => {
+    expect(shouldRenderWebGL({ ...ok, isCoarseOrSmall: true })).toBe(false)
+  })
+  it('off on save-data', () => {
+    expect(shouldRenderWebGL({ ...ok, saveData: true })).toBe(false)
+  })
+  it('off when webgl unsupported', () => {
+    expect(shouldRenderWebGL({ ...ok, webglSupported: false })).toBe(false)
   })
 })

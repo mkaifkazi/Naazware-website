@@ -25,6 +25,16 @@ export function magneticOffset(pointer: Point, rect: Rect, strength = 0.3): Poin
   }
 }
 
+/** Gate for the signature WebGL hero — desktop, motion-safe, connected, GPU-capable only. */
+export function shouldRenderWebGL(opts: {
+  prefersReduced: boolean
+  isCoarseOrSmall: boolean
+  saveData: boolean
+  webglSupported: boolean
+}): boolean {
+  return !opts.prefersReduced && !opts.isCoarseOrSmall && !opts.saveData && opts.webglSupported
+}
+
 export const fadeUpVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: {

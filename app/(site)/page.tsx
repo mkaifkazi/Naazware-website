@@ -4,6 +4,7 @@ import CaseStudyCard from '@/components/CaseStudyCard'
 import Reveal from '@/components/Reveal'
 import ProblemSection from '@/components/home/ProblemSection'
 import HeroParallax from '@/components/home/HeroParallax'
+import HeroWebGL from '@/components/home/HeroWebGL'
 import { services } from '@/lib/services-data'
 import { getFeaturedProjects, getTestimonials } from '@/lib/content'
 import { hero, sections, process, cta } from '@/lib/home-content'
@@ -17,8 +18,9 @@ export default async function HomePage() {
     <>
       {/* ───────────── Hero (static poster — WebGL swaps in at P4) ───────────── */}
       <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
-        {/* HERO-POSTER-SEAM: P4 mounts <HeroCanvas /> here behind this static layer */}
+        {/* Static poster (always painted first); WebGL enhances over it when capable. */}
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
+        <HeroWebGL />
         <HeroParallax />
 
         <div className="container-px relative flex flex-1 flex-col pt-28">

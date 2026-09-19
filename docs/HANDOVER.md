@@ -3,17 +3,16 @@
 ## ▶ RESUME HERE (new session)
 1. `git checkout feat/custom-cms` (all work is on this branch, not master).
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
-3. Verify gate still green: `npm run test` (33) · `npm run type-check` · `npm run lint`.
+3. Verify gate still green: `npm run test` (48) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P6 Journal management (Tiptap).** Plan it (writing-plans), following the P4a/P4b pattern:
+5. **Next task = P7 Inbox + contact route rewired to Mongo.** Plan it (writing-plans), following the P4a/P4b pattern:
    service + zod + auth-gated API routes, then admin UI. Then execute (executing-plans).
-   Note: `scripts/seed-journal.ts` is untracked in the tree — check it before building P6.
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P5 complete ☑ (testimonials management, verified live) → next is P6 (journal/Tiptap)
-**Gate:** GREEN — 39 tests · type-check · lint.
+**Current phase:** P6 complete ☑ (journal/Tiptap, verified live) → next is P7 (inbox + contact→Mongo)
+**Gate:** GREEN — 48 tests · type-check · lint.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);
@@ -34,12 +33,23 @@
   - Public reflection unchanged: `lib/content.ts` `getTestimonials()` already reads published, ordered.
   - **Verified LIVE via HTTP** (real session cookie): unauth 401; list 200 (3 seeded from Mongo);
     create ×2 → 201; empty-name validation → 400; reorder → order flips; delete ×2 → 200, list back to 3.
+- P6 Journal management (Tiptap):
+  - Backend: `lib/posts-service.ts` (CRUD/slug/list + JSON→HTML serialize), `lib/schemas/post.ts`,
+    `lib/tiptap-extensions.ts` (shared StarterKit[H2/H3]+Link+Image), API routes (`/api/admin/posts`, `/[id]`).
+    Post model gained `contentHtml`. Tiptap v2 deps added.
+  - UI: `app/(admin)/admin/journal` (list, new, [id]) + `components/admin`
+    (RichTextEditor = Tiptap + core toolbar + image via MediaPicker, PostsTable, PostEditor).
+  - Body = Tiptap JSON (source of truth) in `content`; `contentHtml` derived server-side (@tiptap/html,
+    safe — regenerated from constrained schema, not client HTML). Public `/blog/[slug]` renders contentHtml,
+    `renderMarkdown` fallback for seeded/local posts. Stale Sanity `scripts/seed-journal.ts` deleted.
+  - **Verified LIVE via HTTP** (real session cookie): unauth 401; create rich post → 201;
+    stored contentHtml = `<p>Bold body here.</p>`; public /blog/hello-tiptap renders it; validation 400; delete 200.
 - **P4 verified LIVE via HTTP** (dev server): admin login (session role=admin); create project →
   appears in admin list AND on public /work; duplicate; delete; unauth → 401; /admin → 307 login.
 - Gate GREEN: 33 tests · type-check · lint · build.
 
 ## Tested
-- 33 unit/integration tests. Live: auth + full projects CRUD + public reflection + R2 round-trip.
+- 48 unit/integration tests. Live: auth + projects/testimonials/journal CRUD + public reflection + R2 round-trip.
 - Not clicked in a real browser, but every API path exercised over HTTP with a real session cookie.
 
 ## Broken / blockers
@@ -52,8 +62,8 @@
 - DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P6 Journal management (Tiptap): Post model + `getPosts` already exist. Build service + zod + auth-gated
-  API + admin UI with a Tiptap rich-text editor for the body. Check untracked `scripts/seed-journal.ts` first.
+- P7 Inbox + contact route rewired to Mongo: enquiry model + admin inbox UI (list/read/mark/delete),
+  and repoint the public contact form submit at a Mongo-backed route. Sidebar already links /admin/inbox.
 
 ## Notes
 - Sanity still present as fallback; remove at P9.

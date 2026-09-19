@@ -37,6 +37,7 @@ export type Post = {
   tags: string[]
   coverUrl: string | null
   content?: string // markdown body (interim, until Tiptap on public side)
+  contentHtml?: string // Tiptap-derived HTML (Mongo posts, P6+)
 }
 
 export type Testimonial = Quote
@@ -158,6 +159,7 @@ export async function getPosts(): Promise<Post[]> {
     tags: p.tags ?? [],
     coverUrl: coverUrlOf(p.coverMedia),
     content: p.contentMarkdown ?? '',
+    contentHtml: p.contentHtml || undefined,
   }))
 }
 

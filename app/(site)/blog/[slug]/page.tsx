@@ -130,7 +130,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <section className="pb-24">
         <div className="container-px">
           <Reveal as="article" className="prose-dark mx-auto max-w-3xl">
-            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content ?? '') }} />
+            <div dangerouslySetInnerHTML={{ __html: post.contentHtml || renderMarkdown(post.content ?? '') }} />
           </Reveal>
 
           <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-2 border-t border-ink-600 pt-8">

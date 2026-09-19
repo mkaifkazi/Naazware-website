@@ -38,10 +38,10 @@ const config: Config = {
       },
       fontSize: {
         // Fluid display sizes (tight tracking for the grotesk)
-        'display-xl': ['clamp(3.25rem, 10vw, 9rem)', { lineHeight: '0.92', letterSpacing: '-0.045em' }],
-        'display-lg': ['clamp(2.75rem, 7.5vw, 6.5rem)', { lineHeight: '0.94', letterSpacing: '-0.04em' }],
-        'display-md': ['clamp(2rem, 4.5vw, 3.75rem)', { lineHeight: '1.0', letterSpacing: '-0.03em' }],
-        'display-sm': ['clamp(1.6rem, 3vw, 2.25rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'display-xl': ['clamp(3.25rem, 10vw, 9rem)', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
+        'display-lg': ['clamp(2.75rem, 7.5vw, 6.5rem)', { lineHeight: '0.98', letterSpacing: '-0.018em' }],
+        'display-md': ['clamp(2rem, 4.5vw, 3.75rem)', { lineHeight: '1.02', letterSpacing: '-0.015em' }],
+        'display-sm': ['clamp(1.6rem, 3vw, 2.25rem)', { lineHeight: '1.12', letterSpacing: '-0.01em' }],
       },
       maxWidth: {
         container: '1280px',

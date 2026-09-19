@@ -19,7 +19,8 @@
 - **P1 DONE** (light default, Fraunces serif, tracking polish). Plan: `.../plans/2026-09-19-spec2-p1-design-system-light-default.md`.
 - **P2 DONE** (Lenis smooth-scroll replacing locomotive, gsap+ScrollTrigger, framer-motion, magnetic cursor, `lib/motion.ts` pure helpers; dropped styled-components + stale .netlify). Plan: `.../plans/2026-09-19-spec2-p2-motion-foundation.md`. Gate green 76 tests.
 - **P3 DONE** (home rebuilt to 6-section SMB narrative: Hero → Problem → Services → Proof[work+testimonials] → Process → CTA; `lib/home-content.ts` SMB copy; `ProblemSection`; GSAP hero parallax + scroll count-up metrics; static poster hero w/ `HERO-POSTER-SEAM` marker for P4; `data-magnetic` on CTAs). Plan: `.../plans/2026-09-19-spec2-p3-home-rebuild.md`. Gate green 82 tests.
-- **NEXT = P4 (WebGL hero: R3F fluid/ribbon, lazy ssr:false, poster fallback, mobile/reduced-motion off). Swap in at HERO-POSTER-SEAM in `app/(site)/page.tsx`.**
+- **P4 DONE** (WebGL hero: R3F v8 pinned for React 18 [v9 needs React 19]; `HeroCanvas` pointer-reactive distorted teal blob via drei MeshDistortMaterial+Float; `HeroWebGL` loader = `next/dynamic ssr:false` + `shouldRenderWebGL` gate [off on reduced-motion/coarse/small<768/save-data/no-webgl]; fades in over static poster; three/R3F code-split — home First Load JS 143kB, three NOT in shared bundle). Plan: `.../plans/2026-09-19-spec2-p4-webgl-hero.md`. Gate green 87 tests.
+- **NEXT = P5 (conversion path: contact rewrite + "prefer a call" fields model→schema→route→form→inbox [Spec 2 Section 5]; services reframe outcome-led).**
 ⚠ **Owed manual BROWSER checks** (I can't click; do a real pass): P1 light-mode audit all pages; P2 cursor/Lenis/fallbacks; P3 home narrative + copy + parallax + count-up + reduced-motion.
 📝 Copy is Claude-drafted SMB voice in `lib/home-content.ts` — user to edit/approve wording.
 **Gate:** GREEN — 60 tests · type-check · lint · build.

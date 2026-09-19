@@ -32,7 +32,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Space Grotesk', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Fraunces', 'Georgia', 'serif'],
         sans: ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },

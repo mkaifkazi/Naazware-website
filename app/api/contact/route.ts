@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { writeClient } from '@/sanity/lib/writeClient'
+import { enquiryInputSchema } from '@/lib/schemas/enquiry'
+import { createEnquiry } from '@/lib/enquiries-service'
+import { rateLimit } from '@/lib/rate-limit'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 const NOTIFY_TO = process.env.CONTACT_NOTIFICATION_TO
@@ -11,43 +13,34 @@ const escapeHtml = (s: string) =>
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    if (!rateLimit(`contact:${ip}`, 5, 60000)) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    }
+
     const body = await request.json()
-    const { name, email, company, budget, message, consent, website } = body
 
     // Honeypot: real users never fill this hidden field. Pretend success for bots.
-    if (website) return NextResponse.json({ success: true }, { status: 200 })
+    if (body.website) return NextResponse.json({ success: true }, { status: 200 })
 
-    // Server-side validation (defence in depth alongside the client zod schema)
-    if (!name || !email || !budget || !message || consent !== true) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    const parsed = enquiryInputSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Missing or invalid fields' }, { status: 400 })
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
-    }
-    if (String(message).length > 5000 || String(name).length > 200) {
-      return NextResponse.json({ error: 'Input too long' }, { status: 400 })
-    }
-
+    const { name, email, company, budget, message } = parsed.data
     const createdAt = new Date().toISOString()
 
-    // 1) Persist to Sanity (visible in the /studio inbox) — non-fatal if unconfigured/fails.
-    if (writeClient) {
-      try {
-        await writeClient.create({
-          _type: 'submission',
-          name,
-          email,
-          company: company || '',
-          budget,
-          message,
-          createdAt,
-        })
-      } catch (err) {
-        console.error('Sanity submission write failed:', err)
-      }
+    // 1) Persist to Mongo (primary store — surfaces in the admin inbox).
+    let saved = false
+    try {
+      await createEnquiry(parsed.data)
+      saved = true
+    } catch (err) {
+      console.error('Enquiry DB write failed:', err)
     }
 
-    // 2) Email notification via Resend — non-fatal if unconfigured/fails.
+    // 2) Email notification via Resend — best effort.
+    let emailed = false
     if (resend && NOTIFY_TO) {
       try {
         await resend.emails.send({
@@ -66,14 +59,15 @@ export async function POST(request: NextRequest) {
             <hr/><p style="color:#888">Received ${createdAt}</p>
           `,
         })
+        emailed = true
       } catch (err) {
         console.error('Resend email failed:', err)
       }
     }
 
-    if (!writeClient && !resend) {
-      // Local dev with nothing configured yet — log so it's not silently lost.
-      console.log('Contact submission (no backend configured):', { name, email, budget })
+    // Never silently lose a lead: if it was neither stored nor emailed, tell the visitor.
+    if (!saved && !emailed) {
+      return NextResponse.json({ error: 'Could not send your message. Please try again.' }, { status: 500 })
     }
 
     return NextResponse.json({ success: true }, { status: 200 })

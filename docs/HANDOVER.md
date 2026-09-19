@@ -5,14 +5,15 @@
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (60) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P9 Sanity removal** (gated: only after P1–P8 verified — now done). Remove @sanity/*,
-   /studio, sanity/ dir, sanity config + any remaining imports; drop Sanity envs. Then P10 deploy (Render).
+5. **Next task = P10 Render deployment.** Plan it (writing-plans). Use the mongodb+srv URI in prod
+   (NOT the local direct string — see env note). Set all envs on Render (MONGODB_URI srv, R2_*, AUTH_SECRET,
+   ADMIN_*, RESEND_*, NEXT_PUBLIC_SITE_URL). Rotate the shared Atlas/R2/Resend creds before go-live.
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P8 complete ☑ (site settings, verified live) → next is P9 (Sanity removal)
-**Gate:** GREEN — 60 tests · type-check · lint.
+**Current phase:** P9 complete ☑ (Sanity fully removed, build green) → next is P10 (Render deploy)
+**Gate:** GREEN — 60 tests · type-check · lint · build.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);
@@ -83,13 +84,11 @@
 - DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P9 Sanity removal (gated, now unblocked — P1–P8 verified): remove @sanity/* deps, `/studio` route,
-  `sanity/` dir + config, any lingering Sanity imports (e.g. `sanity/lib/writeClient` — no longer used by
-  contact route), and Sanity envs. Verify gate + build stay green. Then P10 deploy to Render (use the
-  mongodb+srv URI in prod, not the local direct string).
+- P10 Render deployment: connect repo, set build (`npm run build`) + start (`npm start`), configure all
+  env vars (use mongodb+srv URI in prod, not local direct), attach domain. Rotate shared creds first.
 
 ## Notes
-- Sanity still present as fallback; remove at P9.
+- Sanity fully removed at P9 (deps, /studio, sanity/, configs, legacy seeds, envs). Public content falls back to local *-data.ts when Mongo is empty/unset.
 - ⚠ Atlas + R2 creds shared in chat — rotate before/after go-live.
 - next.config.js externalizes @node-rs/argon2 + mongoose (native/server libs) so the bundle builds.
 - Two stale dev servers were cleaned up this session; if port 3000 misbehaves, check for orphaned node.

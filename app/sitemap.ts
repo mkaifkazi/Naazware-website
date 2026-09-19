@@ -9,7 +9,7 @@ const SITE_URL = site.url
 export const revalidate = 3600 // refresh the sitemap hourly so new CMS content shows up
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Work + Journal come from the content layer (Sanity when configured, local otherwise)
+  // Work + Journal come from the content layer (Mongo when configured, local otherwise)
   // so anything published in the admin appears here automatically.
   const [projects, posts] = await Promise.all([getProjects(), getPosts()])
   const serviceSlugs = getAllServiceSlugs()

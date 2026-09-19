@@ -29,7 +29,7 @@ export function generateMetadata({
   const metaTitle = title === SITE_NAME || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
   const metaDescription = description || SITE_DESCRIPTION
   const url = `${SITE_URL}${path}`
-  // Image may be an absolute URL (Sanity cover) or a site-relative path.
+  // Image may be an absolute URL (R2 cover) or a site-relative path.
   const imageUrl = image.startsWith('http') ? image : `${SITE_URL}${image}`
 
   return {

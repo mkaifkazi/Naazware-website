@@ -19,7 +19,9 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
 - ☑ P7 Inbox + contact route rewired to Mongo — VERIFIED LIVE (contact 200 → Mongo; honeypot 200 not stored; invalid 400; unauth 401; list/patch/delete)
   - Enquiry model + service + zod + auth-gated API (list/get/patch/delete) + admin inbox UI (list/detail, mark read/unread/archived, delete)
   - /api/contact now Mongo-only + Resend email (Sanity write dropped); IP rate limit; 500 only if both DB+email fail
-- ☐ P8 Settings
+- ☑ P8 Settings — VERIFIED LIVE (GET defaults; PUT override → footer + org JSON-LD reflect; invalid 400; empty → falls back to site.ts)
+  - Settings singleton + service (getSettings = Mongo over site.ts) + zod + auth-gated API (GET/PUT) + admin form
+  - server consumers wired: Footer, contact/privacy/terms pages, layout JSON-LD. Boundary: client Header/ContactForm + page metadata/sitemap/robots stay static
 - ☐ P9 Sanity removal (gated: only after P1–P7 verified)
 - ☐ P10 Render deployment
 
@@ -37,7 +39,8 @@ P1→(all). P2→P4,P5,P6 (media). P3→P4..P8 (auth). P9 needs P1+P7 verified. 
 - 2026-09-19-phase-5-testimonials.md — DONE
 - 2026-09-19-phase-6-journal-tiptap.md — DONE
 - 2026-09-19-phase-7-inbox.md — DONE
-- P8+ not yet planned. Write next plan following the P4a (service+API) + P4b (UI) split pattern.
+- 2026-09-19-phase-8-settings.md — DONE
+- P9 (Sanity removal) + P10 (deploy) not yet planned.
 
 ## Reusable patterns for remaining phases (P5–P8)
 - Model exists in lib/models/. Add: `lib/<x>-service.ts` (CRUD) + `lib/schemas/<x>.ts` (zod).

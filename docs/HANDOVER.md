@@ -3,16 +3,16 @@
 ## ▶ RESUME HERE (new session)
 1. `git checkout feat/custom-cms` (all work is on this branch, not master).
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
-3. Verify gate still green: `npm run test` (56) · `npm run type-check` · `npm run lint`.
+3. Verify gate still green: `npm run test` (60) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P8 Settings.** Plan it (writing-plans), following the P4a/P4b pattern:
-   service + zod + auth-gated API routes, then admin UI. Then execute (executing-plans).
+5. **Next task = P9 Sanity removal** (gated: only after P1–P8 verified — now done). Remove @sanity/*,
+   /studio, sanity/ dir, sanity config + any remaining imports; drop Sanity envs. Then P10 deploy (Render).
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P7 complete ☑ (inbox + contact→Mongo, verified live) → next is P8 (settings)
-**Gate:** GREEN — 56 tests · type-check · lint.
+**Current phase:** P8 complete ☑ (site settings, verified live) → next is P9 (Sanity removal)
+**Gate:** GREEN — 60 tests · type-check · lint.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);
@@ -54,12 +54,23 @@
     `apiSend` widened to allow PATCH.
   - **Verified LIVE via HTTP**: contact valid → 200 (stored); honeypot → 200 not stored; invalid → 400;
     unauth admin list → 401; auth list shows enquiry (status new); PATCH archived; DELETE 200.
+- P8 Site settings:
+  - Backend: `lib/models/Settings.ts` (singleton), `lib/settings-service.ts` (getSettingsDoc/updateSettings/
+    getSettings — Mongo merged over `lib/site.ts` defaults; phoneHref derived), `lib/schemas/settings.ts`,
+    admin API (`/api/admin/settings` GET effective / PUT). getSettings is the public read (server consumers).
+  - UI: `app/(admin)/admin/settings` + `components/admin/SettingsForm.tsx` (brand, contact, socials).
+  - Wired SERVER consumers to getSettings(): Footer (socials/email/phone/location), contact/privacy/terms
+    pages (email/phone), `app/layout.tsx` Organization + WebSite JSON-LD (via seo.ts fns now taking a settings arg).
+  - Scope boundary (intentional): client Header/ContactForm + seo.ts page-metadata + sitemap/robots stay on
+    static `site.ts` (structural fields only; avoids async cascade through client tree + per-page metadata).
+  - **Verified LIVE via HTTP**: unauth 401; GET defaults; PUT override → footer `/` + org JSON-LD reflect
+    new email + linkedin; invalid email → 400; empty override → falls back to site.ts defaults. Overrides reset after.
 - **P4 verified LIVE via HTTP** (dev server): admin login (session role=admin); create project →
   appears in admin list AND on public /work; duplicate; delete; unauth → 401; /admin → 307 login.
 - Gate GREEN: 33 tests · type-check · lint · build.
 
 ## Tested
-- 56 unit/integration tests. Live: auth + projects/testimonials/journal/enquiries CRUD + contact→Mongo + public reflection + R2 round-trip.
+- 60 unit/integration tests. Live: auth + projects/testimonials/journal/enquiries/settings CRUD + contact→Mongo + settings public reflection + R2 round-trip.
 - Not clicked in a real browser, but every API path exercised over HTTP with a real session cookie.
 
 ## Broken / blockers
@@ -72,8 +83,10 @@
 - DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P8 Settings: site-wide settings (contact email, social links, SEO defaults, etc.) as a single Mongo
-  settings doc — service + zod + auth-gated API + admin form. Sidebar already links /admin/settings.
+- P9 Sanity removal (gated, now unblocked — P1–P8 verified): remove @sanity/* deps, `/studio` route,
+  `sanity/` dir + config, any lingering Sanity imports (e.g. `sanity/lib/writeClient` — no longer used by
+  contact route), and Sanity envs. Verify gate + build stay green. Then P10 deploy to Render (use the
+  mongodb+srv URI in prod, not the local direct string).
 
 ## Notes
 - Sanity still present as fallback; remove at P9.

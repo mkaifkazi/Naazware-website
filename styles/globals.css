@@ -218,3 +218,38 @@
     display: none !important;
   }
 }
+
+/* Custom magnetic cursor (fine-pointer, motion-safe only) */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: rgb(var(--accent));
+  pointer-events: none;
+  opacity: 0;
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.3s ease, background-color 0.2s ease;
+  will-change: transform;
+}
+.has-custom-cursor .cursor-dot {
+  opacity: 1;
+}
+.cursor-dot.is-magnetic {
+  width: 44px;
+  height: 44px;
+  background: rgb(var(--accent) / 0.25);
+}
+/* Only hide the native cursor when the custom one is actually active */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button {
+  cursor: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot {
+    display: none;
+  }
+}

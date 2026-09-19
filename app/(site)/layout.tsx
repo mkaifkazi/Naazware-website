@@ -2,6 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import FloatingCTA from '@/components/FloatingCTA'
 import SmoothScroll from '@/components/SmoothScroll'
+import MagneticCursor from '@/components/MagneticCursor'
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         Skip to main content
       </a>
       <SmoothScroll />
+      <MagneticCursor />
       <Header />
       <main id="main-content" className="flex-1">
         {children}

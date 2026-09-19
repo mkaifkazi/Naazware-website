@@ -12,6 +12,7 @@
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
     "seed:covers": "tsx --env-file=.env.local scripts/seed-covers.ts",
     "seed:mongo": "tsx --env-file=.env.local scripts/seed-mongo.ts",
+    "verify:r2": "tsx --env-file=.env.local scripts/verify-r2.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },

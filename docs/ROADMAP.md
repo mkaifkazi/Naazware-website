@@ -6,7 +6,7 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
 ## Phases
 - ☑ P0 Docs/handover scaffold + ADRs
 - ☑ P1 Mongoose models + `lib/content.ts` swap + reseed — verified against live Atlas (build prerenders all pages from Mongo)
-- ☐ P2 R2 storage interface + Media uploads
+- ☑ P2 R2 storage interface + Media helpers — live round-trip verified (HTTP upload route deferred to P3, auth-gated)
 - ☐ P3 Auth.js + admin shell + create-admin script
 - ☐ P4 Projects management
 - ☐ P5 Testimonials management

@@ -2,34 +2,35 @@
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P1 complete ✓ → next is P2 (R2 storage)
+**Current phase:** P2 complete ✓ → next is P3 (auth + admin shell)
 
 ## Done + verified
-- Spec 1 approved; Plan 1 written.
+- Spec 1 approved; Plans 1 & 2 written.
 - P0: docs/handover system + 6 ADRs.
-- P1: Vitest infra; Mongoose connection (`lib/db.ts`); models Media/Project/Post/Testimonial;
-  reseed script (`scripts/seed-mongo.ts`); `lib/content.ts` reads Mongo with local fallback;
-  blog `[slug]` renders markdown (Sanity PortableText branch removed).
-- Gate GREEN: `test` 14/14 · `type-check` · `lint` · `build` all pass.
-- LIVE Atlas verified: seeded 4 projects / 2 posts / 3 testimonials; content layer reads
-  from Atlas (readyState=1, 4 DB docs); `next build` prerenders all /work + /blog pages from Mongo.
+- P1: Mongoose connection + models (Media/Project/Post/Testimonial); reseed; `lib/content.ts`
+  reads Mongo w/ local fallback; blog `[slug]` renders markdown. Verified on live Atlas.
+- P2: `lib/storage.ts` (R2 S3 client — signed upload URLs, put, delete, public URL, buildObjectKey);
+  `lib/media.ts` (createMedia/listMedia/deleteMedia, deletes R2 object + record); live R2
+  round-trip verified (`npm run verify:r2`: PUT → public GET 200 → DELETE).
+- Gate GREEN: `test` 20/20 · `type-check` · `lint` · `build` (26/26 pages) all pass.
 
 ## Tested
-- Unit/integration via in-memory Mongo (14 tests).
-- Live Atlas: seed + read + full build confirmed.
+- 20 unit/integration tests (in-memory Mongo + mocked R2).
+- Live Atlas: seed + read + build. Live R2: round-trip.
 
 ## Broken / blockers
-- None for P1.
-- P2 needs R2 env vars: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_URL.
+- None. P3 needs `AUTH_SECRET` (generate: `openssl rand -base64 32`) and bootstrap
+  `ADMIN_EMAIL` / `ADMIN_PASSWORD` for `scripts/create-admin.ts`.
 
 ## Next step
-- Write Plan 2 for P2 (Cloudflare R2 storage interface + Media uploads via signed URLs).
-- Blocked until user provisions R2 bucket + tokens.
+- Write Plan 3 for P3: Auth.js (next-auth v5) credentials + Mongo Admin model + argon2 hashing
+  + `middleware.ts` guarding /admin, admin layout shell + dashboard skeleton + create-admin script.
+- Then media library UI + auth-gated HTTP upload route (uses signed URLs from `lib/storage.ts`).
 
 ## Notes
 - Sanity still present as fallback; do NOT remove until P9 gate.
-- `.env.local` (gitignored) now has MONGODB_URI + DNS_SERVERS (local-only SRV workaround).
-  ⚠ Atlas creds were shared in chat — rotate before/after go-live if desired.
-- Tests use cached mongod binary at node_modules/.cache/mongodb-memory-server/ (else download on CI).
-- DNS_SERVERS workaround: local default resolver (IPv6 link-local fe80::1) refuses SRV; db.ts
-  applies DNS_SERVERS when set. Unset in prod.
+- `.env.local` (gitignored) has MONGODB_URI, DNS_SERVERS, and R2_* keys.
+  ⚠ Atlas + R2 creds were shared in chat — rotate before/after go-live.
+- R2 bucket `naazware-website`, public dev URL `https://pub-427882a79c7947e38fb9b1dd755bfb5d.r2.dev`.
+- HTTP upload route intentionally NOT built in P2 (would be unauthenticated) — built in P3 once auth exists.
+- Tests use cached mongod binary; DNS_SERVERS workaround for local Atlas SRV.

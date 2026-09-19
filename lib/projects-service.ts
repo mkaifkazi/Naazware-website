@@ -119,15 +119,17 @@ export async function listProjects(
     const rx = new RegExp(opts.search, 'i')
     filter.$or = [{ title: rx }, { client: rx }, { slug: rx }]
   }
-  const rows = await Project.find(filter).sort({ order: 1, updatedAt: -1 }).lean<ProjectDoc[]>()
+  const rows = await Project.find(filter)
+    .sort({ order: 1, updatedAt: -1 })
+    .lean<(ProjectDoc & { _id: unknown; updatedAt: Date })[]>()
   return rows.map((p) => ({
-    id: String((p as { _id: unknown })._id),
+    id: String(p._id),
     title: p.title,
     slug: p.slug,
     client: p.client,
     status: p.status,
     featured: Boolean(p.featured),
     order: p.order ?? 0,
-    updatedAt: (p as { updatedAt: Date }).updatedAt,
+    updatedAt: p.updatedAt,
   }))
 }

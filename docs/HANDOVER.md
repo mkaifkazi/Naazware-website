@@ -1,8 +1,18 @@
 # Handover — current state
 
+## ▶ RESUME HERE (new session)
+1. `git checkout feat/custom-cms` (all work is on this branch, not master).
+2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
+3. Verify gate still green: `npm run test` (33) · `npm run type-check` · `npm run lint`.
+4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
+5. **Next task = P5 Testimonials.** Plan it (writing-plans), following the P4a/P4b pattern:
+   service + zod + auth-gated API routes, then admin UI. Then execute (executing-plans).
+6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
+
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
 **Current phase:** P4 complete ☑ (projects management, verified live) → next is P5 (testimonials)
+**Gate:** GREEN — 33 tests · type-check · lint (re-verified after db.ts DNS refactor).
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);

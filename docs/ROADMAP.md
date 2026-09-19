@@ -22,3 +22,18 @@ Then Spec 2: public website redesign (separate brainstorm).
 
 ## Dependencies
 P1→(all). P2→P4,P5,P6 (media). P3→P4..P8 (auth). P9 needs P1+P7 verified. P10 last.
+
+## Plans written (docs/superpowers/plans/)
+- 2026-09-19-phase-0-1-foundation.md — DONE
+- 2026-09-19-phase-2-r2-storage.md — DONE
+- 2026-09-19-phase-3-auth-admin-shell.md — DONE
+- 2026-09-19-phase-4a-projects-backend.md — DONE
+- 2026-09-19-phase-4b-projects-ui.md — DONE
+- P5+ not yet planned. Write next plan following the P4a (service+API) + P4b (UI) split pattern.
+
+## Reusable patterns for remaining phases (P5–P8)
+- Model exists in lib/models/. Add: `lib/<x>-service.ts` (CRUD) + `lib/schemas/<x>.ts` (zod).
+- API: `app/api/admin/<x>/**` route handlers using `requireAdmin`/`json`/`badRequest` + `rateLimit`.
+- UI: `app/(admin)/admin/<x>/**` + client components in `components/admin` reusing ui.tsx + MediaPicker.
+- Test service against in-memory Mongo (setupTestDb); verify live over HTTP with a session cookie.
+- Public site reads via lib/content.ts (already Mongo-backed).

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import StatCountUp from '@/components/home/StatCountUp'
 
 interface CaseStudyCardProps {
   title: string
@@ -81,7 +82,7 @@ export default function CaseStudyCard({
           <div className="mt-auto grid grid-cols-3 gap-3 pt-7">
             {metrics.slice(0, 3).map((m) => (
               <div key={m.label} className="rounded-2xl border border-ink-600 bg-ink-900/40 p-3 text-center">
-                <div className="font-display text-lg font-semibold text-accent-soft">{m.value}</div>
+                <StatCountUp value={m.value} className="block font-display text-lg font-semibold text-accent-soft" />
                 <div className="mt-1 text-[11px] leading-tight text-paper-faint">{m.label}</div>
               </div>
             ))}

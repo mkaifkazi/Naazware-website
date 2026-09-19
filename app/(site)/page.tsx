@@ -3,6 +3,7 @@ import ServiceCard from '@/components/ServiceCard'
 import CaseStudyCard from '@/components/CaseStudyCard'
 import Reveal from '@/components/Reveal'
 import ProblemSection from '@/components/home/ProblemSection'
+import HeroParallax from '@/components/home/HeroParallax'
 import { services } from '@/lib/services-data'
 import { getFeaturedProjects, getTestimonials } from '@/lib/content'
 import { hero, sections, process, cta } from '@/lib/home-content'
@@ -18,11 +19,7 @@ export default async function HomePage() {
       <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
         {/* HERO-POSTER-SEAM: P4 mounts <HeroCanvas /> here behind this static layer */}
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-1/4 left-1/2 h-[55vh] w-[55vh] -translate-x-1/2 rounded-full opacity-[0.12] blur-[150px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
+        <HeroParallax />
 
         <div className="container-px relative flex flex-1 flex-col pt-28">
           <Reveal as="div" className="flex items-center justify-between border-b border-ink-600 pb-5">

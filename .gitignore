@@ -33,12 +33,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Markdown files except README
+# Markdown files except README and project docs (handover/specs/ADRs are source of truth)
 *.md
 !README.md
+!docs/**
 
 # Claude folder
 .claude/
 
 # Local scratch (screenshots/tooling)
 .screens/
+
+# Local Netlify folder
+.netlify

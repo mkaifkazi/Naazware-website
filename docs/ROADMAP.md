@@ -7,7 +7,7 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
 - ☑ P0 Docs/handover scaffold + ADRs
 - ☑ P1 Mongoose models + `lib/content.ts` swap + reseed — verified against live Atlas (build prerenders all pages from Mongo)
 - ☑ P2 R2 storage interface + Media helpers — live round-trip verified (HTTP upload route deferred to P3, auth-gated)
-- ◐ P3 Auth.js + admin shell + create-admin — code done + tested (24 tests, build green); admin account creation + login smoke pending ADMIN_PASSWORD
+- ☑ P3 Auth.js + admin shell + create-admin — admin account created; credential path verified (argon2 hash stored, verify pass/fail correct); build guards /admin. (Browser click-through not yet run — optional manual confirm.)
 - ☐ P4 Projects management
 - ☐ P5 Testimonials management
 - ☐ P6 Journal management (Tiptap)

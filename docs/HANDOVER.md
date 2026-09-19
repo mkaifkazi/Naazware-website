@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P3 code complete ◐ (admin account + login smoke pending ADMIN_PASSWORD)
+**Current phase:** P3 complete ☑ → next is P4 (Projects management)
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip).
@@ -18,15 +18,12 @@
 - NOT yet: real login flow (needs an admin account).
 
 ## Broken / blockers
-- 🟠 To finish P3: set `ADMIN_PASSWORD` in `.env.local`, run `npm run create-admin`, then
-  smoke-test login at /admin. AUTH_SECRET + ADMIN_EMAIL already set.
+- None. Admin account exists (kaifkazi40@gmail.com, DUMMY password `Naazware@2026` — change via
+  `npm run create-admin` after editing ADMIN_PASSWORD). Browser login click-through not yet run.
 
 ## Next step
-1. Operator sets ADMIN_PASSWORD in .env.local (≥10 chars).
-2. `npm run create-admin` → "Created admin kaifkazi40@gmail.com".
-3. `npm run dev` → /admin redirects to /admin/login → sign in → dashboard shows counts (4/4/2/…).
-4. Mark P3 ☑. Then P4: Projects management (list/CRUD/reorder/duplicate + auth-gated upload
-   route using signed URLs from lib/storage.ts + a media picker).
+- P4: Projects management — admin list (search/filter/status/featured), CRUD, reorder, duplicate;
+  auth-gated upload route (signed URLs from lib/storage.ts) + media picker; project editor form.
 
 ## Notes
 - Sanity still present as fallback; remove at P9.

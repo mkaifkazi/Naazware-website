@@ -1,11 +1,9 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import { getPost, getPostSlugs, getRelatedPosts } from '@/lib/content'
-import { urlForImage } from '@/sanity/lib/image'
 import { generateMetadata as genMeta, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 
 export async function generateStaticParams() {
@@ -28,19 +26,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   })
 }
 
-// Renderers for Sanity rich text (styled by .prose-dark wrapper).
-const ptComponents: PortableTextComponents = {
-  types: {
-    image: ({ value }) => {
-      const url = urlForImage(value, 1400)
-      if (!url) return null
-      // eslint-disable-next-line @next/next/no-img-element
-      return <img src={url} alt={value?.alt || ''} className="my-8 w-full rounded-2xl border border-ink-600" />
-    },
-  },
-}
-
-// Minimal markdown → HTML for local fallback posts (headings, lists, paragraphs, inline code).
+// Minimal markdown → HTML for post bodies (headings, lists, paragraphs, inline code).
 function renderMarkdown(md: string): string {
   const body = md.replace(/^\s*#\s+.*$/m, '')
   const lines = body.split('\n')
@@ -144,11 +130,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <section className="pb-24">
         <div className="container-px">
           <Reveal as="article" className="prose-dark mx-auto max-w-3xl">
-            {post.body ? (
-              <PortableText value={post.body} components={ptComponents} />
-            ) : (
-              <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content ?? '') }} />
-            )}
+            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content ?? '') }} />
           </Reveal>
 
           <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-2 border-t border-ink-600 pt-8">

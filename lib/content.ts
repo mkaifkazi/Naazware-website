@@ -1,11 +1,13 @@
-import type { PortableTextBlock } from '@portabletext/types'
-import type { Image } from 'sanity'
-import { client } from '@/sanity/lib/client'
-import { urlForImage } from '@/sanity/lib/image'
+import { connectDb } from './db'
+import { Project as ProjectModel } from './models/Project'
+import { Post as PostModel } from './models/Post'
+import { Testimonial as TestimonialModel } from './models/Testimonial'
+import { Media } from './models/Media'
 import { caseStudies as localProjects } from './case-studies-data'
 import { blogPosts as localPosts } from './blog-posts-data'
+import { testimonialsData } from './testimonials-data'
 
-// ─── Shared shapes (superset of local data + Sanity) ───
+// ─── Shared shapes (superset of local data + Mongo) ───
 export type Metric = { label: string; value: string }
 export type Quote = { quote: string; author: string; role?: string }
 
@@ -34,34 +36,10 @@ export type Post = {
   readTime: string
   tags: string[]
   coverUrl: string | null
-  body?: PortableTextBlock[] // Sanity rich text
-  content?: string // markdown fallback (local data)
+  content?: string // markdown body (interim, until Tiptap on public side)
 }
 
 export type Testimonial = Quote
-
-type ProjectRow = Omit<Project, 'coverUrl'> & { coverImage?: Image }
-type PostRow = Omit<Post, 'coverUrl' | 'content'> & { coverImage?: Image }
-
-const localTestimonials: Testimonial[] = [
-  {
-    quote:
-      'The new checkout flow paid for itself in the first month. Our customers love how fast and simple it is.',
-    author: 'Sarah Chen',
-    role: 'Director of E-commerce, RetailCo',
-  },
-  {
-    quote:
-      'Security and accessibility were both critical. The team delivered on both without compromise.',
-    author: 'Dr. Michael Torres',
-    role: 'CTO, MediHealth',
-  },
-  {
-    quote: "Our drivers actually love using this app. That's never happened before.",
-    author: 'James Park',
-    role: 'Operations Manager, QuickShip',
-  },
-]
 
 // ─── Local fallback mappers ───
 const projectFromLocal = (c: (typeof localProjects)[number]): Project => ({
@@ -92,30 +70,62 @@ const postFromLocal = (p: (typeof localPosts)[number]): Post => ({
   content: p.content,
 })
 
-// ─── Public API (Sanity when configured, else local) ───
+const localTestimonials: Testimonial[] = testimonialsData.map((t) => ({
+  quote: t.quote,
+  author: t.name,
+  role: [t.role, t.company].filter(Boolean).join(', ') || undefined,
+}))
+
+// Resolve a populated coverMedia (or null) to a URL.
+const coverUrlOf = (cover: unknown): string | null =>
+  cover && typeof cover === 'object' && 'url' in cover ? String((cover as { url: string }).url) : null
+
+// Best-effort DB connect; on failure, callers fall back to local data.
+async function tryDb(): Promise<boolean> {
+  try {
+    await connectDb()
+    return true
+  } catch {
+    return false
+  }
+}
+
+// ─── Public API (Mongo when available + non-empty, else local) ───
 
 export async function getTestimonials(): Promise<Testimonial[]> {
-  if (!client) return localTestimonials
-  const rows = await client.fetch<Testimonial[]>(
-    `*[_type=="testimonial"]|order(order asc){quote, author, role}`
-  )
-  return rows.length ? rows : localTestimonials
+  if (!(await tryDb())) return localTestimonials
+  const rows = await TestimonialModel.find({ published: true }).sort({ order: 1 }).lean()
+  if (!rows.length) return localTestimonials
+  return rows.map((t) => ({
+    quote: t.quote,
+    author: t.name,
+    role: [t.role, t.company].filter(Boolean).join(', ') || undefined,
+  }))
 }
 
 export async function getProjects(): Promise<Project[]> {
-  if (!client) return localProjects.map(projectFromLocal)
-  const rows = await client.fetch<ProjectRow[]>(
-    `*[_type=="project"]|order(order asc){
-      "slug": slug.current, title, client, industry, excerpt, challenge, solution, outcome,
-      metrics[]{label, value}, technologies, testimonial, featured, coverImage
-    }`
-  )
+  if (!(await tryDb())) return localProjects.map(projectFromLocal)
+  const rows = await ProjectModel.find({ status: 'published' })
+    .sort({ order: 1 })
+    .populate({ path: 'coverMedia', model: Media })
+    .lean()
   if (!rows.length) return localProjects.map(projectFromLocal)
-  return rows.map(({ coverImage, ...p }) => ({
-    ...p,
-    metrics: p.metrics ?? [],
+  return rows.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    client: p.client,
+    industry: p.industry ?? '',
+    excerpt: p.shortDescription,
+    challenge: p.challenge ?? '',
+    solution: p.solution ?? '',
+    outcome: p.outcome ?? '',
+    metrics: (p.metrics ?? []).map((m) => ({ label: m.label ?? '', value: m.value ?? '' })),
     technologies: p.technologies ?? [],
-    coverUrl: urlForImage(coverImage, 1000),
+    testimonial: p.testimonial?.quote
+      ? { quote: p.testimonial.quote, author: p.testimonial.author ?? '', role: p.testimonial.role ?? undefined }
+      : undefined,
+    featured: Boolean(p.featured),
+    coverUrl: coverUrlOf(p.coverMedia),
   }))
 }
 
@@ -132,17 +142,22 @@ export async function getProjectSlugs(): Promise<string[]> {
 }
 
 export async function getPosts(): Promise<Post[]> {
-  if (!client) return localPosts.filter((p) => p.published).map(postFromLocal)
-  const rows = await client.fetch<PostRow[]>(
-    `*[_type=="post" && published==true]|order(date desc){
-      "slug": slug.current, title, excerpt, author, date, readTime, tags, body, coverImage
-    }`
-  )
+  if (!(await tryDb())) return localPosts.filter((p) => p.published).map(postFromLocal)
+  const rows = await PostModel.find({ status: 'published' })
+    .sort({ publishDate: -1 })
+    .populate({ path: 'coverMedia', model: Media })
+    .lean()
   if (!rows.length) return localPosts.filter((p) => p.published).map(postFromLocal)
-  return rows.map(({ coverImage, ...p }) => ({
-    ...p,
+  return rows.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    author: p.author ?? 'Naazware',
+    date: (p.publishDate ?? p.createdAt ?? new Date()).toISOString().slice(0, 10),
+    readTime: p.readTime ?? '',
     tags: p.tags ?? [],
-    coverUrl: urlForImage(coverImage, 1400),
+    coverUrl: coverUrlOf(p.coverMedia),
+    content: p.contentMarkdown ?? '',
   }))
 }
 

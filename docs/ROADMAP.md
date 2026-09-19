@@ -23,7 +23,7 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
   - Settings singleton + service (getSettings = Mongo over site.ts) + zod + auth-gated API (GET/PUT) + admin form
   - server consumers wired: Footer, contact/privacy/terms pages, layout JSON-LD. Boundary: client Header/ContactForm + page metadata/sitemap/robots stay static
 - ☑ P9 Sanity removal — DONE (deps @portabletext/@sanity/next-sanity/sanity/puppeteer-core removed; /studio + sanity/ + configs + 5 legacy seeds deleted; Sanity envs stripped; build green, 60 tests)
-- ☐ P10 Render deployment
+- ◐ P10 Render deployment — repo prep DONE (render.yaml blueprint + .node-version, Netlify removed, build green). Live deploy = operator runbook (push, create Render Blueprint, set secrets, rotate creds, prod admin, smoke test).
 
 Then Spec 2: public website redesign (separate brainstorm).
 
@@ -40,7 +40,8 @@ P1→(all). P2→P4,P5,P6 (media). P3→P4..P8 (auth). P9 needs P1+P7 verified. 
 - 2026-09-19-phase-6-journal-tiptap.md — DONE
 - 2026-09-19-phase-7-inbox.md — DONE
 - 2026-09-19-phase-8-settings.md — DONE
-- P9 was a mechanical removal (no plan doc). P10 (deploy) not yet planned.
+- P9 was a mechanical removal (no plan doc).
+- 2026-09-19-phase-10-render-deploy.md — repo prep DONE; operator runbook (Tasks 3–5) pending.
 
 ## Reusable patterns for remaining phases (P5–P8)
 - Model exists in lib/models/. Add: `lib/<x>-service.ts` (CRUD) + `lib/schemas/<x>.ts` (zod).

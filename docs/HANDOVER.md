@@ -5,14 +5,16 @@
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (60) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = P10 Render deployment.** Plan it (writing-plans). Use the mongodb+srv URI in prod
-   (NOT the local direct string — see env note). Set all envs on Render (MONGODB_URI srv, R2_*, AUTH_SECRET,
-   ADMIN_*, RESEND_*, NEXT_PUBLIC_SITE_URL). Rotate the shared Atlas/R2/Resend creds before go-live.
+5. **Next task = P10 live deploy (operator runbook).** Repo prep is DONE (render.yaml + .node-version).
+   Follow `docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5: push master to GitHub,
+   create the Render Blueprint from render.yaml, set the sync:false secrets (mongodb+srv URI, R2_*, AUTH_SECRET,
+   RESEND_*, NEXT_PUBLIC_SITE_URL), open Atlas network access, create the prod admin, smoke test.
+   ⚠ ROTATE all shared creds (Atlas/R2/Resend/AUTH_SECRET/admin pw) before go-live.
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 
 **Last updated:** 2026-09-19
 **Branch:** feat/custom-cms
-**Current phase:** P9 complete ☑ (Sanity fully removed, build green) → next is P10 (Render deploy)
+**Current phase:** P10 repo prep ◐ (render.yaml + .node-version committed, Netlify removed, build green) → live deploy is an operator runbook
 **Gate:** GREEN — 60 tests · type-check · lint · build.
 
 ## Done + verified
@@ -84,8 +86,9 @@
 - DNS_SERVERS is a secondary local workaround (helps c-ares in build/scripts; not needed with the direct URI).
 
 ## Next step
-- P10 Render deployment: connect repo, set build (`npm run build`) + start (`npm start`), configure all
-  env vars (use mongodb+srv URI in prod, not local direct), attach domain. Rotate shared creds first.
+- P10 live deploy: repo prep done (render.yaml blueprint, Node 20 pin, Netlify removed). Remaining is the
+  operator runbook (plan Tasks 3–5): push to GitHub, Render Blueprint, set secrets, Atlas network access,
+  prod admin, smoke test, and rotate all shared credentials. All feature phases (P0–P9) complete + verified.
 
 ## Notes
 - Sanity fully removed at P9 (deps, /studio, sanity/, configs, legacy seeds, envs). Public content falls back to local *-data.ts when Mongo is empty/unset.

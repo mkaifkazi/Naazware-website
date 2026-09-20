@@ -30,6 +30,12 @@ const config: Config = {
           soft: 'rgb(var(--accent-soft) / <alpha-value>)',
           contrast: 'rgb(var(--accent-contrast) / <alpha-value>)',
         },
+        // Silk ramp — backdrops + decorative accents ONLY (not UI controls).
+        silk: {
+          1: 'rgb(var(--silk-1) / <alpha-value>)', // teal
+          2: 'rgb(var(--silk-2) / <alpha-value>)', // sky
+          3: 'rgb(var(--silk-3) / <alpha-value>)', // violet
+        },
       },
       fontFamily: {
         display: ['var(--font-display)', 'Fraunces', 'Georgia', 'serif'],

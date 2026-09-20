@@ -31,6 +31,10 @@
     --aura-1: 45 212 191; /* teal */
     --aura-2: 45 212 191;
     --aura-strength: 0.14;
+    /* Silk gradient ramp — backdrops/accents only. Luminous on dark. */
+    --silk-1: 45 212 191; /* teal   #2DD4BF */
+    --silk-2: 56 189 248; /* sky    #38BDF8 */
+    --silk-3: 139 92 246; /* violet #8B5CF6 */
     --tg-from: #ffffff; /* monochrome metallic display-text */
     --tg-mid: #cfcfcf;
     --tg-to: #7d7d80;
@@ -64,6 +68,10 @@
     --aura-1: 45 212 191; /* teal */
     --aura-2: 250 204 21; /* warm amber whisper for depth */
     --aura-strength: 0.5;
+    /* Silk gradient ramp — deeper for light so low-opacity washes stay soft. */
+    --silk-1: 20 184 166; /* teal   #14B8A6 */
+    --silk-2: 14 165 233; /* sky    #0EA5E9 */
+    --silk-3: 124 58 237; /* violet #7C3AED */
     --tg-from: #0b0b0c;
     --tg-mid: #3a3a3c;
     --tg-to: #6c6c6e;

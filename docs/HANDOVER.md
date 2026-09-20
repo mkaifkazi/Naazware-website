@@ -1,14 +1,15 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. `git checkout master` (feat/custom-cms was merged FF into master + deleted; all Spec 1+2 work is now on master).
+1. **On branch `feat/visual-motion`** (Spec 3 visual+motion system — NOT yet merged to master). `git checkout feat/visual-motion`.
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
-3. Verify gate still green: `npm run test` (93) · `npm run type-check` · `npm run lint` · `npm run build`.
+3. Verify gate still green: `npm run test` (113) · `npm run type-check` · `npm run lint` · `npm run build`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **All feature phases DONE.** Spec 2 P5 (conversion path) done + merged. **Next task = P10 live deploy runbook**
-   (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate all shared creds).
-   ⚠ **local master is AHEAD of origin/master — not pushed yet** (`git push origin master` when ready).
-   ⚠ **Owed: manual browser click-through of P5** (see phase list) — code gate-verified only, not clicked.
+5. **Spec 3 (site-wide silk backdrop + archetype motion) ALL PHASES VP1–VP6 DONE** on this branch (see "Spec 3" block below).
+   Next: (a) **owed browser walk + Lighthouse** (real GPU browser); (b) merge `feat/visual-motion` → master when happy;
+   (c) **P10 live deploy runbook** still pending (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate creds).
+   ⚠ **local master AHEAD of origin/master; feat/visual-motion NOT pushed** (`git push` when ready).
+   ⚠ **Owed manual browser checks: P5 conversion path + ALL of Spec 3 visual/motion** (code + bundle gate-verified only).
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 7. **Dev/verify gotchas (hit repeatedly last session):**
    - NEVER run `npm run build` while `npm run dev` is live — build overwrites dev's `.next` → dev 500s
@@ -19,8 +20,21 @@
    - R3F pinned to v8 (`@react-three/fiber@^8`, drei@^9) — v9 requires React 19; project is React 18.
 
 **Last updated:** 2026-09-20
-**Branch:** master (feat/custom-cms merged FF + deleted)
-**Current phase:** Spec 1 CMS DONE + **Spec 2 (public redesign) ALL PHASES DONE** (P1–P5 + light redesign + hero comets), merged to local master. Design: `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. Only P10 live deploy remains.
+**Branch:** feat/visual-motion (Spec 3; not merged). Spec 1+2 already on local master (feat/custom-cms merged FF + deleted).
+**Current phase:** Spec 1 CMS + Spec 2 public redesign DONE (on master). **Spec 3 visual/motion VP1–VP6 DONE** (on feat/visual-motion). Only P10 live deploy remains.
+
+### Spec 3 — site-wide silk backdrop + archetype motion (feat/visual-motion) — ALL DONE
+Design: `docs/superpowers/specs/2026-09-20-sitewide-visual-motion-design.md`. Decisions: recurring silk backdrop motif;
+ONE multi-hue gradient everywhere (teal→sky→violet, `--silk-1/2/3`); WebGL-when-capable + CSS-mesh fallback; premium
+studio kept + tasteful accents (blobs/thin shapes), NO confetti; signature-move-per-section-type.
+- **VP1 tokens** — `--silk-1/2/3` (both themes) + Tailwind `silk.1/2/3`; brand teal untouched; WCAG AA verified numeric. Plan `.../plans/2026-09-20-vp1-palette-tokens.md`.
+- **VP2 SilkBackground** — `lib/silk.ts` (pure composition helpers, tested) + `SilkFallback` (CSS mesh + 48s drift) + `SilkCanvas` (R3F shader plane, reads `--silk-*`) + gated `SilkBackground` loader (`allowWebGL` = single-canvas rule; lazy ssr:false). Plan `.../vp2-silk-background.md`.
+- **VP3 motion primitives** — `components/motion/`: HeadingReveal, CardGridReveal, StatReveal(count-up), QuoteReveal, CtaReveal, ProseReveal, MediaReveal(clip wipe), AccordionReveal + pure `lib/motion-anim.ts`. All reduced-motion-safe, whileInView-once. Plan `.../vp3-motion-primitives.md`.
+- **VP4 accents** — `lib/accents.ts` (preset→layout, tested) + `components/visual/Accents.tsx` (blurred silk blobs + thin SVG rings/arcs, CSS float + framer scroll-parallax; nested layers avoid transform conflict). Plan `.../vp4-decorative-layer.md`.
+- **VP5 rollout** — silk + accents + archetypes wired into EVERY `(site)` page (home retrofit w/ `allowWebGL={false}`; about/services×2/work×2/blog×2/contact/legal×2). Plan `.../vp5-page-rollout.md`.
+- **VP6 perf** — `LazyMotion` + `m` (root `MotionProvider`) shrank framer bundle: home First Load **191→168kB**, all `(site)` routes <180 (budget). three stays code-split. CLS-safe (transform/opacity only, images aspect-ratio'd). Plan `.../vp6-perf-pass.md`.
+- ⚠ **OWED (user, real GPU browser):** full-site walk light+dark + reduced-motion + mobile(<768 CSS fallback, no 2nd WebGL context); real Lighthouse-mobile (perf≥90/LCP<2.5s/CLS<0.1). Headless Edge renders WebGL blank — can't verify here.
+- **Gate:** GREEN — 113 tests · type-check · lint · build.
 - **P1 DONE** (light default, Fraunces serif, tracking polish). Plan: `.../plans/2026-09-19-spec2-p1-design-system-light-default.md`.
 - **P2 DONE** (Lenis smooth-scroll replacing locomotive, gsap+ScrollTrigger, framer-motion, magnetic cursor, `lib/motion.ts` pure helpers; dropped styled-components + stale .netlify). Plan: `.../plans/2026-09-19-spec2-p2-motion-foundation.md`. Gate green 76 tests.
 - **P3 DONE** (home rebuilt to 6-section SMB narrative: Hero → Problem → Services → Proof[work+testimonials] → Process → CTA; `lib/home-content.ts` SMB copy; `ProblemSection`; GSAP hero parallax + scroll count-up metrics; static poster hero w/ `HERO-POSTER-SEAM` marker for P4; `data-magnetic` on CTAs). Plan: `.../plans/2026-09-19-spec2-p3-home-rebuild.md`. Gate green 82 tests.

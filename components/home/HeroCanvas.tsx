@@ -17,11 +17,11 @@ function Blob() {
   })
 
   return (
-    <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.6}>
-      {/* Tucked into the top-right corner so it clears the headline. */}
-      <mesh ref={mesh} scale={1.35} position={[3.1, 1.5, 0]}>
-        <icosahedronGeometry args={[1, 12]} />
-        <MeshDistortMaterial color="#2DD4BF" roughness={0.3} metalness={0.15} distort={0.32} speed={1.3} />
+    <Float speed={1.1} rotationIntensity={0.45} floatIntensity={0.35}>
+      {/* Intertwined thin ribbons (torus-knot) — airy, not a solid mass. */}
+      <mesh ref={mesh} scale={0.92} position={[2.8, 0.85, 0]}>
+        <torusKnotGeometry args={[1, 0.1, 256, 24, 2, 3]} />
+        <MeshDistortMaterial color="#2DD4BF" roughness={0.25} metalness={0.35} distort={0.16} speed={1.1} />
       </mesh>
     </Float>
   )

@@ -24,7 +24,7 @@ export default async function HomePage() {
         <HeroWebGL />
         <HeroParallax />
 
-        <div className="container-px relative flex flex-1 flex-col pt-28">
+        <div className="container-px relative z-10 flex flex-1 flex-col pt-28">
           <Reveal as="div" className="flex items-center justify-between border-b border-ink-600 pb-5">
             <span className="mono-label normal-case">
               <span className="relative mr-1 flex h-2 w-2" aria-hidden="true">

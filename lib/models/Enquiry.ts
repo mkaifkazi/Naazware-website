@@ -7,6 +7,9 @@ const enquirySchema = new Schema(
     company: { type: String, default: '' },
     budget: { type: String, default: '' },
     message: { type: String, required: true },
+    prefersCall: { type: Boolean, default: false },
+    phone: { type: String, default: '' },
+    preferredTime: { type: String, default: '' },
     status: { type: String, enum: ['new', 'read', 'archived'], default: 'new' },
   },
   { timestamps: true }

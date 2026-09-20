@@ -3,6 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
+import MediaReveal from '@/components/motion/MediaReveal'
 import { getPost, getPostSlugs, getRelatedPosts } from '@/lib/content'
 import { generateMetadata as genMeta, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 
@@ -103,6 +108,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
 
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 120, intensity: 0.45 }} />
+      <div className="relative z-10">
+
       <PageHeader
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Journal', href: '/blog' }, { label: post.title }]}
         title={post.title}
@@ -121,8 +130,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       {post.coverUrl && (
         <section className="pb-12">
           <div className="container-px">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.coverUrl} alt={post.title} className="mx-auto aspect-[16/9] w-full max-w-3xl rounded-4xl border border-ink-600 object-cover" />
+            <MediaReveal className="mx-auto max-w-3xl overflow-hidden rounded-4xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={post.coverUrl} alt={post.title} className="aspect-[16/9] w-full rounded-4xl border border-ink-600 object-cover" />
+            </MediaReveal>
           </div>
         </section>
       )}
@@ -147,7 +158,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <section className="border-t border-ink-600 py-20">
           <div className="container-px">
             <h2 className="text-sm font-medium uppercase tracking-wider text-paper-dim">Related reading</h2>
-            <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <CardGridReveal className="mt-8 grid gap-6 md:grid-cols-3">
               {related.map((r) => (
                 <article
                   key={r.slug}
@@ -169,14 +180,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   <span className="mt-4 text-sm text-paper-faint">{r.readTime} read</span>
                 </article>
               ))}
-            </div>
+            </CardGridReveal>
           </div>
         </section>
       )}
 
       <section className="relative overflow-hidden border-t border-ink-600 py-24">
-        <div className="container-px text-center">
-          <Reveal as="div" className="mx-auto max-w-2xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Need help with your project?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
               We can help you build software that performs like the examples in this post.
@@ -185,9 +197,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               <Link href="/contact" className="btn-accent">Get in touch</Link>
               <Link href="/blog" className="btn-ghost">Read more articles</Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

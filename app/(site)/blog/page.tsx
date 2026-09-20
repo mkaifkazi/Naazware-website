@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
-import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
+import CardGridReveal from '@/components/motion/CardGridReveal'
 import { getPosts } from '@/lib/content'
 import { generateMetadata as genMeta } from '@/lib/seo'
 
@@ -19,6 +20,10 @@ export default async function BlogPage() {
 
   return (
     <>
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 130, offset: { x: 10, y: 10 }, intensity: 0.5 }} />
+      <div className="relative z-10">
+
       <PageHeader
         eyebrow="Journal"
         size="lg"
@@ -31,10 +36,9 @@ export default async function BlogPage() {
       />
 
       <section className="pb-24 md:pb-32">
-        <div className="container-px grid gap-6 md:grid-cols-2">
-          {posts.map((post, i) => (
-            <Reveal key={post.slug} delay={(i % 2) * 100}>
-              <article className="group relative flex h-full flex-col overflow-hidden rounded-4xl border border-ink-600 bg-ink-800/50 p-8 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40">
+        <CardGridReveal className="container-px grid gap-6 md:grid-cols-2">
+          {posts.map((post) => (
+              <article key={post.slug} className="group relative flex h-full flex-col overflow-hidden rounded-4xl border border-ink-600 bg-ink-800/50 p-8 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40">
                 {post.coverUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -65,10 +69,11 @@ export default async function BlogPage() {
                   ))}
                 </div>
               </article>
-            </Reveal>
           ))}
-        </div>
+        </CardGridReveal>
       </section>
+      </div>
+      </div>
     </>
   )
 }

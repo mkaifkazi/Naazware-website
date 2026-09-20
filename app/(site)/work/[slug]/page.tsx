@@ -3,6 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
+import MediaReveal from '@/components/motion/MediaReveal'
 import { getProject, getProjectSlugs } from '@/lib/content'
 import { generateMetadata as genMeta, generateBreadcrumbSchema } from '@/lib/seo'
 
@@ -44,6 +49,10 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 160, intensity: 0.5 }} />
+      <div className="relative z-10">
+
       <PageHeader
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Work', href: '/work' }, { label: caseStudy.title }]}
         eyebrow={caseStudy.industry}
@@ -54,12 +63,14 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
       {caseStudy.coverUrl && (
         <section className="pb-12">
           <div className="container-px">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={caseStudy.coverUrl}
-              alt={`${caseStudy.title} — ${caseStudy.client}`}
-              className="aspect-[16/9] w-full rounded-4xl border border-ink-600 object-cover"
-            />
+            <MediaReveal className="overflow-hidden rounded-4xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={caseStudy.coverUrl}
+                alt={`${caseStudy.title} — ${caseStudy.client}`}
+                className="aspect-[16/9] w-full rounded-4xl border border-ink-600 object-cover"
+              />
+            </MediaReveal>
           </div>
         </section>
       )}
@@ -77,17 +88,14 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           </Reveal>
 
           {/* Narrative */}
-          <div className="mt-6 space-y-6">
+          <CardGridReveal className="mt-6 space-y-6">
             {blocks.map((b) => (
-              <Reveal key={b.label}>
-                <div className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
+                <div key={b.label} className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
                   <h2 className="text-display-sm">{b.label}</h2>
                   <p className="text-lg leading-relaxed text-paper-dim">{b.body}</p>
                 </div>
-              </Reveal>
             ))}
 
-            <Reveal>
               <div className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
                 <h2 className="text-sm font-medium uppercase tracking-wider text-paper-dim">Technology stack</h2>
                 <div className="mt-5 flex flex-wrap gap-2.5">
@@ -98,10 +106,8 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
                   ))}
                 </div>
               </div>
-            </Reveal>
 
             {caseStudy.testimonial && (
-              <Reveal>
                 <figure className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
                   <svg className="h-8 w-8 text-accent/50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M9.5 5C6.5 6.5 5 9 5 12.5V19h6v-6H8c0-2 1-3.5 3-4.5L9.5 5Zm10 0C16.5 6.5 15 9 15 12.5V19h6v-6h-3c0-2 1-3.5 3-4.5L19.5 5Z" />
@@ -114,20 +120,15 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
                     <div className="text-sm text-paper-dim">{caseStudy.testimonial.role}</div>
                   </figcaption>
                 </figure>
-              </Reveal>
             )}
-          </div>
+          </CardGridReveal>
         </div>
       </section>
 
       <section className="relative overflow-hidden py-24 md:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
-        <div className="container-px relative text-center">
-          <Reveal as="div" className="mx-auto max-w-2xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Need similar help?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
               Tell us about your project and we&apos;ll send you a detailed proposal.
@@ -136,9 +137,11 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
               <Link href="/contact" className="btn-accent">Start your project</Link>
               <Link href="/work" className="btn-ghost">See more case studies</Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

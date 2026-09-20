@@ -2,7 +2,10 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import CaseStudyCard from '@/components/CaseStudyCard'
 import PageHeader from '@/components/PageHeader'
-import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
 import { getProjects } from '@/lib/content'
 import { generateMetadata as genMeta } from '@/lib/seo'
 
@@ -20,6 +23,10 @@ export default async function WorkPage() {
   const caseStudies = await getProjects()
   return (
     <>
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 200, offset: { x: -15, y: 0 }, intensity: 0.55 }} />
+      <div className="relative z-10">
+
       <PageHeader
         eyebrow="Selected work"
         size="lg"
@@ -32,10 +39,10 @@ export default async function WorkPage() {
       />
 
       <section className="pb-24 md:pb-32">
-        <div className="container-px grid gap-6 md:grid-cols-2">
+        <CardGridReveal className="container-px grid gap-6 md:grid-cols-2">
           {caseStudies.map((study, i) => (
-            <Reveal key={study.slug} delay={(i % 2) * 100}>
               <CaseStudyCard
+                key={study.slug}
                 title={study.title}
                 client={study.client}
                 industry={study.industry}
@@ -45,19 +52,14 @@ export default async function WorkPage() {
                 index={i}
                 coverUrl={study.coverUrl}
               />
-            </Reveal>
           ))}
-        </div>
+        </CardGridReveal>
       </section>
 
       <section className="relative overflow-hidden border-t border-ink-600 py-24 md:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
-        <div className="container-px relative text-center">
-          <Reveal as="div" className="mx-auto max-w-2xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Want similar results?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
               Tell us about your project and we&apos;ll show you how we can help.
@@ -67,9 +69,11 @@ export default async function WorkPage() {
                 Start your project
               </Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

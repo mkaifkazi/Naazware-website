@@ -13,17 +13,19 @@ type CometSpec = {
   headRadius: number
 }
 
-// Shooting-star ribbons: thick head → thin tail, arcing across on curved paths.
+// Shooting-star ribbons: thick head → thin tail, flying off-screen and sweeping
+// back. Amplitudes exceed the viewport (half-width ≈ 7.5, half-height ≈ 4.7 at
+// z=10) so heads travel fully across and off both edges.
 const COMETS: CometSpec[] = [
-  { color: '#14B8A6', amp: [4.2, 2.4, 1.8], freq: [0.90, 1.30, 0.70], phase: 0.0, speed: 0.85, headRadius: 0.16 },
-  { color: '#F59E0B', amp: [4.6, 2.0, 1.4], freq: [1.10, 0.80, 1.20], phase: 1.9, speed: 0.72, headRadius: 0.14 },
-  { color: '#0EA5E9', amp: [3.8, 2.7, 1.6], freq: [0.70, 1.20, 0.90], phase: 3.3, speed: 0.95, headRadius: 0.13 },
-  { color: '#EC4899', amp: [4.4, 2.2, 1.7], freq: [1.30, 0.90, 1.10], phase: 4.7, speed: 0.8, headRadius: 0.12 },
-  { color: '#8B5CF6', amp: [4.0, 2.5, 1.5], freq: [0.80, 1.10, 1.30], phase: 6.0, speed: 0.9, headRadius: 0.11 },
+  { color: '#14B8A6', amp: [9.0, 5.6, 3.0], freq: [0.75, 1.05, 0.60], phase: 0.0, speed: 0.6, headRadius: 0.17 },
+  { color: '#F59E0B', amp: [9.6, 5.0, 2.6], freq: [0.95, 0.70, 0.90], phase: 1.9, speed: 0.52, headRadius: 0.15 },
+  { color: '#0EA5E9', amp: [8.4, 6.2, 3.2], freq: [0.65, 1.00, 0.75], phase: 3.3, speed: 0.68, headRadius: 0.14 },
+  { color: '#EC4899', amp: [9.4, 5.4, 3.0], freq: [1.05, 0.75, 0.85], phase: 4.7, speed: 0.56, headRadius: 0.13 },
+  { color: '#8B5CF6', amp: [8.8, 6.0, 2.8], freq: [0.70, 0.95, 1.00], phase: 6.0, speed: 0.64, headRadius: 0.12 },
 ]
 
-const SAMPLES = 48 // trail resolution
-const DT = 0.045 // seconds between trail samples (trail length = SAMPLES * DT)
+const SAMPLES = 44 // trail resolution
+const DT = 0.03 // seconds between trail samples (trail length = SAMPLES * DT ≈ 1.3s)
 const RADIAL = 8
 
 function headAt(t: number, amp: [number, number, number], freq: [number, number, number], phase: number) {

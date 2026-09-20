@@ -1,16 +1,14 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. `git checkout feat/custom-cms` (all work is on this branch, not master).
+1. `git checkout master` (feat/custom-cms was merged FF into master + deleted; all Spec 1+2 work is now on master).
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
-3. Verify gate still green: `npm run test` (60) · `npm run type-check` · `npm run lint`.
+3. Verify gate still green: `npm run test` (93) · `npm run type-check` · `npm run lint` · `npm run build`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = Spec 2 P5 (conversion path).** Spec 2 design APPROVED (`docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`);
-   plan-per-phase. P1–P4 + light redesign + hero comets all DONE (see phase list below). Write the P5 plan
-   (`superpowers:writing-plans`) then execute (`superpowers:executing-plans`, inline — user's chosen mode):
-   contact rewrite + "prefer a call" fields (model→schema→route→form→inbox, Spec 2 §5) + services reframe outcome-led.
-   Spec 1 CMS is DONE + pushed to origin/master. Independent leftover = P10 live deploy runbook
+5. **All feature phases DONE.** Spec 2 P5 (conversion path) done + merged. **Next task = P10 live deploy runbook**
    (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate all shared creds).
+   ⚠ **local master is AHEAD of origin/master — not pushed yet** (`git push origin master` when ready).
+   ⚠ **Owed: manual browser click-through of P5** (see phase list) — code gate-verified only, not clicked.
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
 7. **Dev/verify gotchas (hit repeatedly last session):**
    - NEVER run `npm run build` while `npm run dev` is live — build overwrites dev's `.next` → dev 500s
@@ -21,8 +19,8 @@
    - R3F pinned to v8 (`@react-three/fiber@^8`, drei@^9) — v9 requires React 19; project is React 18.
 
 **Last updated:** 2026-09-20
-**Branch:** feat/custom-cms
-**Current phase:** Spec 1 CMS DONE (pushed to origin/master). **Spec 2 (public redesign): design APPROVED** (all 7 sections) → `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. Plan-per-phase (user chose).
+**Branch:** master (feat/custom-cms merged FF + deleted)
+**Current phase:** Spec 1 CMS DONE + **Spec 2 (public redesign) ALL PHASES DONE** (P1–P5 + light redesign + hero comets), merged to local master. Design: `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. Only P10 live deploy remains.
 - **P1 DONE** (light default, Fraunces serif, tracking polish). Plan: `.../plans/2026-09-19-spec2-p1-design-system-light-default.md`.
 - **P2 DONE** (Lenis smooth-scroll replacing locomotive, gsap+ScrollTrigger, framer-motion, magnetic cursor, `lib/motion.ts` pure helpers; dropped styled-components + stale .netlify). Plan: `.../plans/2026-09-19-spec2-p2-motion-foundation.md`. Gate green 76 tests.
 - **P3 DONE** (home rebuilt to 6-section SMB narrative: Hero → Problem → Services → Proof[work+testimonials] → Process → CTA; `lib/home-content.ts` SMB copy; `ProblemSection`; GSAP hero parallax + scroll count-up metrics; static poster hero w/ `HERO-POSTER-SEAM` marker for P4; `data-magnetic` on CTAs). Plan: `.../plans/2026-09-19-spec2-p3-home-rebuild.md`. Gate green 82 tests.
@@ -35,11 +33,23 @@
   text stays readable over the ribbons. Motion-safe gate + code-split unchanged (home First Load 143kB). Latest
   commit `c6368c0` (+ wider-travel tweak committed after). Journey: solid blob → torus-knot → tube-field →
   comets (kept). Tuning levers in the file: `COMETS[]` (color/amp/freq/speed/headRadius), `SAMPLES`/`DT` (trail len).
-- **NEXT = P5 (conversion path: contact rewrite + "prefer a call" fields model→schema→route→form→inbox [Spec 2 Section 5]; services reframe outcome-led).**
-⚠ **Owed manual BROWSER checks** (do a real click-through, all in LIGHT default + DARK toggle): P1 pages/contrast;
-   P2 cursor/Lenis/reduced-motion+touch fallbacks; P3 home narrative+copy+parallax+count-up; hero comets on real GPU + WebGL-off fallback (mobile/reduced-motion → static poster).
-📝 Copy is Claude-drafted SMB voice in `lib/home-content.ts` — user to edit/approve wording.
-**Gate:** GREEN — 87 tests · type-check · lint · build.
+- **P5 DONE** (conversion path). Plan: `.../plans/2026-09-20-spec2-p5-conversion-path.md`. 7 commits:
+  Enquiry model+schema gain `prefersCall`/`phone`/`preferredTime` (zod `.refine`: phone required when call ticked;
+  `EnquiryInput` = `z.input` so fields optional for callers); `enquiries-service` persists + lists them
+  (`AdminEnquiryRow` widened); `/api/contact` email includes call block; `ContactForm` progressive "I'd prefer a call"
+  disclosure (reveals phone + preferred-time) + client refine mirror + reassurance copy = **"We reply within 1 business day."**;
+  admin inbox shows call badge + tel-link phone + preferred time (`EnquiryDetail`) + table chip (`EnquiriesTable`);
+  contact page reworded to 1-business-day + panel points at in-form call option; all 6 services reframed outcome-led
+  in `lib/services-data.ts` (shortDescription+bullets benefit-first; technologies/keywords kept). Gate green 93 tests.
+- **NEXT = P10 live deploy** (repo prep done; runbook Tasks 3–5 remain; ⚠ rotate all shared creds).
+⚠ **Owed manual BROWSER checks** (real click-through, LIGHT default + DARK toggle):
+   - P5: tick "I'd prefer a call" reveals phone+time; call-submit with empty phone shows error; plain submit still works;
+     notification email includes call lines; inbox chip + detail badge appear; plain enquiry shows neither (BC path).
+   - Earlier owed: P1 pages/contrast; P2 cursor/Lenis/reduced-motion+touch fallbacks; P3 home narrative+parallax+count-up;
+     hero comets on real GPU + WebGL-off fallback (mobile/reduced-motion → static poster).
+📝 Copy is Claude-drafted SMB voice in `lib/home-content.ts` + `lib/services-data.ts` + contact page — user to edit/approve.
+⚠ **local master AHEAD of origin/master — not pushed** (`git push origin master` when ready).
+**Gate:** GREEN — 93 tests · type-check · lint · build.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);

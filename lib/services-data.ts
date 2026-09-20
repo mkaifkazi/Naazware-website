@@ -16,11 +16,11 @@ export const services: Service[] = [
   {
     slug: 'web-development',
     title: 'Web Application Development',
-    shortDescription: 'A fast, modern website or web app that turns visitors into enquiries — and makes your business look established and easy to deal with.',
+    shortDescription: 'A fast, reliable web app built around your exact workflow — clean code, thoughtful UX, and no template compromises.',
     bullets: [
-      'More enquiries from a site that loads instantly',
-      'Looks sharp on every phone, tablet, and screen',
-      'Easy to update — no developer needed for small changes',
+      'Built to fit your process, not a template',
+      'Fast, accessible, and tested throughout',
+      'Clean code you can own and extend',
     ],
     icon: 'web',
     fullDescription:
@@ -30,7 +30,7 @@ export const services: Service[] = [
     approach:
       'We use modern frameworks like Next.js and React with server-side rendering where it matters. Every component is tested, every API call is optimized, and every deployment is automated.',
     result:
-      'Typical projects launch in 8–12 weeks with 90+ Lighthouse performance scores. Our clients see 60% faster load times and 40% higher conversion rates.',
+      'Typical projects launch in 8–12 weeks with 90+ Lighthouse scores — fast, accessible, and engineered to stay maintainable as they grow.',
     technologies: ['Next.js', 'React.js', 'TypeScript', 'Redux Toolkit', 'Material UI', 'Tailwind CSS'],
     keywords: [
       'web application development',
@@ -43,11 +43,11 @@ export const services: Service[] = [
   {
     slug: 'mobile-development',
     title: 'Mobile App Development',
-    shortDescription: 'A mobile app your customers actually keep and use — putting your business in their pocket on both iPhone and Android.',
+    shortDescription: 'A well-crafted iOS and Android app your users trust — native-quality performance, offline-ready, and built to last.',
     bullets: [
-      'One app that reaches every customer, iPhone and Android',
-      'We handle App Store and Play Store, launch to live',
-      'Works even offline, so it never leaves them stuck',
+      'One well-built app for iPhone and Android',
+      'Smooth, native-quality performance',
+      'Handled end to end: build to store launch',
     ],
     icon: 'mobile',
     fullDescription:
@@ -70,10 +70,10 @@ export const services: Service[] = [
   {
     slug: 'desktop-development',
     title: 'Desktop App Development',
-    shortDescription: 'A desktop tool your team relies on every day — fast, dependable software that fits how your business actually works.',
+    shortDescription: 'A dependable desktop tool tailored to how your team works — fast, robust, and built for daily use.',
     bullets: [
       'Runs on Windows, macOS, and Linux — one build for all',
-      'Keeps working offline, with your data stored locally',
+      'Reliable offline, with your data stored locally',
       'Fits into the tools and systems you already use',
     ],
     icon: 'desktop',
@@ -97,11 +97,11 @@ export const services: Service[] = [
   {
     slug: 'domain-hosting',
     title: 'Domain & Hosting',
-    shortDescription: 'Your site online, fast, and secure — without you ever thinking about servers, domains, or the "not secure" warning.',
+    shortDescription: 'Secure, well-configured hosting and deployment — set up properly so your software stays fast, safe, and online.',
     bullets: [
-      'Loads fast for customers wherever they are',
-      'Locked-down and secure, with the padlock, automatically',
-      'Stays online — we handle domains, hosting, and updates',
+      'Fast, correctly configured delivery',
+      'Secure by default — SSL, backups, monitoring',
+      'Automated deployments, handled for you',
     ],
     icon: 'server',
     fullDescription:
@@ -125,11 +125,11 @@ export const services: Service[] = [
   {
     slug: 'qa-testing',
     title: 'QA & Testing',
-    shortDescription: 'Software your customers can trust — we find the bugs before they do, so launches are smooth and your reputation stays intact.',
+    shortDescription: 'Thorough testing and QA so your software ships solid — fewer bugs, better performance, and confidence at launch.',
     bullets: [
-      'Fewer bugs reaching your customers',
-      'Tested on real phones and devices, not just in theory',
-      'Checked for speed and security before every release',
+      'Automated tests across the codebase',
+      'Checked on real devices and real scenarios',
+      'Performance and security verified before release',
     ],
     icon: 'test',
     fullDescription:
@@ -153,11 +153,11 @@ export const services: Service[] = [
   {
     slug: 'website-maintenance',
     title: 'Website Maintenance',
-    shortDescription: 'Peace of mind that your website stays fast, safe, and current — whether we built it or someone else did.',
+    shortDescription: 'Ongoing care that keeps your software fast, secure, and current — whether we built it or inherited it.',
     bullets: [
-      'Stays secure and up to date, no nasty surprises',
-      'We watch performance and keep it loading fast',
-      'Quick edits and new features whenever you need them',
+      'Kept secure and up to date, no nasty surprises',
+      'Performance watched and tuned',
+      'Quick edits and new features on request',
     ],
     icon: 'web',
     fullDescription:

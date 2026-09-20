@@ -1,5 +1,6 @@
-// Home page copy + section data. SMB / local-business voice, plain English,
-// outcome-led. Draft — the user edits. Keep proof CMS-driven (no fabricated claims).
+// Home page copy + section data. Plain English, craft/quality-led — we sell
+// custom, well-built software (not customer/sales-increase promises). Draft — the
+// user edits. Keep proof CMS-driven (no fabricated claims).
 
 export const HOME_SECTION_ORDER = [
   'hero',
@@ -18,31 +19,31 @@ export type SectionHead = {
 }
 
 export const hero = {
-  eyebrow: 'Digital studio for growing businesses',
-  headline: 'Websites & software that win you customers.',
-  sub: 'We design, build, and run the digital side of your business — so you get more enquiries, look the part, and stay ahead of your local competition.',
-  primaryCta: { label: 'Get a free quote', href: '/contact' },
+  eyebrow: 'Custom software studio',
+  headline: 'Custom software, crafted to fit.',
+  sub: 'We design and build websites, web, and mobile apps tailored to how you actually work — engineered for quality, reliability, and the long run.',
+  primaryCta: { label: 'Start a project', href: '/contact' },
   secondaryCta: { label: 'See our work', href: '/work' },
   capabilities: ['Websites', 'Web & mobile apps', 'Branding', 'Care & hosting'],
 }
 
 export const problem = {
-  eyebrow: 'The problem',
-  heading: 'Your website should be your best salesperson.',
+  eyebrow: 'Why custom',
+  heading: 'Off-the-shelf rarely fits.',
   intro:
-    'Most business websites quietly cost their owners customers every day. If any of this sounds familiar, you are leaving money on the table.',
+    'Templates and quick builds get you something that looks fine — until it fights how your business actually runs. Well-built, tailored software should feel the opposite.',
   points: [
     {
-      title: 'It looks dated',
-      body: 'A slow, cluttered, or DIY-builder site makes a great business look small — and sends buyers straight to a competitor.',
+      title: 'Built to a template, not to you',
+      body: 'Generic builders force your business into someone else’s mould. Custom software is shaped around your workflow, your data, and your users.',
     },
     {
-      title: 'It brings no enquiries',
-      body: 'Pretty is not the point. If your site is not turning visitors into calls and messages, it is just an expensive brochure.',
+      title: 'Corners cut, debt later',
+      body: 'Cheap-and-fast leaves you with brittle code that breaks and slows down. We build it properly the first time — tested, maintainable, made to last.',
     },
     {
-      title: 'It is a headache to run',
-      body: 'You should not need a developer to change a price or add a photo. Most owners are stuck waiting — or paying — for tiny edits.',
+      title: 'Hard to change or own',
+      body: 'You shouldn’t be locked out of your own product. We build clean, documented software you can grow, hand over, or extend whenever you need.',
     },
   ],
 }
@@ -50,23 +51,23 @@ export const problem = {
 export const sections: Record<'services' | 'proof' | 'process' | 'testimonials', SectionHead> = {
   services: {
     eyebrow: 'What we do',
-    heading: 'Everything you need to grow online, under one roof.',
+    heading: 'Custom-built, end to end, done well.',
     ctaLabel: 'All services',
     ctaHref: '/services',
   },
   proof: {
     eyebrow: 'Proof',
-    heading: 'Real work. Real results.',
+    heading: 'Work we’re proud of.',
     ctaLabel: 'All projects',
     ctaHref: '/work',
   },
   process: {
     eyebrow: 'How it works',
-    heading: 'A simple path from first chat to launch.',
+    heading: 'A clear path from first chat to launch.',
   },
   testimonials: {
     eyebrow: 'Kind words',
-    heading: 'Businesses that would work with us again.',
+    heading: 'Clients who’d work with us again.',
   },
 }
 
@@ -94,7 +95,7 @@ export const process = [
 ]
 
 export const cta = {
-  heading: 'Ready to grow your business online?',
-  body: 'Tell us what you need. We reply within 1 business day with honest advice, a clear plan, and a price — no pressure.',
-  primary: { label: 'Get a free quote', href: '/contact' },
+  heading: 'Ready to build something great?',
+  body: 'Tell us what you need. We’ll reply within 1 business day with honest advice, a clear plan, and a fair price — no pressure.',
+  primary: { label: 'Start a project', href: '/contact' },
 }

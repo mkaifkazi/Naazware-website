@@ -67,6 +67,10 @@ const config: Config = {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
           '50%': { transform: 'translate(4%, -3%) scale(1.08)' },
         },
+        'silk-drift': {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+          '50%': { transform: 'translate3d(-2%, 1.5%, 0) scale(1.06)' },
+        },
         marquee: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
@@ -75,6 +79,7 @@ const config: Config = {
       animation: {
         'fade-up': 'fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
         'glow-drift': 'glow-drift 18s ease-in-out infinite',
+        'silk-drift': 'silk-drift 48s ease-in-out infinite',
         marquee: 'marquee 32s linear infinite',
       },
     },

@@ -5,26 +5,41 @@
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (60) · `npm run type-check` · `npm run lint`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Next task = resume Spec 2 (public redesign) brainstorm.** Read
-   `docs/superpowers/specs/2026-09-19-spec2-public-redesign-BRAINSTORM.md` — all decisions are LOCKED there;
-   resume the `superpowers:brainstorming` skill at "Present design sections" (design NOT yet approved — no code
-   until approved). Offer the visual companion (user deferred it). Then final spec → writing-plans.
-   Spec 1 CMS is DONE + pushed to origin/master. Independent leftover = P10 live deploy operator runbook
+5. **Next task = Spec 2 P5 (conversion path).** Spec 2 design APPROVED (`docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`);
+   plan-per-phase. P1–P4 + light redesign + hero comets all DONE (see phase list below). Write the P5 plan
+   (`superpowers:writing-plans`) then execute (`superpowers:executing-plans`, inline — user's chosen mode):
+   contact rewrite + "prefer a call" fields (model→schema→route→form→inbox, Spec 2 §5) + services reframe outcome-led.
+   Spec 1 CMS is DONE + pushed to origin/master. Independent leftover = P10 live deploy runbook
    (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate all shared creds).
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
+7. **Dev/verify gotchas (hit repeatedly last session):**
+   - NEVER run `npm run build` while `npm run dev` is live — build overwrites dev's `.next` → dev 500s
+     (MODULE_NOT_FOUND / missing manifest). After any build, kill dev, `rm -rf .next`, restart dev.
+   - Raw `msedge --headless --screenshot` will NOT render WebGL here (blank canvas). Use puppeteer-core instead:
+     scratchpad has `shot.js` (full-page, forces reveals, theme arg) + `hero.js` (hero viewport, waits for comet anim).
+     Run: `node hero.js <out>` from the scratchpad dir. Screenshots verify; real GPU renders fine.
+   - R3F pinned to v8 (`@react-three/fiber@^8`, drei@^9) — v9 requires React 19; project is React 18.
 
-**Last updated:** 2026-09-19
+**Last updated:** 2026-09-20
 **Branch:** feat/custom-cms
 **Current phase:** Spec 1 CMS DONE (pushed to origin/master). **Spec 2 (public redesign): design APPROVED** (all 7 sections) → `docs/superpowers/specs/2026-09-19-spec2-public-redesign-design.md`. Plan-per-phase (user chose).
 - **P1 DONE** (light default, Fraunces serif, tracking polish). Plan: `.../plans/2026-09-19-spec2-p1-design-system-light-default.md`.
 - **P2 DONE** (Lenis smooth-scroll replacing locomotive, gsap+ScrollTrigger, framer-motion, magnetic cursor, `lib/motion.ts` pure helpers; dropped styled-components + stale .netlify). Plan: `.../plans/2026-09-19-spec2-p2-motion-foundation.md`. Gate green 76 tests.
 - **P3 DONE** (home rebuilt to 6-section SMB narrative: Hero → Problem → Services → Proof[work+testimonials] → Process → CTA; `lib/home-content.ts` SMB copy; `ProblemSection`; GSAP hero parallax + scroll count-up metrics; static poster hero w/ `HERO-POSTER-SEAM` marker for P4; `data-magnetic` on CTAs). Plan: `.../plans/2026-09-19-spec2-p3-home-rebuild.md`. Gate green 82 tests.
 - **P4 DONE** (WebGL hero: R3F v8 pinned for React 18 [v9 needs React 19]; `HeroCanvas` pointer-reactive distorted teal blob via drei MeshDistortMaterial+Float; `HeroWebGL` loader = `next/dynamic ssr:false` + `shouldRenderWebGL` gate [off on reduced-motion/coarse/small<768/save-data/no-webgl]; fades in over static poster; three/R3F code-split — home First Load JS 143kB, three NOT in shared bundle). Plan: `.../plans/2026-09-19-spec2-p4-webgl-hero.md`. Gate green 87 tests.
-- **P3.5 LIGHT REDESIGN DONE** (user feedback: light-first was flat/sterile — was a token inversion of a dark-designed site). Built real light system: warm paper + AA text + elevation shadow tokens; `.card-surface` solid+soft-shadow (replaced washed-out translucent cards across Problem/Services/Proof/testimonials); hero aura wash + masked grid (depth not void); WebGL blob moved to top-right accent (was covering headline); cursor reveals after first move. Dark theme preserved. Verified via screenshots (Edge/puppeteer-core in scratchpad — `shot.js`). Commit `86ce002`.
+- **P3.5 LIGHT REDESIGN DONE** (user feedback: light-first was flat/sterile — was a token inversion of a dark-designed site). Built real light system: warm paper + AA text + elevation shadow tokens; `.card-surface` solid+soft-shadow (replaced washed-out translucent cards across Problem/Services/Proof/testimonials); hero aura wash + masked grid (depth not void); cursor reveals after first move. Dark theme preserved. Commit `86ce002`.
+- **HERO 3D ITERATED (user-driven) → final = Windows-screensaver "shooting-star" comets.** `components/home/HeroCanvas.tsx`:
+  multicolour comets (teal/amber/sky/magenta/violet) sampled backward-in-time along Lissajous paths → tapered
+  tube (thick head → thin tail) built on TubeGeometry topology; amplitudes exceed viewport so heads fly off all
+  edges + sweep back; short trail keeps comet shape readable; pointer-tilts the field; hero content is `z-10` so
+  text stays readable over the ribbons. Motion-safe gate + code-split unchanged (home First Load 143kB). Latest
+  commit `c6368c0` (+ wider-travel tweak committed after). Journey: solid blob → torus-knot → tube-field →
+  comets (kept). Tuning levers in the file: `COMETS[]` (color/amp/freq/speed/headRadius), `SAMPLES`/`DT` (trail len).
 - **NEXT = P5 (conversion path: contact rewrite + "prefer a call" fields model→schema→route→form→inbox [Spec 2 Section 5]; services reframe outcome-led).**
-⚠ **Owed manual BROWSER checks** (I can't click; do a real pass): P1 light-mode audit all pages; P2 cursor/Lenis/fallbacks; P3 home narrative + copy + parallax + count-up + reduced-motion.
+⚠ **Owed manual BROWSER checks** (do a real click-through, all in LIGHT default + DARK toggle): P1 pages/contrast;
+   P2 cursor/Lenis/reduced-motion+touch fallbacks; P3 home narrative+copy+parallax+count-up; hero comets on real GPU + WebGL-off fallback (mobile/reduced-motion → static poster).
 📝 Copy is Claude-drafted SMB voice in `lib/home-content.ts` — user to edit/approve wording.
-**Gate:** GREEN — 60 tests · type-check · lint · build.
+**Gate:** GREEN — 87 tests · type-check · lint · build.
 
 ## Done + verified
 - P0 docs/ADRs; P1 MongoDB data layer (live Atlas); P2 R2 storage (live round-trip);

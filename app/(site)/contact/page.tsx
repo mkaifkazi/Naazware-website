@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 import ContactForm from '@/components/ContactForm'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import AccordionReveal from '@/components/motion/AccordionReveal'
 import { generateMetadata as genMeta } from '@/lib/seo'
 import { getSettings } from '@/lib/settings-service'
 
@@ -42,6 +45,10 @@ export default async function ContactPage() {
   const settings = await getSettings()
   return (
     <>
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 100, offset: { x: -10, y: 5 }, intensity: 0.55 }} />
+      <div className="relative z-10">
+
       <PageHeader
         eyebrow="Contact"
         size="lg"
@@ -106,15 +113,15 @@ export default async function ContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="border-t border-ink-600 bg-ink-950 py-20 md:py-28">
-        <div className="container-px max-w-3xl">
+      <section className="relative overflow-hidden border-t border-ink-600 bg-ink-950 py-20 md:py-28">
+        <Accents preset="section" />
+        <div className="container-px relative z-10 max-w-3xl">
           <Reveal as="h2" className="text-display-md mb-10 text-center">
             Common questions
           </Reveal>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <Reveal key={faq.q} delay={i * 60}>
-                <details className="group rounded-2xl border border-ink-600 bg-ink-800/50 px-6 open:bg-ink-800/80">
+          <AccordionReveal className="space-y-3">
+            {faqs.map((faq) => (
+                <details key={faq.q} className="group rounded-2xl border border-ink-600 bg-ink-800/50 px-6 open:bg-ink-800/80">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-medium text-paper marker:hidden">
                     {faq.q}
                     <svg className="h-5 w-5 shrink-0 text-paper-dim transition-transform duration-300 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -123,11 +130,12 @@ export default async function ContactPage() {
                   </summary>
                   <p className="pb-5 leading-relaxed text-paper-dim">{faq.a}</p>
                 </details>
-              </Reveal>
             ))}
-          </div>
+          </AccordionReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

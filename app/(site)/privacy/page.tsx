@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
+import SilkBackground from '@/components/visual/SilkBackground'
+import ProseReveal from '@/components/motion/ProseReveal'
 import { generateMetadata as genMeta } from '@/lib/seo'
 import { getSettings } from '@/lib/settings-service'
 
@@ -13,9 +15,13 @@ export default async function PrivacyPage() {
   const settings = await getSettings()
   return (
     <>
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 140, intensity: 0.4 }} />
+      <div className="relative z-10">
       <PageHeader eyebrow="Legal" title="Privacy Policy" />
       <section className="pb-24">
         <div className="container-px">
+          <ProseReveal>
           <article className="prose-dark mx-auto max-w-3xl">
             <p className="text-sm text-paper-faint">Last updated: {new Date().toLocaleDateString()}</p>
 
@@ -59,8 +65,11 @@ export default async function PrivacyPage() {
               <a href={`mailto:${settings.email}`}>{settings.email}</a>.
             </p>
           </article>
+          </ProseReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
 import { generateMetadata as genMeta } from '@/lib/seo'
 
 export const metadata: Metadata = genMeta({
@@ -89,8 +90,9 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="border-y border-ink-600 bg-ink-950 py-20 md:py-28">
-        <div className="container-px">
+      <section className="relative overflow-hidden border-y border-ink-600 bg-ink-950 py-20 md:py-28">
+        <Accents preset="section" />
+        <div className="container-px relative z-10">
           <Reveal as="div" className="mb-14">
             <p className="eyebrow mb-4">What we value</p>
             <h2 className="text-display-md max-w-2xl">Principles that guide how we work.</h2>

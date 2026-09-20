@@ -5,6 +5,10 @@ import Reveal from '@/components/Reveal'
 import ProblemSection from '@/components/home/ProblemSection'
 import HeroParallax from '@/components/home/HeroParallax'
 import HeroWebGL from '@/components/home/HeroWebGL'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
 import { services } from '@/lib/services-data'
 import { getFeaturedProjects, getTestimonials } from '@/lib/content'
 import { hero, sections, process, cta } from '@/lib/home-content'
@@ -75,6 +79,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ───────────── Ambient silk behind mid sections (hero owns the WebGL) ───────────── */}
+      <div className="relative overflow-hidden">
+        <SilkBackground composition={{ angle: 135, intensity: 0.5 }} allowWebGL={false} />
+        <div className="relative z-10">
+
       {/* ───────────── Problem ───────────── */}
       <ProblemSection />
 
@@ -93,19 +102,18 @@ export default async function HomePage() {
             )}
           </Reveal>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => (
-              <Reveal key={service.slug} delay={(i % 3) * 80}>
-                <ServiceCard
-                  title={service.title}
-                  description={service.shortDescription}
-                  bullets={service.bullets}
-                  href={`/services/${service.slug}`}
-                  icon={service.icon}
-                />
-              </Reveal>
+          <CardGridReveal className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <ServiceCard
+                key={service.slug}
+                title={service.title}
+                description={service.shortDescription}
+                bullets={service.bullets}
+                href={`/services/${service.slug}`}
+                icon={service.icon}
+              />
             ))}
-          </div>
+          </CardGridReveal>
         </div>
       </section>
 
@@ -124,22 +132,21 @@ export default async function HomePage() {
             )}
           </Reveal>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <CardGridReveal className="grid gap-6 md:grid-cols-2">
             {featured.map((study, i) => (
-              <Reveal key={study.slug} delay={(i % 2) * 100}>
-                <CaseStudyCard
-                  title={study.title}
-                  client={study.client}
-                  industry={study.industry}
-                  excerpt={study.excerpt}
-                  href={`/work/${study.slug}`}
-                  metrics={study.metrics}
-                  index={i}
-                  coverUrl={study.coverUrl}
-                />
-              </Reveal>
+              <CaseStudyCard
+                key={study.slug}
+                title={study.title}
+                client={study.client}
+                industry={study.industry}
+                excerpt={study.excerpt}
+                href={`/work/${study.slug}`}
+                metrics={study.metrics}
+                index={i}
+                coverUrl={study.coverUrl}
+              />
             ))}
-          </div>
+          </CardGridReveal>
 
           {testimonials.length > 0 && (
             <>
@@ -147,10 +154,9 @@ export default async function HomePage() {
                 <p className="eyebrow mb-4">{sections.testimonials.eyebrow}</p>
                 <h3 className="text-display-sm max-w-2xl">{sections.testimonials.heading}</h3>
               </Reveal>
-              <div className="grid gap-6 lg:grid-cols-3">
-                {testimonials.map((t, i) => (
-                  <Reveal key={t.author} delay={(i % 3) * 80}>
-                    <figure className="card-surface flex h-full flex-col p-8">
+              <CardGridReveal className="grid gap-6 lg:grid-cols-3">
+                {testimonials.map((t) => (
+                    <figure key={t.author} className="card-surface flex h-full flex-col p-8">
                       <svg className="h-8 w-8 text-accent/50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M9.5 5C6.5 6.5 5 9 5 12.5V19h6v-6H8c0-2 1-3.5 3-4.5L9.5 5Zm10 0C16.5 6.5 15 9 15 12.5V19h6v-6h-3c0-2 1-3.5 3-4.5L19.5 5Z" />
                       </svg>
@@ -162,9 +168,8 @@ export default async function HomePage() {
                         <div className="text-sm text-paper-dim">{t.role}</div>
                       </figcaption>
                     </figure>
-                  </Reveal>
                 ))}
-              </div>
+              </CardGridReveal>
             </>
           )}
         </div>
@@ -178,29 +183,26 @@ export default async function HomePage() {
             <h2 className="text-display-md max-w-2xl">{sections.process.heading}</h2>
           </Reveal>
 
-          <div className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 md:grid-cols-2 lg:grid-cols-4">
-            {process.map((step, i) => (
-              <Reveal key={step.no} delay={i * 80} className="bg-ink-900">
-                <div className="flex h-full flex-col p-8">
-                  <span className="font-display text-5xl font-semibold text-accent/30">{step.no}</span>
-                  <h3 className="mt-6 text-lg font-semibold text-paper">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-paper-dim">{step.body}</p>
-                </div>
-              </Reveal>
+          <CardGridReveal className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 md:grid-cols-2 lg:grid-cols-4">
+            {process.map((step) => (
+              <div key={step.no} className="flex h-full flex-col bg-ink-900 p-8">
+                <span className="font-display text-5xl font-semibold text-accent/30">{step.no}</span>
+                <h3 className="mt-6 text-lg font-semibold text-paper">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-paper-dim">{step.body}</p>
+              </div>
             ))}
-          </div>
+          </CardGridReveal>
         </div>
       </section>
 
+        </div>
+      </div>
+
       {/* ───────────── Final CTA ───────────── */}
       <section className="relative overflow-hidden py-28 md:py-36">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
-        <div className="container-px relative text-center">
-          <Reveal as="div" className="mx-auto max-w-3xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-3xl">
             <h2 className="text-display-lg text-gradient">{cta.heading}</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">{cta.body}</p>
             <div className="mt-10 flex justify-center">
@@ -211,7 +213,7 @@ export default async function HomePage() {
                 </svg>
               </Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
     </>

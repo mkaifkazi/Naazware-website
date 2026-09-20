@@ -2,7 +2,10 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
-import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
 import { getService, getAllServiceSlugs } from '@/lib/services-data'
 import { generateMetadata as genMeta, generateBreadcrumbSchema, generateServiceSchema } from '@/lib/seo'
 
@@ -48,6 +51,10 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
 
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 110, intensity: 0.5 }} />
+      <div className="relative z-10">
+
       <PageHeader
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services' }, { label: service.title }]}
         title={service.title}
@@ -59,17 +66,14 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       </PageHeader>
 
       <section className="pb-8">
-        <div className="container-px space-y-6">
+        <CardGridReveal className="container-px space-y-6">
           {blocks.map((b) => (
-            <Reveal key={b.label}>
-              <div className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
+              <div key={b.label} className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
                 <h2 className="text-display-sm">{b.label}</h2>
                 <p className="text-lg leading-relaxed text-paper-dim">{b.body}</p>
               </div>
-            </Reveal>
           ))}
 
-          <Reveal>
             <div className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
               <h2 className="text-display-sm mb-6">Key features</h2>
               <ul className="grid gap-4 md:grid-cols-2">
@@ -90,18 +94,13 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
                 ))}
               </div>
             </div>
-          </Reveal>
-        </div>
+        </CardGridReveal>
       </section>
 
       <section className="relative overflow-hidden py-24 md:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
-        <div className="container-px relative text-center">
-          <Reveal as="div" className="mx-auto max-w-2xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Ready to get started?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
               Tell us about your project and we&apos;ll send you a detailed estimate within 24 hours.
@@ -110,9 +109,11 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
               <Link href="/contact" className="btn-accent">Get a free estimate</Link>
               <Link href="/work" className="btn-ghost">See similar projects</Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

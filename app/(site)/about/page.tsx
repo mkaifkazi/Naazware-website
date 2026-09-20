@@ -4,6 +4,9 @@ import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import SilkBackground from '@/components/visual/SilkBackground'
 import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
+import ProseReveal from '@/components/motion/ProseReveal'
 import { generateMetadata as genMeta } from '@/lib/seo'
 
 export const metadata: Metadata = genMeta({
@@ -70,7 +73,7 @@ export default function AboutPage() {
           <Reveal as="h2" className="text-display-sm">
             Who we are
           </Reveal>
-          <Reveal as="div" delay={120} className="space-y-5 text-lg leading-relaxed text-paper-dim">
+          <ProseReveal className="space-y-5 text-lg leading-relaxed text-paper-dim">
             <p>
               Naazware started because we were tired of seeing good projects let down by poor
               planning, unclear timelines, and over-engineered solutions.
@@ -85,7 +88,7 @@ export default function AboutPage() {
               companies modernising legacy systems. What they share: they want a partner who
               delivers what they promise, when they promise it.
             </p>
-          </Reveal>
+          </ProseReveal>
         </div>
       </section>
 
@@ -97,16 +100,14 @@ export default function AboutPage() {
             <p className="eyebrow mb-4">What we value</p>
             <h2 className="text-display-md max-w-2xl">Principles that guide how we work.</h2>
           </Reveal>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {values.map((v, i) => (
-              <Reveal key={v.title} delay={(i % 3) * 80}>
-                <div className="h-full rounded-3xl border border-ink-600 bg-ink-800/60 p-7">
-                  <h3 className="text-lg font-semibold text-paper">{v.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-paper-dim">{v.body}</p>
-                </div>
-              </Reveal>
+          <CardGridReveal className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {values.map((v) => (
+              <div key={v.title} className="h-full rounded-3xl border border-ink-600 bg-ink-800/60 p-7">
+                <h3 className="text-lg font-semibold text-paper">{v.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-paper-dim">{v.body}</p>
+              </div>
             ))}
-          </div>
+          </CardGridReveal>
         </div>
       </section>
 
@@ -117,29 +118,23 @@ export default function AboutPage() {
             <p className="eyebrow mb-4">How we work</p>
             <h2 className="text-display-md max-w-2xl">From brief to launch, in four clear steps.</h2>
           </Reveal>
-          <div className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, i) => (
-              <Reveal key={step.no} delay={i * 80} className="bg-ink-900">
-                <div className="flex h-full flex-col p-8">
-                  <span className="font-display text-5xl font-semibold text-accent/30">{step.no}</span>
-                  <h3 className="mt-6 text-lg font-semibold text-paper">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-paper-dim">{step.body}</p>
-                </div>
-              </Reveal>
+          <CardGridReveal className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 md:grid-cols-2 lg:grid-cols-4">
+            {steps.map((step) => (
+              <div key={step.no} className="flex h-full flex-col bg-ink-900 p-8">
+                <span className="font-display text-5xl font-semibold text-accent/30">{step.no}</span>
+                <h3 className="mt-6 text-lg font-semibold text-paper">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-paper-dim">{step.body}</p>
+              </div>
             ))}
-          </div>
+          </CardGridReveal>
         </div>
       </section>
 
       {/* CTA */}
       <section className="relative overflow-hidden py-24 md:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
-        <div className="container-px relative text-center">
-          <Reveal as="div" className="mx-auto max-w-2xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Want to work with us?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
               Tell us about your project and we&apos;ll get back to you within 24 hours.
@@ -149,7 +144,7 @@ export default function AboutPage() {
                 Start a conversation
               </Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
       </div>

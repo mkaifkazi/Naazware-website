@@ -3,6 +3,11 @@ import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import ServiceIcon from '@/components/ServiceIcon'
+import SilkBackground from '@/components/visual/SilkBackground'
+import Accents from '@/components/visual/Accents'
+import CardGridReveal from '@/components/motion/CardGridReveal'
+import CtaReveal from '@/components/motion/CtaReveal'
+import AccordionReveal from '@/components/motion/AccordionReveal'
 import { services } from '@/lib/services-data'
 import { generateMetadata as genMeta, generateFaqSchema } from '@/lib/seo'
 
@@ -48,6 +53,10 @@ export default function ServicesPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
+      <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 150, offset: { x: 15, y: -10 }, intensity: 0.55 }} />
+      <div className="relative z-10">
+
       <PageHeader
         eyebrow="Services"
         size="lg"
@@ -60,10 +69,10 @@ export default function ServicesPage() {
       />
 
       <section className="pb-12">
-        <div className="container-px space-y-6">
+        <CardGridReveal className="container-px space-y-6">
           {services.map((service) => (
-            <Reveal key={service.slug}>
               <div
+                key={service.slug}
                 id={service.slug}
                 className="grid scroll-mt-28 gap-8 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-2 md:p-12"
               >
@@ -111,9 +120,8 @@ export default function ServicesPage() {
                   </div>
                 </div>
               </div>
-            </Reveal>
           ))}
-        </div>
+        </CardGridReveal>
       </section>
 
       <section className="border-t border-ink-600 py-20 md:py-28">
@@ -121,7 +129,7 @@ export default function ServicesPage() {
           <Reveal>
             <h2 className="text-display-sm text-paper">Frequently asked questions</h2>
           </Reveal>
-          <div className="mt-10 grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600">
+          <AccordionReveal className="mt-10 grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600">
             {faqs.map((faq) => (
               <details key={faq.q} className="group bg-ink-900/60 p-6 md:p-8">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-medium text-paper marker:content-['']">
@@ -136,18 +144,14 @@ export default function ServicesPage() {
                 <p className="mt-4 leading-relaxed text-paper-dim">{faq.a}</p>
               </details>
             ))}
-          </div>
+          </AccordionReveal>
         </div>
       </section>
 
       <section className="relative overflow-hidden py-24 md:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[130px]"
-          style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
-        />
-        <div className="container-px relative text-center">
-          <Reveal as="div" className="mx-auto max-w-2xl">
+        <Accents preset="cta" />
+        <div className="container-px relative z-10 text-center">
+          <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Not sure which service you need?</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">
               Let&apos;s talk about your project. We&apos;ll recommend the right approach.
@@ -157,9 +161,11 @@ export default function ServicesPage() {
                 Schedule a consultation
               </Link>
             </div>
-          </Reveal>
+          </CtaReveal>
         </div>
       </section>
+      </div>
+      </div>
     </>
   )
 }

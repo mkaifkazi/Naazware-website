@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json({ error: 'Missing or invalid fields' }, { status: 400 })
     }
-    const { name, email, company, budget, message } = parsed.data
+    const { name, email, company, budget, message, prefersCall, phone, preferredTime } = parsed.data
     const createdAt = new Date().toISOString()
 
     // 1) Persist to Mongo (primary store — surfaces in the admin inbox).
@@ -54,6 +54,13 @@ export async function POST(request: NextRequest) {
             <p><strong>Email:</strong> ${escapeHtml(email)}</p>
             <p><strong>Company:</strong> ${escapeHtml(company || 'N/A')}</p>
             <p><strong>Budget:</strong> ${escapeHtml(budget)}</p>
+            ${
+              prefersCall
+                ? `<p><strong>Prefers a call:</strong> Yes</p>
+            <p><strong>Phone:</strong> ${escapeHtml(phone || 'N/A')}</p>
+            <p><strong>Preferred time:</strong> ${escapeHtml(preferredTime || 'Any')}</p>`
+                : ''
+            }
             <p><strong>Message:</strong></p>
             <p>${escapeHtml(message).replace(/\n/g, '<br/>')}</p>
             <hr/><p style="color:#888">Received ${createdAt}</p>

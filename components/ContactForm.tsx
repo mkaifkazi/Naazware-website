@@ -6,17 +6,25 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { site } from '@/lib/site'
 
-const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email'),
-  company: z.string().optional(),
-  budget: z.string().min(1, 'Please select a budget range'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  consent: z.boolean().refine((val) => val === true, {
-    message: 'You must agree to continue',
-  }),
-  website: z.string().optional(), // honeypot — must stay empty
-})
+const contactSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email'),
+    company: z.string().optional(),
+    budget: z.string().min(1, 'Please select a budget range'),
+    message: z.string().min(10, 'Message must be at least 10 characters'),
+    consent: z.boolean().refine((val) => val === true, {
+      message: 'You must agree to continue',
+    }),
+    website: z.string().optional(), // honeypot — must stay empty
+    prefersCall: z.boolean().optional(),
+    phone: z.string().optional(),
+    preferredTime: z.string().optional(),
+  })
+  .refine((d) => !d.prefersCall || (d.phone?.trim().length ?? 0) > 0, {
+    message: 'Add a phone number so we can call you',
+    path: ['phone'],
+  })
 
 type ContactFormData = z.infer<typeof contactSchema>
 
@@ -30,11 +38,14 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   })
+
+  const prefersCall = watch('prefersCall')
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
@@ -121,8 +132,50 @@ export default function ContactForm() {
           {...register('message')}
         />
         {errors.message && <p className="mt-1.5 text-sm text-red-400">{errors.message.message}</p>}
-        <p className="mt-1.5 text-sm text-paper-faint">We&apos;ll reply within 24 hours.</p>
+        <p className="mt-1.5 text-sm text-paper-faint">We reply within 1 business day.</p>
       </div>
+
+      <div className="flex items-start gap-3">
+        <input
+          id="prefersCall"
+          type="checkbox"
+          className="mt-1 h-4 w-4 rounded border-ink-600 bg-ink-900 text-accent-soft accent-accent focus:ring-accent/60"
+          {...register('prefersCall')}
+        />
+        <label htmlFor="prefersCall" className="text-sm text-paper-dim">
+          I&apos;d prefer a call
+        </label>
+      </div>
+
+      {prefersCall && (
+        <div className="space-y-5 rounded-2xl border border-ink-600 bg-ink-900/40 p-5">
+          <div>
+            <label htmlFor="phone" className="mb-2 block text-sm font-medium text-paper">
+              Phone *
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              autoComplete="tel"
+              className={`${inputBase} ${border(errors.phone)}`}
+              {...register('phone')}
+            />
+            {errors.phone && <p className="mt-1.5 text-sm text-red-400">{errors.phone.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="preferredTime" className="mb-2 block text-sm font-medium text-paper">
+              Best time to reach you <span className="text-paper-faint">(optional)</span>
+            </label>
+            <input
+              id="preferredTime"
+              type="text"
+              placeholder="e.g. weekday mornings"
+              className={`${inputBase} border-ink-600`}
+              {...register('preferredTime')}
+            />
+          </div>
+        </div>
+      )}
 
       <div className="flex items-start gap-3">
         <input

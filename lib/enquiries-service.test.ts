@@ -43,6 +43,32 @@ describe('enquiries-service', () => {
     expect(all[0].name).toBe('Beta Co') // newest first
   })
 
+  it('createEnquiry persists call-preference fields', async () => {
+    const { id } = await createEnquiry({
+      ...base,
+      name: 'Call Me',
+      email: 'call@example.com',
+      message: 'Please ring me about this.',
+      prefersCall: true,
+      phone: '+971 50 000 0000',
+      preferredTime: 'Afternoons',
+    })
+    const doc = await getEnquiryById(id)
+    expect(doc?.prefersCall).toBe(true)
+    expect(doc?.phone).toBe('+971 50 000 0000')
+    expect(doc?.preferredTime).toBe('Afternoons')
+  })
+
+  it('listEnquiries surfaces prefersCall for the table hint', async () => {
+    await createEnquiry({
+      ...base, name: 'Wants Call', email: 'w@example.com',
+      message: 'Ring me on the mobile.', prefersCall: true, phone: '123456',
+    })
+    const rows = await listEnquiries({ search: 'Wants Call' })
+    expect(rows[0].prefersCall).toBe(true)
+    expect(rows[0].phone).toBe('123456')
+  })
+
   it('deleteEnquiry removes it', async () => {
     const { id } = await createEnquiry({ ...base, name: 'Temp', email: 't@t.com', message: 'delete me please' })
     expect(await deleteEnquiry(id)).toBe(true)

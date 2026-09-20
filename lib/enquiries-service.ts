@@ -8,6 +8,9 @@ export type AdminEnquiryRow = {
   email: string
   company: string
   budget: string
+  prefersCall: boolean
+  phone: string
+  preferredTime: string
   status: EnquiryStatus
   createdAt: Date
 }
@@ -20,6 +23,9 @@ export async function createEnquiry(input: EnquiryInput): Promise<{ id: string }
     company: input.company ?? '',
     budget: input.budget,
     message: input.message,
+    prefersCall: input.prefersCall ?? false,
+    phone: input.phone ?? '',
+    preferredTime: input.preferredTime ?? '',
     status: 'new',
   })
   return { id: String(created._id) }
@@ -61,6 +67,9 @@ export async function listEnquiries(
     email: e.email,
     company: e.company ?? '',
     budget: e.budget ?? '',
+    prefersCall: Boolean(e.prefersCall),
+    phone: e.phone ?? '',
+    preferredTime: e.preferredTime ?? '',
     status: (e.status ?? 'new') as EnquiryStatus,
     createdAt: e.createdAt,
   }))

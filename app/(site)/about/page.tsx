@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
+import SilkBackground from '@/components/visual/SilkBackground'
 import { generateMetadata as genMeta } from '@/lib/seo'
 
 export const metadata: Metadata = genMeta({
@@ -47,7 +48,9 @@ const steps = [
 
 export default function AboutPage() {
   return (
-    <>
+    <div className="relative overflow-hidden">
+      <SilkBackground composition={{ angle: 120, offset: { x: -20, y: 10 }, intensity: 0.6 }} />
+      <div className="relative z-10">
       <PageHeader
         eyebrow="About"
         size="lg"
@@ -147,6 +150,7 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
-    </>
+      </div>
+    </div>
   )
 }

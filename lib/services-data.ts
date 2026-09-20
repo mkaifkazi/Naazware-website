@@ -16,11 +16,11 @@ export const services: Service[] = [
   {
     slug: 'web-development',
     title: 'Web Application Development',
-    shortDescription: 'Build fast, scalable web applications with modern frameworks. From responsive SPAs to complex dashboards, we deliver clean code and exceptional user experiences that drive results.',
+    shortDescription: 'A fast, modern website or web app that turns visitors into enquiries — and makes your business look established and easy to deal with.',
     bullets: [
-      'Scalable backends with clean APIs',
-      'Responsive design across all devices',
-      'Performance-first architecture',
+      'More enquiries from a site that loads instantly',
+      'Looks sharp on every phone, tablet, and screen',
+      'Easy to update — no developer needed for small changes',
     ],
     icon: 'web',
     fullDescription:
@@ -43,11 +43,11 @@ export const services: Service[] = [
   {
     slug: 'mobile-development',
     title: 'Mobile App Development',
-    shortDescription: 'Create engaging mobile experiences for iOS and Android. We build native and cross-platform apps that users love, with offline support, smooth performance, and seamless App Store deployment.',
+    shortDescription: 'A mobile app your customers actually keep and use — putting your business in their pocket on both iPhone and Android.',
     bullets: [
-      'iOS and Android with native performance',
-      'App Store and Play Store publishing',
-      'Offline-first architecture',
+      'One app that reaches every customer, iPhone and Android',
+      'We handle App Store and Play Store, launch to live',
+      'Works even offline, so it never leaves them stuck',
     ],
     icon: 'mobile',
     fullDescription:
@@ -70,11 +70,11 @@ export const services: Service[] = [
   {
     slug: 'desktop-development',
     title: 'Desktop App Development',
-    shortDescription: 'Develop powerful desktop applications for Windows, macOS, and Linux. Professional tools with native performance, offline capabilities, and deep system integration that your users can rely on daily.',
+    shortDescription: 'A desktop tool your team relies on every day — fast, dependable software that fits how your business actually works.',
     bullets: [
-      'Cross-platform: Windows, macOS, Linux',
-      'Offline-first with local data storage',
-      'Native system integrations',
+      'Runs on Windows, macOS, and Linux — one build for all',
+      'Keeps working offline, with your data stored locally',
+      'Fits into the tools and systems you already use',
     ],
     icon: 'desktop',
     fullDescription:
@@ -97,11 +97,11 @@ export const services: Service[] = [
   {
     slug: 'domain-hosting',
     title: 'Domain & Hosting',
-    shortDescription: 'Get reliable, secure hosting with automated deployments and global CDN. We handle domains, SSL certificates, and CI/CD pipelines so your site stays fast, secure, and always online.',
+    shortDescription: 'Your site online, fast, and secure — without you ever thinking about servers, domains, or the "not secure" warning.',
     bullets: [
-      'Fast global CDN delivery',
-      'Automated SSL certificates',
-      'One-click deployments with CI/CD',
+      'Loads fast for customers wherever they are',
+      'Locked-down and secure, with the padlock, automatically',
+      'Stays online — we handle domains, hosting, and updates',
     ],
     icon: 'server',
     fullDescription:
@@ -125,11 +125,11 @@ export const services: Service[] = [
   {
     slug: 'qa-testing',
     title: 'QA & Testing',
-    shortDescription: 'Ensure quality with comprehensive testing strategies. From automated test suites to manual QA on real devices, we catch bugs before your users do and maintain security at every level.',
+    shortDescription: 'Software your customers can trust — we find the bugs before they do, so launches are smooth and your reputation stays intact.',
     bullets: [
-      'Automated test suites for every release',
-      'Manual QA on real devices',
-      'Performance and security audits',
+      'Fewer bugs reaching your customers',
+      'Tested on real phones and devices, not just in theory',
+      'Checked for speed and security before every release',
     ],
     icon: 'test',
     fullDescription:
@@ -153,11 +153,11 @@ export const services: Service[] = [
   {
     slug: 'website-maintenance',
     title: 'Website Maintenance',
-    shortDescription: 'Keep your website running smoothly with ongoing maintenance and updates. Whether we built it or someone else did, we handle security patches, feature updates, and technical improvements.',
+    shortDescription: 'Peace of mind that your website stays fast, safe, and current — whether we built it or someone else did.',
     bullets: [
-      'Regular security and framework updates',
-      'Performance monitoring and optimization',
-      'Content updates and feature additions',
+      'Stays secure and up to date, no nasty surprises',
+      'We watch performance and keep it loading fast',
+      'Quick edits and new features whenever you need them',
     ],
     icon: 'web',
     fullDescription:

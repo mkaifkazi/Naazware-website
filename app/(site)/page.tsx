@@ -5,8 +5,6 @@ import Reveal from '@/components/Reveal'
 import ProblemSection from '@/components/home/ProblemSection'
 import HeroParallax from '@/components/home/HeroParallax'
 import HeroWebGL from '@/components/home/HeroWebGL'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import { services } from '@/lib/services-data'
@@ -81,7 +79,6 @@ export default async function HomePage() {
 
       {/* ───────────── Ambient silk behind mid sections (hero owns the WebGL) ───────────── */}
       <div className="relative overflow-hidden">
-        <SilkBackground composition={{ angle: 135, intensity: 0.5 }} allowWebGL={false} />
         <div className="relative z-10">
 
       {/* ───────────── Problem ───────────── */}
@@ -118,7 +115,7 @@ export default async function HomePage() {
       </section>
 
       {/* ───────────── Proof (featured work + testimonials) ───────────── */}
-      <section className="relative border-y border-ink-600 bg-ink-950 py-24 md:py-32">
+      <section className="relative border-y border-ink-600 bg-ink-950/70 py-24 md:py-32">
         <div className="container-px">
           <Reveal as="div" className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -200,7 +197,6 @@ export default async function HomePage() {
 
       {/* ───────────── Final CTA ───────────── */}
       <section className="relative overflow-hidden py-28 md:py-36">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-3xl">
             <h2 className="text-display-lg text-gradient">{cta.heading}</h2>

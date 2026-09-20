@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import MediaReveal from '@/components/motion/MediaReveal'
@@ -109,7 +107,6 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
 
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 120, intensity: 0.45 }} />
       <div className="relative z-10">
 
       <PageHeader
@@ -186,7 +183,6 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       )}
 
       <section className="relative overflow-hidden border-t border-ink-600 py-24">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Need help with your project?</h2>

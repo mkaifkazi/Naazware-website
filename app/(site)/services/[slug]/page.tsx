@@ -2,8 +2,6 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import { getService, getAllServiceSlugs } from '@/lib/services-data'
@@ -52,7 +50,6 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
 
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 110, intensity: 0.5 }} />
       <div className="relative z-10">
 
       <PageHeader
@@ -98,7 +95,6 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       </section>
 
       <section className="relative overflow-hidden py-24 md:py-32">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Ready to get started?</h2>

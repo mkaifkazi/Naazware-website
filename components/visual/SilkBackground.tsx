@@ -23,10 +23,13 @@ function detectWebGL(): boolean {
 export default function SilkBackground({
   composition,
   allowWebGL = true,
+  global = false,
   className = '',
 }: {
   composition?: Partial<SilkComposition>
   allowWebGL?: boolean
+  /** One continuous fixed full-viewport backdrop behind all content (mount once). */
+  global?: boolean
   className?: string
 }) {
   const c = normalizeComposition(composition)
@@ -49,8 +52,9 @@ export default function SilkBackground({
     }
   }, [allowWebGL])
 
+  const position = global ? 'fixed -z-10' : 'absolute -z-0'
   return (
-    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-0 ${className}`}>
+    <div aria-hidden="true" className={`pointer-events-none ${position} inset-0 ${className}`}>
       {webgl ? <SilkCanvas composition={c} /> : <SilkFallback composition={c} animated={!reduced} />}
     </div>
   )

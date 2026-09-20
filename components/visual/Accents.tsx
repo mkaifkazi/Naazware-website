@@ -11,17 +11,17 @@ function ParallaxItem({
   x,
   y,
   progress,
-  reduced,
+  noParallax,
   children,
 }: {
   depth: number
   x: number
   y: number
   progress: MotionValue<number>
-  reduced: boolean
+  noParallax: boolean
   children: React.ReactNode
 }) {
-  const shift = useTransform(progress, [0, 1], [0, reduced ? 0 : -depth * 60])
+  const shift = useTransform(progress, [0, 1], [0, noParallax ? 0 : -depth * 60])
   return (
     <m.div className="absolute" style={{ left: `${x}%`, top: `${y}%`, y: shift }}>
       <div style={{ transform: 'translate(-50%, -50%)' }}>{children}</div>
@@ -29,9 +29,9 @@ function ParallaxItem({
   )
 }
 
-function BlobEl({ b, progress, reduced }: { b: Blob; progress: MotionValue<number>; reduced: boolean }) {
+function BlobEl({ b, progress, reduced, noParallax }: { b: Blob; progress: MotionValue<number>; reduced: boolean; noParallax: boolean }) {
   return (
-    <ParallaxItem depth={b.depth} x={b.x} y={b.y} progress={progress} reduced={reduced}>
+    <ParallaxItem depth={b.depth} x={b.x} y={b.y} progress={progress} noParallax={noParallax}>
       <div
         className={reduced ? '' : 'animate-accent-float'}
         style={{
@@ -46,10 +46,10 @@ function BlobEl({ b, progress, reduced }: { b: Blob; progress: MotionValue<numbe
   )
 }
 
-function ShapeEl({ s, progress, reduced }: { s: Shape; progress: MotionValue<number>; reduced: boolean }) {
+function ShapeEl({ s, progress, noParallax }: { s: Shape; progress: MotionValue<number>; noParallax: boolean }) {
   const stroke = 'rgb(var(--silk-2) / 0.35)'
   return (
-    <ParallaxItem depth={s.depth} x={s.x} y={s.y} progress={progress} reduced={reduced}>
+    <ParallaxItem depth={s.depth} x={s.x} y={s.y} progress={progress} noParallax={noParallax}>
       <div style={{ transform: `rotate(${s.rotate}deg)` }}>
         <svg viewBox="0 0 100 100" width={s.size} height={s.size} fill="none">
           {s.kind === 'ring' ? (
@@ -65,27 +65,33 @@ function ShapeEl({ s, progress, reduced }: { s: Shape; progress: MotionValue<num
 
 export default function Accents({
   preset,
+  global = false,
   className = '',
 }: {
   preset: AccentPreset
+  /** Fixed full-viewport decorative layer (mount once); disables scroll parallax. */
+  global?: boolean
   className?: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion() ?? false
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const { blobs, shapes } = buildAccents(preset)
+  const position = global ? 'fixed -z-10' : 'absolute'
+  // Global layer is viewport-fixed → scroll parallax is meaningless; keep float only.
+  const noParallax = reduced || global
 
   return (
     <div
       ref={ref}
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+      className={`pointer-events-none ${position} inset-0 overflow-hidden ${className}`}
     >
       {blobs.map((b) => (
-        <BlobEl key={b.id} b={b} progress={scrollYProgress} reduced={reduced} />
+        <BlobEl key={b.id} b={b} progress={scrollYProgress} reduced={reduced} noParallax={noParallax} />
       ))}
       {shapes.map((s) => (
-        <ShapeEl key={s.id} s={s} progress={scrollYProgress} reduced={reduced} />
+        <ShapeEl key={s.id} s={s} progress={scrollYProgress} noParallax={noParallax} />
       ))}
     </div>
   )

@@ -2,8 +2,6 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import CaseStudyCard from '@/components/CaseStudyCard'
 import PageHeader from '@/components/PageHeader'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import { getProjects } from '@/lib/content'
@@ -24,7 +22,6 @@ export default async function WorkPage() {
   return (
     <>
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 200, offset: { x: -15, y: 0 }, intensity: 0.55 }} />
       <div className="relative z-10">
 
       <PageHeader
@@ -57,7 +54,6 @@ export default async function WorkPage() {
       </section>
 
       <section className="relative overflow-hidden border-t border-ink-600 py-24 md:py-32">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Want similar results?</h2>

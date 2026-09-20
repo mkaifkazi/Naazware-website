@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
-import SilkBackground from '@/components/visual/SilkBackground'
 import ProseReveal from '@/components/motion/ProseReveal'
 import { generateMetadata as genMeta } from '@/lib/seo'
 import { getSettings } from '@/lib/settings-service'
@@ -16,7 +15,6 @@ export default async function TermsPage() {
   return (
     <>
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 140, intensity: 0.4 }} />
       <div className="relative z-10">
       <PageHeader eyebrow="Legal" title="Terms of Service" />
       <section className="pb-24">

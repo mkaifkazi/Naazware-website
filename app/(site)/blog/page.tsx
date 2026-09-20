@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
-import SilkBackground from '@/components/visual/SilkBackground'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import { getPosts } from '@/lib/content'
 import { generateMetadata as genMeta } from '@/lib/seo'
@@ -21,7 +20,6 @@ export default async function BlogPage() {
   return (
     <>
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 130, offset: { x: 10, y: 10 }, intensity: 0.5 }} />
       <div className="relative z-10">
 
       <PageHeader

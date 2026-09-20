@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import MediaReveal from '@/components/motion/MediaReveal'
@@ -50,7 +48,6 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 160, intensity: 0.5 }} />
       <div className="relative z-10">
 
       <PageHeader
@@ -126,7 +123,6 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
       </section>
 
       <section className="relative overflow-hidden py-24 md:py-32">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Need similar help?</h2>

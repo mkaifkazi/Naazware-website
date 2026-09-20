@@ -2,8 +2,6 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import ProseReveal from '@/components/motion/ProseReveal'
@@ -53,7 +51,6 @@ const steps = [
 export default function AboutPage() {
   return (
     <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 120, offset: { x: -20, y: 10 }, intensity: 0.6 }} />
       <div className="relative z-10">
       <PageHeader
         eyebrow="About"
@@ -93,8 +90,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="relative overflow-hidden border-y border-ink-600 bg-ink-950 py-20 md:py-28">
-        <Accents preset="section" />
+      <section className="relative overflow-hidden border-y border-ink-600 bg-ink-950/70 py-20 md:py-28">
         <div className="container-px relative z-10">
           <Reveal as="div" className="mb-14">
             <p className="eyebrow mb-4">What we value</p>
@@ -132,7 +128,6 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden py-24 md:py-32">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Want to work with us?</h2>

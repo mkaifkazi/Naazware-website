@@ -3,8 +3,6 @@ import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
 import ServiceIcon from '@/components/ServiceIcon'
-import SilkBackground from '@/components/visual/SilkBackground'
-import Accents from '@/components/visual/Accents'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import AccordionReveal from '@/components/motion/AccordionReveal'
@@ -54,7 +52,6 @@ export default function ServicesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="relative overflow-hidden">
-      <SilkBackground composition={{ angle: 150, offset: { x: 15, y: -10 }, intensity: 0.55 }} />
       <div className="relative z-10">
 
       <PageHeader
@@ -149,7 +146,6 @@ export default function ServicesPage() {
       </section>
 
       <section className="relative overflow-hidden py-24 md:py-32">
-        <Accents preset="cta" />
         <div className="container-px relative z-10 text-center">
           <CtaReveal className="mx-auto max-w-2xl">
             <h2 className="text-display-md text-gradient">Not sure which service you need?</h2>

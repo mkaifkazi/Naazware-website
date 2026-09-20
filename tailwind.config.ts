@@ -71,6 +71,10 @@ const config: Config = {
           '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
           '50%': { transform: 'translate3d(-2%, 1.5%, 0) scale(1.06)' },
         },
+        'silk-drift-slow': {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1.08) rotate(0deg)' },
+          '50%': { transform: 'translate3d(3%, -2%, 0) scale(1) rotate(1.5deg)' },
+        },
         'accent-float': {
           '0%, 100%': { transform: 'translate3d(0,0,0)' },
           '50%': { transform: 'translate3d(0,-14px,0)' },
@@ -84,6 +88,7 @@ const config: Config = {
         'fade-up': 'fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
         'glow-drift': 'glow-drift 18s ease-in-out infinite',
         'silk-drift': 'silk-drift 48s ease-in-out infinite',
+        'silk-drift-slow': 'silk-drift-slow 72s ease-in-out infinite',
         'accent-float': 'accent-float 14s ease-in-out infinite',
         marquee: 'marquee 32s linear infinite',
       },

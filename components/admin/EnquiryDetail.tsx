@@ -14,6 +14,7 @@ const BUDGET_LABELS: Record<string, string> = {
 
 export default function EnquiryDetail({
   id, name, email, company, budget, message, status, createdAt,
+  prefersCall, phone, preferredTime,
 }: {
   id: string
   name: string
@@ -23,6 +24,9 @@ export default function EnquiryDetail({
   message: string
   status: string
   createdAt: string
+  prefersCall: boolean
+  phone: string
+  preferredTime: string
 }) {
   const router = useRouter()
   const [current, setCurrent] = useState(status)
@@ -72,6 +76,19 @@ export default function EnquiryDetail({
           <span>· {createdAt ? new Date(createdAt).toLocaleString() : ''}</span>
           <span>· <span className="text-paper-faint">{current}</span></span>
         </div>
+        {prefersCall && (
+          <div className="mt-4 rounded-xl border border-accent/40 bg-accent/10 p-4 text-sm">
+            <span className="font-medium text-accent-soft">📞 Wants a call</span>
+            <div className="mt-2 text-paper-dim">
+              {phone && (
+                <div>
+                  Phone: <a href={`tel:${phone}`} className="text-accent-soft hover:underline">{phone}</a>
+                </div>
+              )}
+              {preferredTime && <div>Preferred time: {preferredTime}</div>}
+            </div>
+          </div>
+        )}
         <hr className="my-5 border-ink-600" />
         <p className="whitespace-pre-wrap text-paper">{message}</p>
       </div>

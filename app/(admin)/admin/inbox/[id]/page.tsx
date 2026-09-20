@@ -22,6 +22,9 @@ export default async function EnquiryPage({ params }: { params: { id: string } }
       company={doc.company ?? ''}
       budget={doc.budget ?? ''}
       message={doc.message}
+      prefersCall={Boolean(doc.prefersCall)}
+      phone={doc.phone ?? ''}
+      preferredTime={doc.preferredTime ?? ''}
       status={status === 'new' ? 'read' : status}
       createdAt={doc.createdAt ? new Date(doc.createdAt).toISOString() : ''}
     />

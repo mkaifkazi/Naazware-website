@@ -11,6 +11,9 @@ export default async function InboxPage() {
     email: r.email,
     company: r.company,
     budget: r.budget,
+    prefersCall: r.prefersCall,
+    phone: r.phone,
+    preferredTime: r.preferredTime,
     status: r.status,
     createdAt: r.createdAt ? new Date(r.createdAt).toISOString() : '',
   }))

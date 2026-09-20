@@ -10,6 +10,9 @@ export type EnquiryRow = {
   email: string
   company: string
   budget: string
+  prefersCall: boolean
+  phone: string
+  preferredTime: string
   status: string
   createdAt: string
 }
@@ -90,6 +93,11 @@ export default function EnquiriesTable({ initial }: { initial: EnquiryRow[] }) {
                     {r.status === 'new' && <span className="ml-2 inline-block h-2 w-2 rounded-full bg-accent align-middle" />}
                   </Link>
                   <div className="text-xs text-paper-faint">{r.email}{r.company ? ` · ${r.company}` : ''}</div>
+                  {r.prefersCall && (
+                    <span className="mt-1 inline-block rounded-full bg-accent/15 px-2 py-0.5 text-xs text-accent-soft">
+                      📞 wants a call
+                    </span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-paper-dim">{BUDGET_LABELS[r.budget] || r.budget || '—'}</td>
                 <td className="px-4 py-3">

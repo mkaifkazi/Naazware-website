@@ -8,12 +8,12 @@ import { getSettings } from '@/lib/settings-service'
 export const metadata: Metadata = genMeta({
   title: 'Contact',
   description:
-    'Get in touch to discuss your project. We reply within 24 hours with honest thoughts, a timeline, and an estimate.',
+    'Get in touch to discuss your project. We reply within 1 business day with honest thoughts, a timeline, and an estimate.',
   path: '/contact',
 })
 
 const expectations = [
-  'Reply within 24 hours (usually faster)',
+  'Reply within 1 business day (usually faster)',
   'Honest assessment of timeline and budget',
   'Clear next steps if we’re a good fit',
   'No sales pressure or pushy follow-ups',
@@ -50,7 +50,7 @@ export default async function ContactPage() {
             Let&apos;s build <span className="text-gradient">something great.</span>
           </>
         }
-        subtitle="Tell us about your project. We’ll reply within 24 hours with an estimate and timeline."
+        subtitle="Tell us about your project. We’ll reply within 1 business day with an estimate and timeline."
       />
 
       <section className="pb-24">
@@ -70,7 +70,7 @@ export default async function ContactPage() {
               <a href={`mailto:${settings.email}`} className="text-lg text-accent-soft transition-colors hover:text-accent-soft">
                 {settings.email}
               </a>
-              <p className="mt-2 text-sm text-paper-faint">We reply within 24 hours.</p>
+              <p className="mt-2 text-sm text-paper-faint">We reply within 1 business day.</p>
             </div>
 
             <div>
@@ -90,15 +90,15 @@ export default async function ContactPage() {
             <div className="rounded-3xl border border-ink-600 bg-ink-800/50 p-6">
               <h3 className="font-medium text-paper">Prefer to talk first?</h3>
               <p className="mt-2 text-sm text-paper-dim">
-                Email{' '}
+                Tick <span className="text-paper">“I&apos;d prefer a call”</span> in the form and
+                we&apos;ll ring you back — or reach us directly at{' '}
                 <a href={`mailto:${settings.email}`} className="text-accent-soft hover:text-accent-soft">
                   {settings.email}
                 </a>{' '}
-                or call{' '}
+                /{' '}
                 <a href={settings.phoneHref} className="text-accent-soft hover:text-accent-soft">
                   {settings.phone}
-                </a>{' '}
-                and we&apos;ll schedule a call. We work with clients worldwide across all time zones.
+                </a>. We work with clients worldwide across all time zones.
               </p>
             </div>
           </Reveal>

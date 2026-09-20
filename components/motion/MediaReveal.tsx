@@ -1,7 +1,7 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { EASE_OUT_EXPO } from '@/lib/motion'
 
 export default function MediaReveal({
@@ -14,7 +14,7 @@ export default function MediaReveal({
   const reduced = useReducedMotion()
   if (reduced) return <div className={className}>{children}</div>
   return (
-    <motion.div
+    <m.div
       className={className}
       initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0.6 }}
       whileInView={{
@@ -25,6 +25,6 @@ export default function MediaReveal({
       viewport={{ once: true, margin: '-10% 0px' }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

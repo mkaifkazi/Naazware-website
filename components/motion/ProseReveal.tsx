@@ -1,7 +1,7 @@
 'use client'
 
 import { Children, type ReactNode } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { EASE_OUT_EXPO } from '@/lib/motion'
 
 export default function ProseReveal({
@@ -14,7 +14,7 @@ export default function ProseReveal({
   const reduced = useReducedMotion()
   if (reduced) return <div className={className}>{children}</div>
   return (
-    <motion.div
+    <m.div
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -22,7 +22,7 @@ export default function ProseReveal({
       transition={{ staggerChildren: 0.08 }}
     >
       {Children.map(children, (child, i) => (
-        <motion.div
+        <m.div
           key={i}
           variants={{
             hidden: { opacity: 0, y: 12 },
@@ -30,8 +30,8 @@ export default function ProseReveal({
           }}
         >
           {child}
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   )
 }

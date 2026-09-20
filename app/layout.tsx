@@ -8,6 +8,7 @@ import {
 import { site } from '@/lib/site'
 import { getSettings } from '@/lib/settings-service'
 import Analytics from '@/components/Analytics'
+import MotionProvider from '@/components/motion/MotionProvider'
 import '@/styles/globals.css'
 
 const inter = Inter({
@@ -86,7 +87,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="bg-ink-900 text-paper">
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
       </body>
     </html>

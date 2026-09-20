@@ -1,7 +1,7 @@
 'use client'
 
 import { type ElementType } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { EASE_OUT_EXPO } from '@/lib/motion'
 import { splitWords } from '@/lib/motion-anim'
 
@@ -16,7 +16,7 @@ export default function HeadingReveal({
 }) {
   const reduced = useReducedMotion()
   const words = splitWords(text)
-  const MotionTag = motion(as as ElementType)
+  const MotionTag = m(as as ElementType)
 
   if (reduced) {
     const Tag = as
@@ -33,7 +33,7 @@ export default function HeadingReveal({
     >
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-baseline" aria-hidden="true">
-          <motion.span
+          <m.span
             className="inline-block"
             variants={{
               hidden: { y: '110%' },
@@ -45,7 +45,7 @@ export default function HeadingReveal({
           >
             {w}
             {i < words.length - 1 ? ' ' : ''}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </MotionTag>

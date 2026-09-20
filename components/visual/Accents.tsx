@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { m, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import { buildAccents, type AccentPreset, type Blob, type Shape } from '@/lib/accents'
 
 // Layered to avoid transform conflicts: outer = framer parallax `y`,
@@ -23,9 +23,9 @@ function ParallaxItem({
 }) {
   const shift = useTransform(progress, [0, 1], [0, reduced ? 0 : -depth * 60])
   return (
-    <motion.div className="absolute" style={{ left: `${x}%`, top: `${y}%`, y: shift }}>
+    <m.div className="absolute" style={{ left: `${x}%`, top: `${y}%`, y: shift }}>
       <div style={{ transform: 'translate(-50%, -50%)' }}>{children}</div>
-    </motion.div>
+    </m.div>
   )
 }
 

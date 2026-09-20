@@ -21,9 +21,7 @@ export default function PageHeader({ eyebrow, title, subtitle, crumbs, children,
         className="pointer-events-none absolute left-1/4 top-[-30%] h-[420px] w-[420px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
         style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
       />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-ink-900" aria-hidden="true" />
-
-      <div className="container-px relative pb-16 pt-36 md:pb-20 md:pt-44">
+      <div className="container-px relative pb-20 pt-36 md:pb-28 md:pt-44">
         {crumbs && crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="flex flex-wrap items-center gap-2 text-sm text-paper-faint">

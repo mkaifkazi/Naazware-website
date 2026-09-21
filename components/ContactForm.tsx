@@ -111,11 +111,11 @@ export default function ContactForm() {
         </label>
         <select id="budget" className={`${inputBase} ${border(errors.budget)}`} {...register('budget')}>
           <option value="">Select budget range</option>
-          <option value="under-10k">Under $10,000</option>
-          <option value="10k-25k">$10,000 - $25,000</option>
-          <option value="25k-50k">$25,000 - $50,000</option>
-          <option value="50k-100k">$50,000 - $100,000</option>
-          <option value="over-100k">Over $100,000</option>
+          <option value="under-1L">Under ₹1,00,000</option>
+          <option value="1L-3L">₹1,00,000 - ₹3,00,000</option>
+          <option value="3L-5L">₹3,00,000 - ₹5,00,000</option>
+          <option value="5L-10L">₹5,00,000 - ₹10,00,000</option>
+          <option value="over-10L">Over ₹10,00,000</option>
         </select>
         {errors.budget && <p className="mt-1.5 text-sm text-red-400">{errors.budget.message}</p>}
       </div>

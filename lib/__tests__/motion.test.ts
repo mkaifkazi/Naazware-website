@@ -3,8 +3,6 @@ import {
   EASE_OUT_EXPO,
   LENIS_DEFAULTS,
   shouldEnableMotion,
-  shouldEnableCursor,
-  magneticOffset,
   fadeUpVariants,
   shouldRenderWebGL,
 } from '@/lib/motion'
@@ -27,32 +25,6 @@ describe('shouldEnableMotion', () => {
   })
   it('disabled when reduced-motion is on', () => {
     expect(shouldEnableMotion(true)).toBe(false)
-  })
-})
-
-describe('shouldEnableCursor', () => {
-  it('enabled only for fine pointer without reduced-motion', () => {
-    expect(shouldEnableCursor(false, false)).toBe(true)
-  })
-  it('disabled on coarse pointer', () => {
-    expect(shouldEnableCursor(false, true)).toBe(false)
-  })
-  it('disabled with reduced-motion', () => {
-    expect(shouldEnableCursor(true, false)).toBe(false)
-  })
-})
-
-describe('magneticOffset', () => {
-  const rect = { left: 100, top: 100, width: 100, height: 100 } // center 150,150
-  it('is zero at the element center', () => {
-    expect(magneticOffset({ x: 150, y: 150 }, rect)).toEqual({ x: 0, y: 0 })
-  })
-  it('pulls toward the pointer scaled by strength (default 0.3)', () => {
-    // pointer 50px right of center → 50 * 0.3 = 15
-    expect(magneticOffset({ x: 200, y: 150 }, rect)).toEqual({ x: 15, y: 0 })
-  })
-  it('respects a custom strength', () => {
-    expect(magneticOffset({ x: 200, y: 150 }, rect, 0.5)).toEqual({ x: 25, y: 0 })
   })
 })
 

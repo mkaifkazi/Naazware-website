@@ -2,7 +2,6 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import FloatingCTA from '@/components/FloatingCTA'
 import SmoothScroll from '@/components/SmoothScroll'
-import MagneticCursor from '@/components/MagneticCursor'
 import SilkBackground from '@/components/visual/SilkBackground'
 import Accents from '@/components/visual/Accents'
 
@@ -16,7 +15,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         Skip to main content
       </a>
       <SmoothScroll />
-      <MagneticCursor />
       {/* One continuous silk backdrop + decorative accents behind ALL site pages
           (fixed, full-viewport). Replaces per-page boxed backdrops that seamed. */}
       <SilkBackground global allowWebGL={false} composition={{ angle: 135, intensity: 0.75 }} />

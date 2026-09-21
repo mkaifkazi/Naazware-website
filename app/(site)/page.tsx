@@ -50,7 +50,7 @@ export default async function HomePage() {
             >
               <p className="max-w-md text-lg leading-relaxed text-paper-dim">{hero.sub}</p>
               <div className="flex shrink-0 flex-wrap items-center gap-5">
-                <Link href={hero.primaryCta.href} className="btn-accent" data-magnetic>
+                <Link href={hero.primaryCta.href} className="btn-accent">
                   {hero.primaryCta.label}
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -203,7 +203,7 @@ export default async function HomePage() {
             <h2 className="text-display-lg text-gradient">{cta.heading}</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-paper-dim">{cta.body}</p>
             <div className="mt-10 flex justify-center">
-              <Link href={cta.primary.href} className="btn-accent" data-magnetic>
+              <Link href={cta.primary.href} className="btn-accent">
                 {cta.primary.label}
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M5 12h14M12 5l7 7-7 7" />

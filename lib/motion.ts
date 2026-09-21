@@ -7,24 +7,6 @@ export function shouldEnableMotion(prefersReduced: boolean): boolean {
   return !prefersReduced
 }
 
-/** Custom cursor is fine-pointer only, and never under reduced-motion. */
-export function shouldEnableCursor(prefersReduced: boolean, isCoarsePointer: boolean): boolean {
-  return !prefersReduced && !isCoarsePointer
-}
-
-type Point = { x: number; y: number }
-type Rect = { left: number; top: number; width: number; height: number }
-
-/** Offset that pulls an element toward the pointer, scaled by `strength`. */
-export function magneticOffset(pointer: Point, rect: Rect, strength = 0.3): Point {
-  const centerX = rect.left + rect.width / 2
-  const centerY = rect.top + rect.height / 2
-  return {
-    x: (pointer.x - centerX) * strength,
-    y: (pointer.y - centerY) * strength,
-  }
-}
-
 /** Gate for the signature WebGL hero — desktop, motion-safe, connected, GPU-capable only. */
 export function shouldRenderWebGL(opts: {
   prefersReduced: boolean

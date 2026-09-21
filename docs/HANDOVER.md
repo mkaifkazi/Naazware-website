@@ -1,7 +1,10 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign + perf fix + browser-walk fixes ALL committed + pushed (latest `aaacc7f`).
+1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign + perf fix + browser-walk fixes ALL committed + pushed (latest `9dd9e4f`).
+   ✔ **CUSTOM CURSOR REMOVED (`9dd9e4f`):** it lagged — a JS cursor writes style on the main thread and trails the
+   compositor-drawn native cursor under load. Now uses native OS cursor (zero lag). Deleted MagneticCursor + .cursor-dot
+   CSS + dead shouldEnableCursor/magneticOffset helpers+tests + inert data-magnetic attrs. (Ignore older "cursor tracks 1:1" notes below — cursor is gone.)
    ⚠ Two untracked sales artifacts stay OUT of the repo intentionally: `client-playbook.html`, `leads/uae-leads.html`
    (marketing docs, not website code). Do NOT commit them. `git status` first.
    ✔ **BROWSER WALK DONE (2026-09-21, headless Edge + puppeteer-core against `npm start` prod):** home/services/about/

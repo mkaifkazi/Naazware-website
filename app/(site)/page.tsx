@@ -6,6 +6,7 @@ import ProblemSection from '@/components/home/ProblemSection'
 import HeroParallax from '@/components/home/HeroParallax'
 import HeroWebGL from '@/components/home/HeroWebGL'
 import CardGridReveal from '@/components/motion/CardGridReveal'
+import GlassCard from '@/components/GlassCard'
 import CtaReveal from '@/components/motion/CtaReveal'
 import { services } from '@/lib/services-data'
 import { getFeaturedProjects, getTestimonials } from '@/lib/content'
@@ -153,8 +154,8 @@ export default async function HomePage() {
               </Reveal>
               <CardGridReveal className="grid gap-6 lg:grid-cols-3">
                 {testimonials.map((t) => (
-                    <figure key={t.author} className="card-surface flex h-full flex-col p-8">
-                      <svg className="h-8 w-8 text-accent/50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <GlassCard key={t.author} as="figure" className="group flex h-full flex-col p-8">
+                      <svg className="h-8 w-8 text-accent/50 transition-colors duration-300 group-hover:text-accent" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M9.5 5C6.5 6.5 5 9 5 12.5V19h6v-6H8c0-2 1-3.5 3-4.5L9.5 5Zm10 0C16.5 6.5 15 9 15 12.5V19h6v-6h-3c0-2 1-3.5 3-4.5L19.5 5Z" />
                       </svg>
                       <blockquote className="mt-6 flex-1 text-lg leading-relaxed text-paper">
@@ -164,7 +165,7 @@ export default async function HomePage() {
                         <div className="font-medium text-paper">{t.author}</div>
                         <div className="text-sm text-paper-dim">{t.role}</div>
                       </figcaption>
-                    </figure>
+                    </GlassCard>
                 ))}
               </CardGridReveal>
             </>

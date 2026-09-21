@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import GlassCard from './GlassCard'
 import ServiceIcon from './ServiceIcon'
 
 interface ServiceCardProps {
@@ -11,15 +11,15 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ title, description, bullets = [], href, icon }: ServiceCardProps) {
   return (
-    <Link
+    <GlassCard
       href={href}
-      className="card-surface group relative flex h-full flex-col overflow-hidden p-7 hover:-translate-y-1 hover:border-accent/50"
+      className="group relative flex h-full flex-col overflow-hidden p-7"
     >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/20 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
       />
-      <div className="relative mb-6 grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent-soft transition-colors duration-300 group-hover:border-accent/40">
+      <div className="relative mb-6 grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent-soft transition-all duration-300 group-hover:border-accent/50 group-hover:text-accent group-hover:shadow-[0_0_24px_-4px_rgb(var(--accent)/0.55)]">
         <ServiceIcon name={icon} className="h-6 w-6" />
       </div>
 
@@ -45,6 +45,6 @@ export default function ServiceCard({ title, description, bullets = [], href, ic
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
       </span>
-    </Link>
+    </GlassCard>
   )
 }

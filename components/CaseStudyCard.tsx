@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import GlassCard from '@/components/GlassCard'
 import StatCountUp from '@/components/home/StatCountUp'
 
 interface CaseStudyCardProps {
@@ -32,9 +32,9 @@ export default function CaseStudyCard({
   coverUrl,
 }: CaseStudyCardProps) {
   return (
-    <Link
+    <GlassCard
       href={href}
-      className="card-surface group flex h-full flex-col overflow-hidden !rounded-4xl hover:-translate-y-1.5 hover:border-accent/40"
+      className="group flex h-full flex-col overflow-hidden !rounded-4xl"
     >
       {/* Cover */}
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -81,7 +81,7 @@ export default function CaseStudyCard({
         {metrics && metrics.length > 0 && (
           <div className="mt-auto grid grid-cols-3 gap-3 pt-7">
             {metrics.slice(0, 3).map((m) => (
-              <div key={m.label} className="rounded-2xl border border-ink-600 bg-ink-900/40 p-3 text-center">
+              <div key={m.label} className="rounded-2xl border border-ink-600/70 bg-ink-800/50 p-3 text-center backdrop-blur-sm transition-colors group-hover:border-accent/30">
                 <StatCountUp value={m.value} className="block font-display text-lg font-semibold text-accent-soft" />
                 <div className="mt-1 text-[11px] leading-tight text-paper-faint">{m.label}</div>
               </div>
@@ -89,6 +89,6 @@ export default function CaseStudyCard({
           </div>
         )}
       </div>
-    </Link>
+    </GlassCard>
   )
 }

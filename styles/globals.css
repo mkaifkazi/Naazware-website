@@ -164,6 +164,73 @@
     box-shadow: var(--shadow-card-hover);
   }
 
+  /* Frosted glass card — translucent surface lets the silk backdrop show through,
+     animated gradient border, cursor-tracked spotlight. Driven by --mx/--my/--spot
+     set imperatively by <GlassCard>. Both themes. Spotlight = ::before (behind
+     content, above bg); gradient border = ::after (above content). */
+  .glass-card {
+    --spot: 0;
+    position: relative;
+    isolation: isolate;
+    border-radius: 1.5rem;
+    background: rgb(var(--ink-800) / 0.55);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    backdrop-filter: blur(16px) saturate(1.25);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.45s ease;
+  }
+  [data-theme='light'] .glass-card {
+    background: rgb(var(--ink-800) / 0.72);
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  /* cursor spotlight — above glass bg, below content */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      36% 42% at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--silk-2) / 0.22),
+      rgb(var(--silk-1) / 0.1) 45%,
+      transparent 70%
+    );
+    opacity: var(--spot, 0);
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  /* animated gradient hairline border — dim at rest, ignites on hover */
+  .glass-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgb(var(--silk-1) / 0.55),
+      rgb(var(--silk-2) / 0.2) 42%,
+      rgb(var(--silk-3) / 0.55)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.35;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+  .glass-card:hover::after {
+    opacity: 1;
+  }
+
   /* Hero depth wash — layered radial auras instead of a flat void */
   .hero-aura {
     background:
@@ -254,6 +321,12 @@
   .reveal {
     opacity: 1 !important;
     transform: none !important;
+  }
+  .glass-card:hover {
+    transform: none;
+  }
+  .glass-card::before {
+    display: none;
   }
 }
 

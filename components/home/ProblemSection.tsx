@@ -1,4 +1,5 @@
 import Reveal from '@/components/Reveal'
+import GlassCard from '@/components/GlassCard'
 import { problem } from '@/lib/home-content'
 
 export default function ProblemSection() {
@@ -14,11 +15,11 @@ export default function ProblemSection() {
         <div className="grid gap-6 md:grid-cols-3">
           {problem.points.map((point, i) => (
             <Reveal key={point.title} delay={(i % 3) * 80}>
-              <div className="card-surface flex h-full flex-col p-8">
-                <span className="font-mono text-xs text-accent-soft">{`0${i + 1}`}</span>
+              <GlassCard className="group flex h-full flex-col p-8">
+                <span className="font-mono text-xs text-accent-soft transition-all duration-300 group-hover:text-accent group-hover:drop-shadow-[0_0_10px_rgb(var(--accent)/0.6)]">{`0${i + 1}`}</span>
                 <h3 className="mt-4 text-lg font-semibold text-paper">{point.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-paper-dim">{point.body}</p>
-              </div>
+              </GlassCard>
             </Reveal>
           ))}
         </div>

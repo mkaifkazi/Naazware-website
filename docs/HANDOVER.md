@@ -1,9 +1,14 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign ALL committed + pushed (redesign landed `a188592`).
+1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign + perf fix ALL committed + pushed (latest `185d499`).
    ⚠ Two untracked sales artifacts stay OUT of the repo intentionally: `client-playbook.html`, `leads/uae-leads.html`
    (marketing docs, not website code). Do NOT commit them. `git status` first.
+   ✔ **PERF FIX VERIFIED LIVE (2026-09-21):** site-wide lag RCA — root cause = ~19 `backdrop-filter` glass panels
+   over a continuously-animated blurred backdrop (silk sheets + 3× blur(90px) float blobs) re-rasterizing every
+   frame. NOT WebGL (home-hero-only, gated). Fix `185d499`: global backdrop static, global blobs no float, blob
+   blur 90→48px, `.glass-panel` backdrop-filter → opaque tint. Per-section anims + home WebGL untouched. Smooth now.
+   Next-biggest residual suspect if lag returns: Header `backdrop-blur-xl` re-blurring during Lenis scroll (left intact for look).
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (113) · `npm run type-check` · `npm run lint` · `npm run build`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.

@@ -1,29 +1,49 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. **On branch `feat/visual-motion`** (Spec 3 visual+motion system — NOT yet merged to master). `git checkout feat/visual-motion`.
+1. **On branch `master`** — everything below is merged + **pushed to origin/master** (origin up to date). `git checkout master && git pull`.
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (113) · `npm run type-check` · `npm run lint` · `npm run build`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
-5. **Spec 3 (site-wide silk backdrop + archetype motion) ALL PHASES VP1–VP6 DONE** on this branch (see "Spec 3" block below).
-   Next: (a) **owed browser walk + Lighthouse** (real GPU browser); (b) merge `feat/visual-motion` → master when happy;
-   (c) **P10 live deploy runbook** still pending (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate creds).
-   ⚠ **local master AHEAD of origin/master; feat/visual-motion NOT pushed** (`git push` when ready).
-   ⚠ **Owed manual browser checks: P5 conversion path + ALL of Spec 3 visual/motion** (code + bundle gate-verified only).
+5. **Spec 1 CMS + Spec 2 redesign + Spec 3 visual/motion ALL DONE + pushed.** Post-Spec-3 polish also done + pushed:
+   silk **seam fix** (one continuous fixed backdrop; PageHeader bottom-fade removed) + **cursor** (dot tracks 1:1, no lag)
+   + **copy repositioned** to custom-software/quality (dropped all sales/customer-increase promises). See blocks below.
+   **Next task = P10 live deploy runbook** (`docs/superpowers/plans/2026-09-19-phase-10-render-deploy.md` Tasks 3–5; ⚠ rotate all shared creds).
+   ⚠ **Still owed (real GPU browser):** full-site walk light+dark + reduced-motion + mobile; real Lighthouse-mobile (perf≥90/LCP/CLS).
+   (Silk seams + header + services/about pages already verified via PROD screenshots light+dark this session — look good.)
 6. Admin login for live testing: kaifkazi40@gmail.com / `Naazware@2026` (dummy).
-7. **Dev/verify gotchas (hit repeatedly last session):**
-   - NEVER run `npm run build` while `npm run dev` is live — build overwrites dev's `.next` → dev 500s
-     (MODULE_NOT_FOUND / missing manifest). After any build, kill dev, `rm -rf .next`, restart dev.
-   - Raw `msedge --headless --screenshot` will NOT render WebGL here (blank canvas). Use puppeteer-core instead:
-     scratchpad has `shot.js` (full-page, forces reveals, theme arg) + `hero.js` (hero viewport, waits for comet anim).
-     Run: `node hero.js <out>` from the scratchpad dir. Screenshots verify; real GPU renders fine.
+7. **Dev/verify gotchas (hit repeatedly):**
+   - NEVER run `npm run build` while `npm run dev` is live — build corrupts dev's `.next` → 500s
+     (`Cannot find module ./vendor-chunks/*.js`). After any build with dev running: kill node on :3000, `rm -rf .next`, rebuild.
+   - Headless Edge renders **WebGL blank**, but the site now uses a **CSS silk fallback** (WebGL only on home hero), so
+     `npm run build && npm run start` + puppeteer-core screenshots DO show the styled silk/accents. `npm run dev` headless
+     came back UNSTYLED (Tailwind not applied) — use PROD (`npm start`) for reliable screenshots. Edge at
+     `C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`. Install puppeteer-core temporarily, run with
+     `NODE_PATH="$(pwd)/node_modules"`, then `npm rm puppeteer-core` + `git checkout package-lock.json`.
+   - Kill port 3000: `powershell -Command "Get-NetTCPConnection -LocalPort 3000 -State Listen | %{ taskkill /F /PID $_.OwningProcess }"`.
    - R3F pinned to v8 (`@react-three/fiber@^8`, drei@^9) — v9 requires React 19; project is React 18.
 
-**Last updated:** 2026-09-20
-**Branch:** feat/visual-motion (Spec 3; not merged). Spec 1+2 already on local master (feat/custom-cms merged FF + deleted).
-**Current phase:** Spec 1 CMS + Spec 2 public redesign DONE (on master). **Spec 3 visual/motion VP1–VP6 DONE** (on feat/visual-motion). Only P10 live deploy remains.
+**Last updated:** 2026-09-21
+**Branch:** master (all Spec 1/2/3 + polish merged FF + pushed to origin/master).
+**Current phase:** Spec 1 CMS + Spec 2 redesign + Spec 3 visual/motion + polish ALL DONE + pushed. Only P10 live deploy remains.
 
-### Spec 3 — site-wide silk backdrop + archetype motion (feat/visual-motion) — ALL DONE
+### Post-Spec-3 polish (2026-09-21, on master, pushed) — DONE
+- **Silk seam fix** — root cause: per-page `SilkBackground` was `absolute` inside bounded `overflow-hidden` wrappers →
+  hard rectangular seams vs opaque bgs. Fix: **one continuous fixed backdrop** (`SilkBackground global` + `Accents global`,
+  `fixed -z-10`) mounted once in `app/(site)/layout.tsx`; removed ALL per-page silk/accent wrappers; `SilkFallback` now two
+  counter-drifting screen-blended sheets (undulates); softened section bands (`bg-ink-950`→`/70`) so silk shows through.
+  Global silk uses CSS fallback (`allowWebGL={false}`) → no conflict w/ home hero WebGL, renders on mobile.
+- **PageHeader** — removed `to-ink-900` bottom-fade (read as a separator over the continuous silk) + bumped header bottom padding.
+- **Cursor** (`components/MagneticCursor.tsx`) — dot now tracks pointer 1:1; removed the 0.18 follow-easing + `data-magnetic`
+  positional pull (`is-magnetic` CSS now dead but harmless). Normal speed, no lag.
+- **Copy** — repositioned OFF sales/customer-increase (user: we sell custom software + quality, NOT more customers). Hero
+  `Websites & software that win you customers.` → **`Custom software, crafted to fit.`**; problem `best salesperson` →
+  `Off-the-shelf rarely fits.`; services/proof/cta headings + all 6 `services-data` short descriptions/bullets reframed
+  craft/quality; removed "40% higher conversion" claim. Files: `lib/home-content.ts`, `lib/services-data.ts`. Copy is
+  Claude-drafted — user still owns final wording.
+- **Gate:** GREEN — 113 tests · type-check · lint · build. Home First Load 161–168kB.
+
+### Spec 3 — site-wide silk backdrop + archetype motion — ALL DONE (merged to master)
 Design: `docs/superpowers/specs/2026-09-20-sitewide-visual-motion-design.md`. Decisions: recurring silk backdrop motif;
 ONE multi-hue gradient everywhere (teal→sky→violet, `--silk-1/2/3`); WebGL-when-capable + CSS-mesh fallback; premium
 studio kept + tasteful accents (blobs/thin shapes), NO confetti; signature-move-per-section-type.

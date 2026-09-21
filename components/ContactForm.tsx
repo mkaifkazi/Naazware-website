@@ -111,7 +111,8 @@ export default function ContactForm() {
         </label>
         <select id="budget" className={`${inputBase} ${border(errors.budget)}`} {...register('budget')}>
           <option value="">Select budget range</option>
-          <option value="under-1L">Under ₹1,00,000</option>
+          <option value="under-25k">Under ₹25,000</option>
+          <option value="25k-1L">₹25,000 - ₹1,00,000</option>
           <option value="1L-3L">₹1,00,000 - ₹3,00,000</option>
           <option value="3L-5L">₹3,00,000 - ₹5,00,000</option>
           <option value="5L-10L">₹5,00,000 - ₹10,00,000</option>

@@ -6,8 +6,8 @@ import { rateLimit } from '@/lib/rate-limit'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 const NOTIFY_TO = process.env.CONTACT_NOTIFICATION_TO
-// Verified Resend sender for naazware.com. Override per-env with RESEND_FROM.
-const FROM = process.env.RESEND_FROM || 'Naazware <hello@naazware.com>'
+// Verified Resend sender (mail.naazware.com subdomain). Override per-env with RESEND_FROM.
+const FROM = process.env.RESEND_FROM || 'Naazware <hello@mail.naazware.com>'
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')

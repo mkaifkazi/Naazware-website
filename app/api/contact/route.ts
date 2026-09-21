@@ -7,8 +7,8 @@ import { renderAdminNotification, renderCustomerConfirmation, type EnquiryEmailD
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 const NOTIFY_TO = process.env.CONTACT_NOTIFICATION_TO
-// Verified Resend sender (mail.naazware.com subdomain). Override per-env with RESEND_FROM.
-const FROM = process.env.RESEND_FROM || 'Naazware <hello@mail.naazware.com>'
+// Resend sender — the domain (naazware.com) must be Verified in Resend. Override with RESEND_FROM.
+const FROM = process.env.RESEND_FROM || 'Naazware <hello@naazware.com>'
 // Where a customer's reply to the confirmation email should land (the studio inbox).
 const REPLY_TO = process.env.CONTACT_NOTIFICATION_TO || 'hello@naazware.com'
 

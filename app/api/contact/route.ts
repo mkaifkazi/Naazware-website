@@ -31,20 +31,31 @@ export async function POST(request: NextRequest) {
     const { name, email, company, budget, message, prefersCall, phone, preferredTime } = parsed.data
     const createdAt = new Date().toISOString()
 
+    console.info(
+      `[contact] received from ${email} — config: resendKey=${!!resend} notifyTo=${NOTIFY_TO ? 'set' : 'MISSING'} from="${FROM}"`
+    )
+
     // 1) Persist to Mongo (primary store — surfaces in the admin inbox).
     let saved = false
     try {
       await createEnquiry(parsed.data)
       saved = true
+      console.info('[contact] saved to DB')
     } catch (err) {
-      console.error('Enquiry DB write failed:', err)
+      console.error('[contact] DB write failed:', err)
     }
 
     // 2) Email notification via Resend — best effort.
     let emailed = false
-    if (resend && NOTIFY_TO) {
+    if (!resend) {
+      console.warn('[contact] email skipped: RESEND_API_KEY not set')
+    } else if (!NOTIFY_TO) {
+      console.warn('[contact] email skipped: CONTACT_NOTIFICATION_TO not set')
+    } else {
       try {
-        await resend.emails.send({
+        // Resend returns { data, error } and does NOT throw on API errors —
+        // must inspect `error` explicitly, otherwise failures look like successes.
+        const { data, error } = await resend.emails.send({
           from: FROM,
           to: NOTIFY_TO,
           replyTo: email,
@@ -67,11 +78,18 @@ export async function POST(request: NextRequest) {
             <hr/><p style="color:#888">Received ${createdAt}</p>
           `,
         })
-        emailed = true
+        if (error) {
+          console.error('[contact] Resend rejected:', JSON.stringify(error))
+        } else {
+          emailed = true
+          console.info(`[contact] email sent — id=${data?.id ?? 'unknown'} to=${NOTIFY_TO}`)
+        }
       } catch (err) {
-        console.error('Resend email failed:', err)
+        console.error('[contact] Resend threw:', err)
       }
     }
+
+    console.info(`[contact] outcome: saved=${saved} emailed=${emailed}`)
 
     // Never silently lose a lead: if it was neither stored nor emailed, tell the visitor.
     if (!saved && !emailed) {

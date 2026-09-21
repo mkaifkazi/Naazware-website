@@ -23,7 +23,7 @@ Status legend: ☐ pending · ◐ partial · ☑ done+verified
   - Settings singleton + service (getSettings = Mongo over site.ts) + zod + auth-gated API (GET/PUT) + admin form
   - server consumers wired: Footer, contact/privacy/terms pages, layout JSON-LD. Boundary: client Header/ContactForm + page metadata/sitemap/robots stay static
 - ☑ P9 Sanity removal — DONE (deps @portabletext/@sanity/next-sanity/sanity/puppeteer-core removed; /studio + sanity/ + configs + 5 legacy seeds deleted; Sanity envs stripped; build green, 60 tests)
-- ◐ P10 Render deployment — repo prep DONE (render.yaml blueprint + .node-version, Netlify removed, build green). Live deploy = operator runbook (push, create Render Blueprint, set secrets, rotate creds, prod admin, smoke test).
+- ☑ P10 Render deployment — **LIVE at https://naazware.com** (Render Hobby, plan: free). 4 custom domains (com/in + www) verified w/ SSL, all 301→canonical .com via middleware; NEXT_PUBLIC_SITE_URL set. Remaining ops: verify Resend sending domain (emails blocked until then — leads still saved to Mongo), rotate all shared creds, create prod admin.
 
 Then Spec 2: public website redesign (separate brainstorm).
 

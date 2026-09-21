@@ -1,6 +1,24 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
+0. **★ SITE IS LIVE ON RENDER at https://naazware.com (latest commit `d7cc4dc`, gate: 107 tests · type-check · lint · build).**
+   - **Domains DONE + live w/ valid SSL:** naazware.com (canonical) + www.naazware.com + naazware.in + www.naazware.in — all
+     301 → https://naazware.com (in-app `middleware.ts` host redirect; apex A → `216.24.57.1`, www CNAME → `naazware-website.onrender.com`).
+     Render Hobby, `plan: free`, custom domains $0.25/mo each beyond the 2 free (₹ ~48/mo for the .com pair; see cost note if asked).
+   - **`NEXT_PUBLIC_SITE_URL=https://naazware.com`** now set on Render (was stale Vercel URL — canonical/og/sitemap were pointing at dead `naazwarelabs.vercel.app`; fixed).
+   - **EMAIL (Resend) — ⚠ ONE STEP LEFT (user, dashboard):** contact form saves leads to Mongo (admin `/admin/inbox`) fine, but
+     **emails are BLOCKED: `naazware.com` is NOT verified in Resend** (Render log: `403 domain is not verified`). FIX = add + verify
+     naazware.com in resend.com/domains, add its DNS records at Namecheap (records live on `send.` subdomain + `resend._domainkey`
+     → NO conflict with root forwarding SPF / Brevo DKIM, no merge). Keep `RESEND_FROM=Naazware <hello@naazware.com>`,
+     `CONTACT_NOTIFICATION_TO`, `RESEND_API_KEY` on Render. After verify → emails send. Public/receive email = hello@naazware.com (Namecheap forwarding).
+   - **Contact emails now dual-send + brand-styled** (`lib/email-templates.ts`, `6f4b55f`): admin notification + **customer confirmation**
+     auto-reply ("we'll get back within 1 business day" + copy of submission). Dark ink + teal, serif, INR budget labels. replyTo wired both ways.
+   - **Contact form budget = INR tiers** (₹25k–₹10L+, `f342cca`), not USD.
+   - **⚠ CRITICAL GOTCHA — prod logging:** `next.config.js` had `removeConsole:true` in production → SWC **stripped ALL `console.*`**
+     from the prod bundle (why "no logs on Render" for ages). Fixed `b87fefb` → now `{ exclude:['error','warn','info'] }`. `[contact]`-prefixed
+     logs in route are the debug channel (Render **Logs** tab, not the deploy log).
+   - **Theme toggle contrast fix** (`3c23006`): was faint `text-paper-dim`/`border-ink-600`, now `text-paper` + `border-paper/25`.
+   - ⚠ **STILL OWED before "done":** verify Resend domain (above) · **rotate all shared creds** (Atlas/R2/Resend/AUTH_SECRET/admin pw — exposed in chat) · prod admin account · real-GPU walk + Lighthouse.
 1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign + perf fix + browser-walk fixes ALL committed + pushed (latest `9dd9e4f`).
    ✔ **CUSTOM CURSOR REMOVED (`9dd9e4f`):** it lagged — a JS cursor writes style on the main thread and trails the
    compositor-drawn native cursor under load. Now uses native OS cursor (zero lag). Deleted MagneticCursor + .cursor-dot
@@ -19,7 +37,7 @@
    blur 90→48px, `.glass-panel` backdrop-filter → opaque tint. Per-section anims + home WebGL untouched. Smooth now.
    Next-biggest residual suspect if lag returns: Header `backdrop-blur-xl` re-blurring during Lenis scroll (left intact for look).
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
-3. Verify gate still green: `npm run test` (113) · `npm run type-check` · `npm run lint` · `npm run build`.
+3. Verify gate still green: `npm run test` (107 — cursor/magnetic tests removed) · `npm run type-check` · `npm run lint` · `npm run build`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
 5. **Spec 1 CMS + Spec 2 redesign + Spec 3 visual/motion ALL DONE + pushed.** Post-Spec-3 polish also done + pushed:
    silk **seam fix** (one continuous fixed backdrop; PageHeader bottom-fade removed) + **cursor** (dot tracks 1:1, no lag)

@@ -1,7 +1,9 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. **On branch `master`** — everything below is merged + **pushed to origin/master** (origin up to date). `git checkout master && git pull`.
+1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign ALL committed + pushed (redesign landed `a188592`).
+   ⚠ Two untracked sales artifacts stay OUT of the repo intentionally: `client-playbook.html`, `leads/uae-leads.html`
+   (marketing docs, not website code). Do NOT commit them. `git status` first.
 2. Read this file + `docs/ROADMAP.md` + `docs/PROJECT.md`. Skim `docs/decisions/`.
 3. Verify gate still green: `npm run test` (113) · `npm run type-check` · `npm run lint` · `npm run build`.
 4. `.env.local` already holds all secrets on this machine (MONGODB_URI direct string, R2_*, AUTH_SECRET, ADMIN_*). See "env note" below.
@@ -23,9 +25,51 @@
    - Kill port 3000: `powershell -Command "Get-NetTCPConnection -LocalPort 3000 -State Listen | %{ taskkill /F /PID $_.OwningProcess }"`.
    - R3F pinned to v8 (`@react-three/fiber@^8`, drei@^9) — v9 requires React 19; project is React 18.
 
-**Last updated:** 2026-09-21
-**Branch:** master (all Spec 1/2/3 + polish merged FF + pushed to origin/master).
-**Current phase:** Spec 1 CMS + Spec 2 redesign + Spec 3 visual/motion + polish ALL DONE + pushed. Only P10 live deploy remains.
+**Last updated:** 2026-09-21 (UI card/UX redesign committed + pushed as `a188592`)
+**Branch:** master. All work committed + pushed. P10 live deploy remains.
+**Current phase:** Spec 1/2/3 + polish + UI card/UX redesign DONE + pushed. P10 live deploy still remains.
+
+### UI card/UX redesign (2026-09-21, on master) — DONE + pushed (`a188592`)
+User wanted richer cards + storytelling across the site. Built two reusable card languages, applied by role:
+- **`components/GlassCard.tsx`** (client) — notched-then-**rounded** (user chose site-consistent 1.5rem radius, not notch)
+  frosted card: **3D cursor-tilt** (±7°, `--rx/--ry`), **border-beam** (conic `@property --beam`, hover/focus only),
+  **spotlight** (`--mx/--my/--spot`), depth-pop. Polymorphic (`Link`/`div`/`figure`/`article`), rAF-throttled, no
+  React re-render, reduced-motion → static. 3-layer DOM: `.glass-card` host → `.glass-body` tilted border plate →
+  `.glass-fill` frosted content. CSS in `styles/globals.css`.
+- **`.glass-panel`** (globals.css) — STATIC frosted variant (blur + gradient hairline border + hover lift, no
+  tilt/beam). For reading panels where 3D would be too much / too many instances.
+- **Applied:** home cards (GlassCard) + Process cells hover; ProblemSection/ServiceCard/CaseStudyCard/home
+  testimonials → GlassCard; **Services list rebuilt** = `components/services/ServicesStory.tsx` sticky
+  **scrollytelling** (aside pins: ghost index + frosted-teal icon tile + shortDescription + `bullets` +
+  tech chips + Learn more + framer `useScroll` progress rail w/ glowing head dot; beats = challenge→approach→result
+  in `.glass-panel`, Reveal-staggered); **About "Who we are"** = text left + right sticky **glass stat panel**
+  (StatCountUp tiles: Est. 2024 · **10+ Projects [PLACEHOLDER — get real #]** · 1-day reply · 3 platforms · Web/Mobile/Desktop
+  chips · Vadodara→worldwide), Values → GlassCard, steps hover; services/[slug] + work/[slug] reading panels +
+  contact form/info/FAQ → `.glass-panel`; blog list + related → GlassCard; work metric cells hover; **services FAQ
+  restyled to match contact** (separated glass-panel accordions, not seamless grid).
+- **CaseStudyCard break-out (`components/CaseStudyCard.tsx`):** on hover the cover image **grows up + out of the card top**
+  (origin-bottom `scale-[1.14]`, `rounded-t-3xl`, shadow). Enabled by letting the card bleed: card `overflow-visible`
+  (overrides `.glass-fill{overflow:hidden}` via utility layer), cover frame clip removed, and `.glass-fill::before`
+  spotlight got its own `border-radius:inherit` so it stays rounded without the clip. **z-index fix:** hovered card lifts
+  above siblings — `.glass-card:hover/:focus-within { z-index:30 }` **and** `CardGridReveal` motion child now
+  `className="relative hover:z-30"` (the reveal `m.div` was trapping z). **Arrow icon bug fixed:** was `text-ink-900`
+  which flips to near-white in light theme (invisible on white circle) → now `text-neutral-900` (fixed dark, both themes).
+- **PERF PASS (last edit, `styles/globals.css`):** user reported hover + cursor lag. Root cause = `backdrop-filter: blur`
+  on `.glass-fill` living inside the tilting/translateZ `.glass-body` → re-blurred the moving backdrop every frame across
+  all hovered cards, jamming the main thread (which also stuttered the custom cursor). Also the border **beam** animated
+  the conic-gradient angle via `@property --beam` = full repaint per frame. **Fixes:** (1) removed backdrop-blur from
+  interactive `.glass-fill` → opaque-ish tint (`ink-800/0.9` dark, `/0.94` light); (2) beam removed → **static** linear
+  gradient border on `.glass-body` (deleted `@property --beam`, `glass-beam` keyframes, animation); (3) `.glass-panel`
+  blur 12→6px + more opaque (`/0.78`, light `/0.88`) so the 18-panel services page stays smooth on scroll. Tilt +
+  spotlight kept (cheap compositor transforms). `MagneticCursor` was already fine (plain `translate3d`, no easing) —
+  lag was main-thread starvation, now gone.
+- **Specs:** `docs/superpowers/specs/2026-09-21-glass-glow-cards-design.md` + `...-services-scrollytelling-design.md`.
+- **Gate:** FULL green re-run before commit = 113 tests · type-check · lint · build (home 161kB). Committed `a188592`.
+- ⚠ **OWED (do next session):**
+  1. User still to give real **Projects shipped** number (`10+` placeholder in `app/(site)/about/page.tsx` `facts[]`).
+  2. Real-GPU browser walk: tilt/spotlight + scrollytelling + card break-out, light+dark + reduced-motion + mobile.
+- Admin UI + Header intentionally NOT touched (internal tooling).
+- **Dev-server note:** kill port 3000 + `rm -rf .next` if `npm run build` was last run while dev was live (see gotchas above).
 
 ### Post-Spec-3 polish (2026-09-21, on master, pushed) — DONE
 - **Silk seam fix** — root cause: per-page `SilkBackground` was `absolute` inside bounded `overflow-hidden` wrappers →

@@ -1,9 +1,15 @@
 # Handover — current state
 
 ## ▶ RESUME HERE (new session)
-1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign + perf fix ALL committed + pushed (latest `185d499`).
+1. **On branch `master`.** Spec 1/2/3 + UI card/UX redesign + perf fix + browser-walk fixes ALL committed + pushed (latest `aaacc7f`).
    ⚠ Two untracked sales artifacts stay OUT of the repo intentionally: `client-playbook.html`, `leads/uae-leads.html`
    (marketing docs, not website code). Do NOT commit them. `git status` first.
+   ✔ **BROWSER WALK DONE (2026-09-21, headless Edge + puppeteer-core against `npm start` prod):** home/services/about/
+   work/blog/contact all render light+dark + mobile (WebGL correctly OFF on mobile/reduced → CSS silk), copy/contrast good.
+   Found + FIXED a reduced-motion hydration mismatch (`aaacc7f`): `CardGridReveal` forked DOM depth on
+   `useReducedMotion()` (false on SSR) → reduced client hydrated ServiceCard `<a>` at wrong depth. Reduced branch now
+   keeps same per-child wrapper. puppeteer-core removed, package-lock restored. About `10+` placeholder resolved (kept).
+   ⚠ Still owed on a REAL GPU (headless can't judge): hover tilt/spotlight + scrollytelling pin + card break-out feel; Lighthouse-mobile.
    ✔ **PERF FIX VERIFIED LIVE (2026-09-21):** site-wide lag RCA — root cause = ~19 `backdrop-filter` glass panels
    over a continuously-animated blurred backdrop (silk sheets + 3× blur(90px) float blobs) re-rasterizing every
    frame. NOT WebGL (home-hero-only, gated). Fix `185d499`: global backdrop static, global blobs no float, blob

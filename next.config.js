@@ -10,7 +10,10 @@ const nextConfig = {
   poweredByHeader: false,
   // Optimize CSS and JS
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // Strip only noisy console.log in prod; KEEP error/warn/info so server
+    // diagnostics (e.g. the [contact] email logs) survive in Render logs.
+    removeConsole:
+      process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn', 'info'] } : false,
   },
   // Performance optimizations
   swcMinify: true,

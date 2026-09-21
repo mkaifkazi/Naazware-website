@@ -31,7 +31,7 @@ export default function ThemeToggle({ className = '' }: { className?: string }) 
       onClick={toggle}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className={`grid h-10 w-10 place-items-center rounded-full border border-ink-600 text-paper-dim transition-colors hover:border-paper/40 hover:text-paper ${className}`}
+      className={`grid h-10 w-10 place-items-center rounded-full border border-paper/25 text-paper transition-colors hover:border-paper/50 hover:bg-paper/5 ${className}`}
     >
       {/* Render a stable icon until mounted to avoid hydration mismatch */}
       {theme === null ? (

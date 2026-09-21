@@ -3,14 +3,43 @@ import { Resend } from 'resend'
 import { enquiryInputSchema } from '@/lib/schemas/enquiry'
 import { createEnquiry } from '@/lib/enquiries-service'
 import { rateLimit } from '@/lib/rate-limit'
+import { renderAdminNotification, renderCustomerConfirmation, type EnquiryEmailData } from '@/lib/email-templates'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 const NOTIFY_TO = process.env.CONTACT_NOTIFICATION_TO
 // Verified Resend sender (mail.naazware.com subdomain). Override per-env with RESEND_FROM.
 const FROM = process.env.RESEND_FROM || 'Naazware <hello@mail.naazware.com>'
+// Where a customer's reply to the confirmation email should land (the studio inbox).
+const REPLY_TO = process.env.CONTACT_NOTIFICATION_TO || 'hello@naazware.com'
 
-const escapeHtml = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+/** Send one email via Resend, inspecting the { error } result (it never throws). */
+async function sendEmail(opts: {
+  to: string
+  subject: string
+  html: string
+  replyTo?: string
+  tag: string
+}): Promise<boolean> {
+  if (!resend) return false
+  try {
+    const { data, error } = await resend.emails.send({
+      from: FROM,
+      to: opts.to,
+      replyTo: opts.replyTo,
+      subject: opts.subject,
+      html: opts.html,
+    })
+    if (error) {
+      console.error(`[contact] ${opts.tag} rejected:`, JSON.stringify(error))
+      return false
+    }
+    console.info(`[contact] ${opts.tag} sent — id=${data?.id ?? 'unknown'} to=${opts.to}`)
+    return true
+  } catch (err) {
+    console.error(`[contact] ${opts.tag} threw:`, err)
+    return false
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,48 +74,46 @@ export async function POST(request: NextRequest) {
       console.error('[contact] DB write failed:', err)
     }
 
-    // 2) Email notification via Resend — best effort.
-    let emailed = false
+    // 2) Emails via Resend — best effort, brand-styled templates.
+    //    (a) internal notification to the studio inbox,
+    //    (b) confirmation / auto-reply to the customer.
+    const emailData: EnquiryEmailData = {
+      name,
+      email,
+      company,
+      budget,
+      message,
+      prefersCall,
+      phone,
+      preferredTime,
+      createdAt,
+    }
+
+    let emailed = false // true once the STUDIO notification lands (the lead reached us)
     if (!resend) {
       console.warn('[contact] email skipped: RESEND_API_KEY not set')
     } else if (!NOTIFY_TO) {
       console.warn('[contact] email skipped: CONTACT_NOTIFICATION_TO not set')
     } else {
-      try {
-        // Resend returns { data, error } and does NOT throw on API errors —
-        // must inspect `error` explicitly, otherwise failures look like successes.
-        const { data, error } = await resend.emails.send({
-          from: FROM,
-          to: NOTIFY_TO,
-          replyTo: email,
-          subject: `New project enquiry — ${name}`,
-          html: `
-            <h2>New contact submission</h2>
-            <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-            <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-            <p><strong>Company:</strong> ${escapeHtml(company || 'N/A')}</p>
-            <p><strong>Budget:</strong> ${escapeHtml(budget)}</p>
-            ${
-              prefersCall
-                ? `<p><strong>Prefers a call:</strong> Yes</p>
-            <p><strong>Phone:</strong> ${escapeHtml(phone || 'N/A')}</p>
-            <p><strong>Preferred time:</strong> ${escapeHtml(preferredTime || 'Any')}</p>`
-                : ''
-            }
-            <p><strong>Message:</strong></p>
-            <p>${escapeHtml(message).replace(/\n/g, '<br/>')}</p>
-            <hr/><p style="color:#888">Received ${createdAt}</p>
-          `,
-        })
-        if (error) {
-          console.error('[contact] Resend rejected:', JSON.stringify(error))
-        } else {
-          emailed = true
-          console.info(`[contact] email sent — id=${data?.id ?? 'unknown'} to=${NOTIFY_TO}`)
-        }
-      } catch (err) {
-        console.error('[contact] Resend threw:', err)
-      }
+      const admin = renderAdminNotification(emailData)
+      emailed = await sendEmail({
+        to: NOTIFY_TO,
+        subject: admin.subject,
+        html: admin.html,
+        replyTo: email, // reply goes straight to the enquirer
+        tag: 'admin-notification',
+      })
+
+      // Customer confirmation — independent of the admin send; failure here must
+      // not fail the request (the lead is already captured).
+      const customer = renderCustomerConfirmation(emailData)
+      await sendEmail({
+        to: email,
+        subject: customer.subject,
+        html: customer.html,
+        replyTo: REPLY_TO, // customer replies reach the studio inbox
+        tag: 'customer-confirmation',
+      })
     }
 
     console.info(`[contact] outcome: saved=${saved} emailed=${emailed}`)

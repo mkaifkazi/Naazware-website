@@ -2,7 +2,7 @@ services:
   - type: web
     name: naazware-website
     runtime: node
-    plan: starter
+    plan: free
     region: singapore
     branch: master
     buildCommand: npm ci && npm run build

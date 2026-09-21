@@ -43,7 +43,6 @@ const values = [
   },
 ]
 
-// NOTE: `Projects shipped` value is a PLACEHOLDER — set the real figure.
 const facts = [
   { value: '2024', label: 'Established' },
   { value: '10+', label: 'Projects shipped' },

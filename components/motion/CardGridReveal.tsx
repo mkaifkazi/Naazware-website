@@ -13,7 +13,23 @@ export default function CardGridReveal({
 }) {
   const reduced = useReducedMotion()
 
-  if (reduced) return <div className={className}>{children}</div>
+  // Reduced branch must keep the SAME DOM structure as the animated branch —
+  // same outer div + same per-child wrapper. useReducedMotion() is false during
+  // SSR (no media query on the server), so the server always emits the animated
+  // structure; if the reduced client rendered a shallower tree here, the child
+  // (e.g. a ServiceCard <a>) would land at a different depth → hydration mismatch
+  // ("Expected server HTML to contain a matching <a> in <div>").
+  if (reduced) {
+    return (
+      <div className={className}>
+        {Children.map(children, (child, i) => (
+          <div key={i} className="relative hover:z-30">
+            {child}
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <m.div

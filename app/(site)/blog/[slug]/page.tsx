@@ -6,6 +6,7 @@ import Reveal from '@/components/Reveal'
 import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import MediaReveal from '@/components/motion/MediaReveal'
+import GlassCard from '@/components/GlassCard'
 import { getPost, getPostSlugs, getRelatedPosts } from '@/lib/content'
 import { generateMetadata as genMeta, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 
@@ -157,9 +158,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             <h2 className="text-sm font-medium uppercase tracking-wider text-paper-dim">Related reading</h2>
             <CardGridReveal className="mt-8 grid gap-6 md:grid-cols-3">
               {related.map((r) => (
-                <article
+                <GlassCard
                   key={r.slug}
-                  className="group relative flex h-full flex-col rounded-3xl border border-ink-600 bg-ink-800/50 p-6 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40"
+                  as="article"
+                  className="group relative flex h-full flex-col p-6"
                 >
                   <div className="flex flex-wrap gap-2">
                     {r.tags.slice(0, 2).map((tag) => (
@@ -175,7 +177,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   </h3>
                   <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-paper-dim">{r.excerpt}</p>
                   <span className="mt-4 text-sm text-paper-faint">{r.readTime} read</span>
-                </article>
+                </GlassCard>
               ))}
             </CardGridReveal>
           </div>

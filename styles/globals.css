@@ -164,71 +164,134 @@
     box-shadow: var(--shadow-card-hover);
   }
 
-  /* Frosted glass card — translucent surface lets the silk backdrop show through,
-     animated gradient border, cursor-tracked spotlight. Driven by --mx/--my/--spot
-     set imperatively by <GlassCard>. Both themes. Spotlight = ::before (behind
-     content, above bg); gradient border = ::after (above content). */
+  /* ── Glass card: rounded silhouette + 3D cursor-tilt + spotlight ──
+     Three nested layers (all rendered by <GlassCard>):
+       .glass-card  = perspective host + pointer handlers (no paint)
+       .glass-body  = tilted plate; static gradient BORDER fill
+       .glass-fill  = content panel, inset 1.4px so the border shows;
+                      holds spotlight (::before) + children.
+     Driven by CSS vars set imperatively: --rx/--ry (tilt), --mx/--my/--spot
+     (spotlight). Both themes. No backdrop-blur / no animated beam — those were
+     the hover/cursor lag; only cheap compositor transforms remain. */
   .glass-card {
     --spot: 0;
+    --rx: 0deg;
+    --ry: 0deg;
+    --radius: 1.5rem; /* matches site rounded-3xl; consumers may override */
     position: relative;
-    isolation: isolate;
-    border-radius: 1.5rem;
-    background: rgb(var(--ink-800) / 0.55);
-    -webkit-backdrop-filter: blur(16px) saturate(1.25);
-    backdrop-filter: blur(16px) saturate(1.25);
+    display: block;
+    height: 100%;
+    perspective: 1000px;
+  }
+  .glass-body {
+    position: relative;
+    display: block;
+    height: 100%;
+    padding: 1.4px; /* border thickness revealed around .glass-fill */
+    border-radius: var(--radius);
+    /* Static gradient border — no animated conic (per-frame repaint was the
+       main hover lag). Kept as a fixed multi-hue silk edge. */
+    background: linear-gradient(
+      135deg,
+      rgb(var(--silk-1) / 0.55),
+      rgb(var(--silk-2) / 0.2) 45%,
+      rgb(var(--silk-3) / 0.55)
+    );
     box-shadow: var(--shadow-card);
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.45s ease;
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out, box-shadow 0.45s ease;
   }
-  [data-theme='light'] .glass-card {
-    background: rgb(var(--ink-800) / 0.72);
-  }
-  .glass-card:hover {
-    transform: translateY(-6px);
+  .glass-card:hover .glass-body,
+  .glass-card:focus-within .glass-body {
     box-shadow: var(--shadow-card-hover);
   }
+  /* lift a hovered card above its siblings so any bleed (e.g. break-out cover
+     images) draws over neighbours, not under them */
+  .glass-card:hover,
+  .glass-card:focus-within {
+    z-index: 30;
+  }
+  /* NOTE: no backdrop-filter here on purpose — blurring inside a transformed
+     (tilting/translateZ) subtree re-blurs the moving backdrop every frame and
+     was the primary source of hover/cursor lag. Opaque-ish tint instead. */
+  .glass-fill {
+    position: relative;
+    display: block;
+    height: 100%;
+    border-radius: calc(var(--radius) - 1.4px);
+    overflow: hidden;
+    background: rgb(var(--ink-800) / 0.9);
+    transform: translateZ(0);
+    transition: transform 0.3s ease-out;
+  }
+  [data-theme='light'] .glass-fill {
+    background: rgb(var(--ink-800) / 0.94);
+  }
+  /* depth pop — content plate lifts toward viewer on hover */
+  .glass-card:hover .glass-fill {
+    transform: translateZ(22px);
+  }
   /* cursor spotlight — above glass bg, below content */
-  .glass-card::before {
+  .glass-fill::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
     background: radial-gradient(
-      36% 42% at var(--mx, 50%) var(--my, 50%),
-      rgb(var(--silk-2) / 0.22),
-      rgb(var(--silk-1) / 0.1) 45%,
+      34% 40% at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--silk-2) / 0.28),
+      rgb(var(--silk-1) / 0.12) 45%,
       transparent 70%
     );
     opacity: var(--spot, 0);
-    transition: opacity 0.35s ease;
+    transition: opacity 0.3s ease;
     pointer-events: none;
   }
-  /* animated gradient hairline border — dim at rest, ignites on hover */
-  .glass-card::after {
+
+  /* Static frosted panel — the glass look without tilt/beam/spotlight. For
+     reading blocks (story beats) where 3D interaction would be too much. */
+  .glass-panel {
+    position: relative;
+    border-radius: 1.5rem;
+    /* Higher-opacity tint + lighter blur so many panels stay cheap on scroll. */
+    background: rgb(var(--ink-800) / 0.78);
+    -webkit-backdrop-filter: blur(6px) saturate(1.15);
+    backdrop-filter: blur(6px) saturate(1.15);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-theme='light'] .glass-panel {
+    background: rgb(var(--ink-800) / 0.88);
+  }
+  .glass-panel::after {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: 1;
     border-radius: inherit;
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgb(var(--silk-1) / 0.55),
-      rgb(var(--silk-2) / 0.2) 42%,
-      rgb(var(--silk-3) / 0.55)
+      rgb(var(--silk-1) / 0.5),
+      rgb(var(--silk-2) / 0.18) 45%,
+      rgb(var(--silk-3) / 0.5)
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    opacity: 0.35;
-    transition: opacity 0.45s ease;
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
     pointer-events: none;
   }
-  .glass-card:hover::after {
-    opacity: 1;
+  .glass-panel:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
+  }
+  .glass-panel:hover::after {
+    opacity: 0.85;
   }
 
   /* Hero depth wash — layered radial auras instead of a flat void */
@@ -322,10 +385,14 @@
     opacity: 1 !important;
     transform: none !important;
   }
-  .glass-card:hover {
+  .glass-body {
+    animation: none !important;
+    transform: none !important;
+  }
+  .glass-card:hover .glass-fill {
     transform: none;
   }
-  .glass-card::before {
+  .glass-fill::before {
     display: none;
   }
 }

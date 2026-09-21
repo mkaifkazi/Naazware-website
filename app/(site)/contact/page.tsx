@@ -61,7 +61,7 @@ export default async function ContactPage() {
         <div className="container-px grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           {/* Form */}
           <Reveal>
-            <div className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-10">
+            <div className="glass-panel p-8 md:p-10">
               <h2 className="mb-6 text-display-sm">Start your project</h2>
               <ContactForm />
             </div>
@@ -91,7 +91,7 @@ export default async function ContactPage() {
               </ul>
             </div>
 
-            <div className="rounded-3xl border border-ink-600 bg-ink-800/50 p-6">
+            <div className="glass-panel p-6">
               <h3 className="font-medium text-paper">Prefer to talk first?</h3>
               <p className="mt-2 text-sm text-paper-dim">
                 Tick <span className="text-paper">“I&apos;d prefer a call”</span> in the form and
@@ -117,7 +117,7 @@ export default async function ContactPage() {
           </Reveal>
           <AccordionReveal className="space-y-3">
             {faqs.map((faq) => (
-                <details key={faq.q} className="group rounded-2xl border border-ink-600 bg-ink-800/50 px-6 open:bg-ink-800/80">
+                <details key={faq.q} className="glass-panel group px-6">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-medium text-paper marker:hidden">
                     {faq.q}
                     <svg className="h-5 w-5 shrink-0 text-paper-dim transition-transform duration-300 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">

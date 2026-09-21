@@ -77,8 +77,8 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           {/* Metrics */}
           <Reveal as="div" className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 sm:grid-cols-3">
             {caseStudy.metrics.map((m) => (
-              <div key={m.label} className="bg-ink-900 p-8 text-center">
-                <div className="font-display text-4xl font-semibold text-accent-soft">{m.value}</div>
+              <div key={m.label} className="group bg-ink-900 p-8 text-center transition-colors duration-300 hover:bg-ink-800">
+                <div className="font-display text-4xl font-semibold text-accent-soft transition-all duration-300 group-hover:drop-shadow-[0_0_18px_rgb(var(--accent)/0.5)]">{m.value}</div>
                 <div className="mt-2 text-sm text-paper-dim">{m.label}</div>
               </div>
             ))}
@@ -87,13 +87,13 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           {/* Narrative */}
           <CardGridReveal className="mt-6 space-y-6">
             {blocks.map((b) => (
-                <div key={b.label} className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
+                <div key={b.label} className="glass-panel grid gap-6 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
                   <h2 className="text-display-sm">{b.label}</h2>
                   <p className="text-lg leading-relaxed text-paper-dim">{b.body}</p>
                 </div>
             ))}
 
-              <div className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
+              <div className="glass-panel p-8 md:p-12">
                 <h2 className="text-sm font-medium uppercase tracking-wider text-paper-dim">Technology stack</h2>
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   {caseStudy.technologies.map((tech) => (
@@ -105,7 +105,7 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
               </div>
 
             {caseStudy.testimonial && (
-                <figure className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
+                <figure className="glass-panel p-8 md:p-12">
                   <svg className="h-8 w-8 text-accent/50" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M9.5 5C6.5 6.5 5 9 5 12.5V19h6v-6H8c0-2 1-3.5 3-4.5L9.5 5Zm10 0C16.5 6.5 15 9 15 12.5V19h6v-6h-3c0-2 1-3.5 3-4.5L19.5 5Z" />
                   </svg>

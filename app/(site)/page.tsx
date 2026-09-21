@@ -183,8 +183,8 @@ export default async function HomePage() {
 
           <CardGridReveal className="grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600 md:grid-cols-2 lg:grid-cols-4">
             {process.map((step) => (
-              <div key={step.no} className="flex h-full flex-col bg-ink-900 p-8">
-                <span className="font-display text-5xl font-semibold text-accent/30">{step.no}</span>
+              <div key={step.no} className="group flex h-full flex-col bg-ink-900 p-8 transition-colors duration-300 hover:bg-ink-800">
+                <span className="font-display text-5xl font-semibold text-accent/30 transition-all duration-300 group-hover:text-accent/70 group-hover:drop-shadow-[0_0_16px_rgb(var(--accent)/0.5)]">{step.no}</span>
                 <h3 className="mt-6 text-lg font-semibold text-paper">{step.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-paper-dim">{step.body}</p>
               </div>

@@ -34,10 +34,10 @@ export default function CaseStudyCard({
   return (
     <GlassCard
       href={href}
-      className="group flex h-full flex-col overflow-hidden !rounded-4xl"
+      className="group flex h-full flex-col overflow-visible"
     >
-      {/* Cover */}
-      <div className="relative aspect-[16/10] overflow-hidden">
+      {/* Cover — image breaks out of the card top on hover (overflow allowed) */}
+      <div className="relative aspect-[16/10]">
         {coverUrl ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -45,17 +45,17 @@ export default function CaseStudyCard({
               src={coverUrl}
               alt=""
               aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+              className="absolute inset-0 h-full w-full origin-bottom rounded-t-3xl object-cover shadow-xl transition-transform duration-700 ease-out-expo group-hover:scale-[1.14]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" aria-hidden="true" />
+            <div className="pointer-events-none absolute inset-0 rounded-t-3xl bg-gradient-to-t from-black/70 via-black/10 to-transparent" aria-hidden="true" />
           </>
         ) : (
           <>
             <div
-              className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-105"
+              className="absolute inset-0 origin-bottom rounded-t-3xl shadow-xl transition-transform duration-700 ease-out-expo group-hover:scale-[1.14]"
               style={{ background: covers[index % covers.length] }}
             />
-            <div className="grid-bg absolute inset-0 opacity-40" aria-hidden="true" />
+            <div className="grid-bg pointer-events-none absolute inset-0 rounded-t-3xl opacity-40" aria-hidden="true" />
           </>
         )}
         <span className="absolute left-6 top-6 rounded-full border border-white/20 bg-black/20 px-3 py-1 text-xs font-medium uppercase tracking-wider text-white/90 backdrop-blur-sm">
@@ -64,7 +64,7 @@ export default function CaseStudyCard({
         <span className="absolute bottom-5 left-6 font-display text-3xl font-semibold text-white/95 drop-shadow">
           {client}
         </span>
-        <span className="absolute bottom-5 right-6 grid h-10 w-10 translate-y-2 place-items-center rounded-full bg-white/95 text-ink-900 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+        <span className="absolute bottom-5 right-6 grid h-10 w-10 translate-y-2 place-items-center rounded-full bg-white/95 text-neutral-900 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M7 17 17 7M17 7H9M17 7v8" />
           </svg>

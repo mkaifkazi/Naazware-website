@@ -2,10 +2,9 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 import PageHeader from '@/components/PageHeader'
 import Reveal from '@/components/Reveal'
-import ServiceIcon from '@/components/ServiceIcon'
-import CardGridReveal from '@/components/motion/CardGridReveal'
 import CtaReveal from '@/components/motion/CtaReveal'
 import AccordionReveal from '@/components/motion/AccordionReveal'
+import ServicesStory from '@/components/services/ServicesStory'
 import { services } from '@/lib/services-data'
 import { generateMetadata as genMeta, generateFaqSchema } from '@/lib/seo'
 
@@ -65,71 +64,17 @@ export default function ServicesPage() {
         subtitle="End-to-end software development — web, mobile, and desktop — from planning through deployment and support."
       />
 
-      <section className="pb-12">
-        <CardGridReveal className="container-px space-y-6">
-          {services.map((service) => (
-              <div
-                key={service.slug}
-                id={service.slug}
-                className="grid scroll-mt-28 gap-8 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-2 md:p-12"
-              >
-                <div>
-                  <div className="mb-6 flex items-center gap-4">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl border border-ink-600 text-accent-soft">
-                      <ServiceIcon name={service.icon} className="h-6 w-6" />
-                    </span>
-                    <span className="text-sm font-medium uppercase tracking-wider text-paper-dim">
-                      {service.title}
-                    </span>
-                  </div>
-                  <p className="text-xl leading-relaxed text-paper">{service.fullDescription}</p>
-                  <ul className="mt-6 space-y-3">
-                    {service.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-3 text-paper-dim">
-                        <svg className="mt-1.5 h-4 w-4 shrink-0 text-accent-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href={`/services/${service.slug}`} className="btn-accent mt-8 !px-6 !py-3 text-sm">
-                    Learn more
-                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-
-                <div className="rounded-3xl border border-ink-600 bg-ink-900/50 p-8">
-                  <h3 className="text-sm font-medium uppercase tracking-wider text-paper-dim">
-                    Technologies
-                  </h3>
-                  <div className="mt-5 flex flex-wrap gap-2.5">
-                    {service.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="rounded-full border border-ink-600 bg-ink-800 px-3.5 py-1.5 text-sm text-paper-dim"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-          ))}
-        </CardGridReveal>
-      </section>
+      <ServicesStory services={services} />
 
       <section className="border-t border-ink-600 py-20 md:py-28">
         <div className="container-px">
           <Reveal>
             <h2 className="text-display-sm text-paper">Frequently asked questions</h2>
           </Reveal>
-          <AccordionReveal className="mt-10 grid gap-px overflow-hidden rounded-4xl border border-ink-600 bg-ink-600">
+          <AccordionReveal className="mt-10 space-y-3">
             {faqs.map((faq) => (
-              <details key={faq.q} className="group bg-ink-900/60 p-6 md:p-8">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-medium text-paper marker:content-['']">
+              <details key={faq.q} className="glass-panel group px-6">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-medium text-paper marker:hidden">
                   {faq.q}
                   <svg
                     className="h-5 w-5 shrink-0 text-accent-soft transition-transform duration-300 group-open:rotate-45"
@@ -138,7 +83,7 @@ export default function ServicesPage() {
                     <path d="M12 5v14M5 12h14" />
                   </svg>
                 </summary>
-                <p className="mt-4 leading-relaxed text-paper-dim">{faq.a}</p>
+                <p className="pb-5 leading-relaxed text-paper-dim">{faq.a}</p>
               </details>
             ))}
           </AccordionReveal>

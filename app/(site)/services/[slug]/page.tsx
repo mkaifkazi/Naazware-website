@@ -65,13 +65,13 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       <section className="pb-8">
         <CardGridReveal className="container-px space-y-6">
           {blocks.map((b) => (
-              <div key={b.label} className="grid gap-6 rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
+              <div key={b.label} className="glass-panel grid gap-6 p-8 md:grid-cols-[0.5fr_1fr] md:p-12">
                 <h2 className="text-display-sm">{b.label}</h2>
                 <p className="text-lg leading-relaxed text-paper-dim">{b.body}</p>
               </div>
           ))}
 
-            <div className="rounded-4xl border border-ink-600 bg-ink-800/50 p-8 md:p-12">
+            <div className="glass-panel p-8 md:p-12">
               <h2 className="text-display-sm mb-6">Key features</h2>
               <ul className="grid gap-4 md:grid-cols-2">
                 {service.bullets.map((bullet) => (

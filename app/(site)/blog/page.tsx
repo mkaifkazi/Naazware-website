@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHeader from '@/components/PageHeader'
 import CardGridReveal from '@/components/motion/CardGridReveal'
+import GlassCard from '@/components/GlassCard'
 import { getPosts } from '@/lib/content'
 import { generateMetadata as genMeta } from '@/lib/seo'
 
@@ -36,7 +37,7 @@ export default async function BlogPage() {
       <section className="pb-24 md:pb-32">
         <CardGridReveal className="container-px grid gap-6 md:grid-cols-2">
           {posts.map((post) => (
-              <article key={post.slug} className="group relative flex h-full flex-col overflow-hidden rounded-4xl border border-ink-600 bg-ink-800/50 p-8 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40">
+              <GlassCard key={post.slug} as="article" className="group relative flex h-full flex-col overflow-hidden p-8">
                 {post.coverUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -66,7 +67,7 @@ export default async function BlogPage() {
                     </span>
                   ))}
                 </div>
-              </article>
+              </GlassCard>
           ))}
         </CardGridReveal>
       </section>

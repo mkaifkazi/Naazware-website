@@ -26,6 +26,7 @@ export default function CardGridReveal({
       {Children.map(children, (child, i) => (
         <m.div
           key={i}
+          className="relative hover:z-30"
           variants={{
             hidden: { opacity: 0, y: 16, scale: 0.96 },
             visible: {

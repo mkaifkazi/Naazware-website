@@ -29,16 +29,17 @@ function ParallaxItem({
   )
 }
 
-function BlobEl({ b, progress, reduced, noParallax }: { b: Blob; progress: MotionValue<number>; reduced: boolean; noParallax: boolean }) {
+function BlobEl({ b, progress, noParallax, animateFloat }: { b: Blob; progress: MotionValue<number>; noParallax: boolean; animateFloat: boolean }) {
   return (
     <ParallaxItem depth={b.depth} x={b.x} y={b.y} progress={progress} noParallax={noParallax}>
       <div
-        className={reduced ? '' : 'animate-accent-float'}
+        className={animateFloat ? 'animate-accent-float' : ''}
         style={{
           width: b.size,
           height: b.size,
           borderRadius: '9999px',
-          filter: 'blur(90px)',
+          // 48px reads the same as 90px for a soft glow but the blur kernel is far cheaper.
+          filter: 'blur(48px)',
           background: `radial-gradient(closest-side, rgb(var(--silk-${b.color}) / ${b.opacity}), transparent)`,
         }}
       />
@@ -78,8 +79,11 @@ export default function Accents({
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const { blobs, shapes } = buildAccents(preset)
   const position = global ? 'fixed -z-10' : 'absolute'
-  // Global layer is viewport-fixed → scroll parallax is meaningless; keep float only.
+  // Global layer is viewport-fixed: scroll parallax is meaningless AND the float
+  // must stop — it sits behind backdrop-filter panels and would re-blur them every
+  // frame. Per-section (non-global) accents keep floating.
   const noParallax = reduced || global
+  const animateFloat = !reduced && !global
 
   return (
     <div
@@ -88,7 +92,7 @@ export default function Accents({
       className={`pointer-events-none ${position} inset-0 overflow-hidden ${className}`}
     >
       {blobs.map((b) => (
-        <BlobEl key={b.id} b={b} progress={scrollYProgress} reduced={reduced} noParallax={noParallax} />
+        <BlobEl key={b.id} b={b} progress={scrollYProgress} noParallax={noParallax} animateFloat={animateFloat} />
       ))}
       {shapes.map((s) => (
         <ShapeEl key={s.id} s={s} progress={scrollYProgress} noParallax={noParallax} />

@@ -255,15 +255,16 @@
   .glass-panel {
     position: relative;
     border-radius: 1.5rem;
-    /* Higher-opacity tint + lighter blur so many panels stay cheap on scroll. */
-    background: rgb(var(--ink-800) / 0.78);
-    -webkit-backdrop-filter: blur(6px) saturate(1.15);
-    backdrop-filter: blur(6px) saturate(1.15);
+    /* Opaque tint instead of backdrop-filter: these panels stack over the (now
+       static) silk/blob backdrop, and backdrop-blur here forced a full re-raster of
+       that region per frame whenever anything behind moved. Solid tint keeps the
+       frosted look at ~95% for zero backdrop resampling. */
+    background: rgb(var(--ink-800) / 0.9);
     box-shadow: var(--shadow-card);
     transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   [data-theme='light'] .glass-panel {
-    background: rgb(var(--ink-800) / 0.88);
+    background: rgb(var(--ink-800) / 0.94);
   }
   .glass-panel::after {
     content: '';

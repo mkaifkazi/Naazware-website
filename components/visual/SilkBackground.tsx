@@ -55,7 +55,14 @@ export default function SilkBackground({
   const position = global ? 'fixed -z-10' : 'absolute -z-0'
   return (
     <div aria-hidden="true" className={`pointer-events-none ${position} inset-0 ${className}`}>
-      {webgl ? <SilkCanvas composition={c} /> : <SilkFallback composition={c} animated={!reduced} />}
+      {webgl ? (
+        <SilkCanvas composition={c} />
+      ) : (
+        // Global backdrop stays STATIC: it sits behind many backdrop-filter panels,
+        // so any drift forces every one of them to re-blur every frame (perf killer).
+        // The 48s/72s motion was subliminal anyway. Per-section silk can still animate.
+        <SilkFallback composition={c} animated={!reduced && !global} />
+      )}
     </div>
   )
 }
